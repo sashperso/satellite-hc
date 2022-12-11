@@ -10,8 +10,8 @@ Along the development journey, please make note of interesting ideas, features, 
 Request to join the following Kanban board in order to see what work is in progress, and what work is to be done. The board gives an idea of the workflow of the project.
 https://trello.com/invite/b/y7irZm8i/ATTI4b362186fc08bb7bd4cb1a1fc0b1b5cfB82E8E87/automated-satellite-health-check
 
-# workflow
-After you have committed and pushed your changes to the repo, please create a merge request. The code will then be merged into the repository.
+# Workflow
+After you have committed and pushed your changes to the repo, please create a merge request. The code will then be merged into the repository.\
 
 # GitOps
 
