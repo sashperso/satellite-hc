@@ -17,7 +17,7 @@ https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-repo
 To clone this repository and get started on contributing, type the following commands into the CLI:
 ```
 cd existing_repo
-git remote add origin https://gitlab.consulting.redhat.com/automated_satellite_hc/automated_satellite_health_check.git
+git remote add origin https://gitlab.consulting.redhat.com/automated_satellite_hc/satellite.git
 git branch -M main
 git push -uf origin main
 ```
