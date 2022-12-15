@@ -5,13 +5,17 @@ This is a health check report for the {{ ansible_hostname }} Satellite server co
 
 Analysis
 
-Test: {{ test_result }}
+Test: {{ test_result.stdout | to_nice_yaml }}
 
 Satellite Configuration
 
 Satellite System Requirements
-Investigation: #TODO#
-Observation: #TODO#
+Investigation: What version of RHEL is the Satellite server running on? What is the architecture? Is the CPU suitable to the Satellite server? is the hostname unique?
+Observation:
+Host and RHEL version details:
+{{ result_system_reqs.stdout_lines | to_nice_yaml }}
+The CPU usage information is as follows:
+{{ result_system_cpu.stdout | to_nice_yaml}}
 Guidance: #TODO#
 Rationale: #TODO#
 

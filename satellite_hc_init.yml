@@ -1,8 +1,9 @@
 ---
 - name: Initialise the Satellite Health Check
-  hosts: # SATELLITE IP ADDR
+  hosts: # SATELLITE ADDR
   roles:
     - test-role
+    - system_reqs_check
   tasks:
     - name: Generate the Satellite Health Check Report
       ansible.builtin.template:

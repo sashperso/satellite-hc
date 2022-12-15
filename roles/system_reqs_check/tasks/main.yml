@@ -1,0 +1,10 @@
+---
+# tasks file for system_reqs_check
+
+- name: Fetch Satellite hostname, RHEL version and architecture
+  ansible.builtin.command: hostnamectl
+  register: result_system_reqs
+
+- name: Check CPU details
+  ansible.builtin.shell: lscpu | grep -v Flags
+  register: result_system_cpu
