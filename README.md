@@ -1,6 +1,6 @@
 # automated_satellite_health_check
 
-The goal of this project is to automate a Satellite 6 health check. This allows a consultant more time for analysis and recommendations, rather than conducting information gathering activities.
+The goal of this project is to automate a Satellite 6 health check. This allows a consultant more time for analysis and recommendations, rather than conducting information gathering activities. It is based on the RHEL Automated Health Check available here: https://gitlab.consulting.redhat.com/automated_health_check_crew/rhel
 
 ## Name
 Automated Satellite Health Check
