@@ -20,8 +20,12 @@ Guidance: #TODO#
 Rationale: #TODO#
 
 Satellite and Capsule Architecture
-Investigation: #TODO#
-Observation: #TODO#
+Investigation: List the names and urls of the Satellite and Capsule servers. List the organisations linked to the Satellite and Capsule servers.
+Observation: 
+{{ result_capsule_list.stdout_lines | to_nice_yaml }}
+{{ result_organization_list.stdout_lines | to_nice_yaml }}
+NOTE - for more information on a given organisation, run `hammer organization info --id <id_number>`
+
 Guidance: #TODO#
 Rationale: #TODO#
 
