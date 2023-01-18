@@ -32,15 +32,34 @@ Rationale: #TODO#
 Satellite Version 
 Investigation: What is the currently installed Satellite version on the Satellite server and the capsules? What was the initial installation version?
 Observation: 
-{{ result_satellite_version.stdout_lines | to_nice_yaml }}
-{{ result_capsule_version.stdout_lines | to_nice_yaml }}
+{{ result_satellite_version.stdout_lines | to_nice_yaml }} is installed on the Satellite server.
+{% if result_capsule_version.failed == false %}
+{{ result_capsule_version.stdout_lines | to_nice_yaml }} is installed on the Capsule server.
+{% else %}
+Package satellite-capsule is not installed.
+{% endif %}
+
 Guidance: #TODO#
 Rationale: #TODO#
 
 Firewalls and Proxy
-Investigation: #TODO#
-Observation: #TODO#
-Guidance: #TODO#
+Investigation: Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
+Observation: {{ result_firewall_ports.stdout | to_nice_yaml }}
+
+Guidance:
+Generally, the following 12 ports should be open on the firewall:
+  - 80/tcp
+  - 443/tcp
+  - 5647/tcp
+  - 8000/tcp
+  - 8140/tcp 
+  - 8443/tcp
+  - 9090/tcp
+  - 53/tcp
+  - 53/udp
+  - 67/udp
+  - 69/udp
+  - 5000/tcp
 Rationale: #TODO#
 
 Infrastructure
