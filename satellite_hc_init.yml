@@ -11,6 +11,7 @@
     - infrastructure_design_check
     - network_connectivity_check
     - qpidd_storage_check
+    - loggin_check
 
   tasks:
     - name: Generate the Satellite Health Check Report
