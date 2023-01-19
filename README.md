@@ -1,13 +1,14 @@
 # automated_satellite_health_check
 
-The goal of this project is to automate a Satellite 6 health check. This allows a consultant more time for analysis and recommendations, rather than conducting information gathering activities. It is based on the RHEL Automated Health Check available here: https://gitlab.consulting.redhat.com/automated_health_check_crew/rhel
+The goal of this project is to automate a Satellite 6 health check. The idea behind this project is that the playbook can be run on a Satellite server to collect a vast quantity of information that is populated directly into an organised text-file report that can be analysed. This allows a consultant more time for analysis and recommendations, rather than conducting information gathering activities. It is based on the RHEL Automated Health Check available here: https://gitlab.consulting.redhat.com/automated_health_check_crew/rhel
 
 ## Name
 Automated Satellite Health Check
 
 ## Description
 This project uses Ansible to automate certain components of a RHEL health check.
-Two existing Satellite health check template can be found here:
+
+Two existing Satellite health check CER templates can be found here:
 https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/viavi-satellite-6-healthcheck
 
 https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/asml/2021-01-asml-satellite-healthcheck
