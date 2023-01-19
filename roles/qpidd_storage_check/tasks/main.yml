@@ -1,0 +1,10 @@
+---
+# tasks file for ./roles/qpidd_storage_check
+
+- name: Verify qpidd status
+  ansible.builtin.shell: systemctl status qpidd
+  register: result_qpidd_status
+
+- name: Check qpidd disk usage.
+  ansible.builtin.shell: du -h /var/lib/qpidd
+  register: result_qpidd_storage

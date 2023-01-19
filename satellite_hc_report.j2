@@ -98,8 +98,10 @@ Rationale: #TODO#
 =Storage
 
 ==Qpidd Storage
-Investigation: #TODO#
-Observation: #TODO#
+Investigation: How much soace is available in the qpidd partition? is the qpidd parititon too large?
+Observation:
+{{ result_qpidd_status.stdout | to_nice_yaml }}
+{{ result_qpidd_storage.stdout | to_nice_yaml }}
 Guidance: #TODO#
 Rationale: #TODO#
 
