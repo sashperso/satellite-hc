@@ -8,10 +8,10 @@ Analysis
 Test: {{ test_result.stdout | to_nice_yaml }} 
 
 =High-Level Check:
-{{ result_health_check }}
+{{ result_health_check.stdout_lines | to_nice_yaml }}
 
 Satellite service status:
-{{ result_running_services }}
+{{ result_running_services.stdout_lines | to_nice_yaml }}
 
 
 =Satellite Configuration
