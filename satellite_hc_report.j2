@@ -164,10 +164,28 @@ Guidance: #TODO#
 Rationale: #TODO#
 
 ==Satellite Logging
-Investigation: #TODO#
-Observation: #TODO#
+Investigation: Are any errors logged in the foreman, foreman-proxy, or /var logs? Do any issues tie in with other issues identified in the report?
+Observation:
++ /var/log/foreman/production.log returns:
+{% if result_production_log.failed == false %}
+{{ result_production_log.stdout_lines | to_nice_yaml }}
+{% else %}
+The production.log does not contain any errors.
+{% endif %}
++ /var/log/foreman-proxy/proxy.log returns:
+{% if result_proxy_log.failed == false %}
+{{ result_proxy_log.stdout_lines | to_nice_yaml }}
+{% else %}
+The proxy.log does not contain any errors.
+{% endif %}
++ /var/log/messages returns:
+{% if result_messages_log.failed == false %}
+{{ result_messages_log.stdout_lines | to_nice_yaml }}
+{% else %}
+The messages log does not contain any errors.
+{% endif %}
 Guidance: #TODO#
-Rationale: #TODO#
+Rationale: Any errors that appear in the logs should be investigated to ensure that Satellite is functioning effectively and correctly to avoid bugs and security vulnerabilities. 
 
 ==Lifecycle Environments
 Investigation: #TODO#
