@@ -7,9 +7,16 @@ Analysis
 
 Test: {{ test_result.stdout | to_nice_yaml }} 
 
-Satellite Configuration
+=High-Level Check:
+{{ result_health_check }}
 
-Satellite System Requirements
+Satellite service status:
+{{ result_running_services }}
+
+
+=Satellite Configuration
+
+==Satellite System Requirements
 Investigation: What version of RHEL is the Satellite server running on? What is the architecture? Is the CPU suitable to the Satellite server? is the hostname unique?
 Observation:
 Host and RHEL version details:
@@ -19,17 +26,16 @@ The CPU usage information is as follows:
 Guidance: #TODO#
 Rationale: #TODO#
 
-Satellite and Capsule Architecture
+==Satellite and Capsule Architecture
 Investigation: List the names and urls of the Satellite and Capsule servers. List the organisations linked to the Satellite and Capsule servers.
 Observation: 
 {{ result_capsule_list.stdout_lines | to_nice_yaml }}
 {{ result_organization_list.stdout_lines | to_nice_yaml }}
 NOTE - for more information on a given organisation, run `hammer organization info --id <id_number>`
-
 Guidance: #TODO#
 Rationale: #TODO#
 
-Satellite Version 
+==Satellite Version 
 Investigation: What is the currently installed Satellite version on the Satellite server and the capsules? What was the initial installation version?
 Observation: 
 {{ result_satellite_version.stdout_lines | to_nice_yaml }} is installed on the Satellite server.
@@ -41,7 +47,7 @@ Package satellite-capsule is not installed.
 Guidance: #TODO#
 Rationale: #TODO#
 
-Firewalls and Proxy
+==Firewalls and Proxy
 Investigation: Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
 Observation: {{ result_firewall_ports.stdout | to_nice_yaml }}
 Guidance: #TODO#
@@ -60,9 +66,9 @@ Generally, the following 12 ports should be open on the firewall:
   - 69/udp
   - 5000/tcp
 
-Infrastructure
+=Infrastructure
 
-Infrastructure Architecture
+==Infrastructure Architecture
 Investigation: List the organisations and locations associated with the Satellite server.
 Observation:
 {{ result_hammer_org }}
@@ -70,109 +76,109 @@ Observation:
 Guidance: #TODO#
 Rationale: #TODO#
 
-Network Requirements
+==Network Requirements
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Custom Hierarchies
+==Custom Hierarchies
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Storage
+=Storage
 
-Qpidd Storage
+==Qpidd Storage
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Backup/Restore Procedures
+==Backup/Restore Procedures
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Host Management
+=Host Management
 
-Remote Execution
+==Remote Execution
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Download Policy
+==Download Policy
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Tainted Kernels
+==Tainted Kernels
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Provisioning
+==Provisioning
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Errata
+==Errata
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Managed Host Logging
+==Managed Host Logging
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Satellite Management
+=Satellite Management
 
-Repositories
+==Repositories
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Satellite Logging
+==Satellite Logging
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Lifecycle Environments
+==Lifecycle Environments
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Patch Cycles
+==Patch Cycles
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Sync Plans
+==Sync Plans
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Activation Keys
+==Activation Keys
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
 Rationale: #TODO#
 
-Host Groups
+==Host Groups
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
