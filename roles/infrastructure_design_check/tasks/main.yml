@@ -1,0 +1,10 @@
+---
+# tasks file for ./roles/infrastructure_design_check
+
+- name: List all organisations associated with the Satellite Server.
+  ansible.builtin.command: hammer --output json organization list
+  register: result_hammer_org
+
+- name: List all locations associated with the Satellite Server.
+  ansible.builtin.command: hammer --output json location list
+  register: result_hammer_location
