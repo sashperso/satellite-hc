@@ -8,3 +8,7 @@
 - name: Check CPU details
   ansible.builtin.shell: lscpu | grep -v Flags
   register: result_system_cpu
+
+- name: Verify available disk space in /var
+  ansible.builtin.shell: df -k /var/lib | awk '/[[:digit:]]+%/ { if ($4 > 20971520) { print "Space OK:", $4, "Kilobytes" } else { print $4, "Kilobytes is insufficient for a channel download"; } }'
+  register: result_disk_space

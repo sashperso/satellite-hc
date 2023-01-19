@@ -23,8 +23,11 @@ Host and RHEL version details:
 {{ result_system_reqs.stdout_lines | to_nice_yaml }}
 The CPU usage information is as follows:
 {{ result_system_cpu.stdout | to_nice_yaml}}
+Is there at least 20gb of disk space available in /var?
+{{ result_disk_space }}
 Guidance: #TODO#
-Rationale: #TODO#
+Rationale: There should be at least 20 gig of space available in /var directory to perform future synchronizations. Please note that if you are to download a major release (e.g. RHEL 6 Server), you will require a minimum of 20Gig per release.
+
 
 ==Satellite and Capsule Architecture
 Investigation: List the names and urls of the Satellite and Capsule servers. List the organisations linked to the Satellite and Capsule servers.
