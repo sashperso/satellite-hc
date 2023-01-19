@@ -1,10 +1,14 @@
 ---
 - name: Initialise the Satellite Health Check
-  hosts: #Satellite IP Address
+  hosts: #satellite ip addr
   roles:
+    - high_level_check
     - test-role
     - system_reqs_check
+    - satellite_version_check
     - organisations_check
+    - firewall_and_proxy_check
+    - infrastructure_design_check
 
   tasks:
     - name: Generate the Satellite Health Check Report
