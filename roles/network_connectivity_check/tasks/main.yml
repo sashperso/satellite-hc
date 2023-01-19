@@ -1,0 +1,19 @@
+---
+# tasks file for ./roles/network_connectivity_check
+
+- name: Verify network connectivity
+  ansible.builtin.shell: for i in " $(hostname -f)" " $(hostname -d)" " $(hostname -s)";do  ping -c1 $i;done
+  register: result_ping
+
+- name: Check for reverse resolution
+  ansible.builtin.shell: host $(hostname -f)
+  register: result_reverse_resolution
+
+- name: Check connection to CDN network
+  ansible.builtin.shell: ping -c1 cdn.redhat.com; traceroute cdn.redhat.com
+  register: result_cdn_conn
+
+- name: Check if required ports are listening:
+  ansible.builtin.shell: ss -ltn  | egrep  ":80 |:8080 |:5671 |:443 |:8140 |:9090 "
+  register: result_port_listen
+  
