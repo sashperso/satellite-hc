@@ -9,6 +9,7 @@
     - organisations_check
     - firewall_and_proxy_check
     - infrastructure_design_check
+    - network_connectivity_check
 
   tasks:
     - name: Generate the Satellite Health Check Report

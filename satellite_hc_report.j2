@@ -71,14 +71,18 @@ Generally, the following 12 ports should be open on the firewall:
 ==Infrastructure Architecture
 Investigation: List the organisations and locations associated with the Satellite server.
 Observation:
-{{ result_hammer_org }}
-{{ result_hammer_location }}
+{{ result_hammer_org.stdout | to_nice_yaml }}
+{{ result_hammer_location.stdout | to_nice_yaml }}
 Guidance: #TODO#
 Rationale: #TODO#
 
 ==Network Requirements
-Investigation: #TODO#
-Observation: #TODO#
+Investigation: The network connectivey between Satellite and its capsules needs to be reliable. Can the Satellite connect to the CDN without issue? Do the FQDN, Domain, and Shortname connections resolve? Does the Satellite have full forward and reverse dns resolution?
+Observation:
+{{ result_ping.stdout | to_nice_yaml }}
+{{ result_reverse_resolution.stdout | to_nice_yaml }}
+{{ result_cdn_conn.stdout | to_nice_yaml }}
+{{ result_port_listen.stdout | to_nice_yaml }}
 Guidance: #TODO#
 Rationale: #TODO#
 
