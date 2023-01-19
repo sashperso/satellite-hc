@@ -38,15 +38,14 @@ Observation:
 {% else %}
 Package satellite-capsule is not installed.
 {% endif %}
-
 Guidance: #TODO#
 Rationale: #TODO#
 
 Firewalls and Proxy
 Investigation: Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
 Observation: {{ result_firewall_ports.stdout | to_nice_yaml }}
-
-Guidance:
+Guidance: #TODO#
+Rationale: 
 Generally, the following 12 ports should be open on the firewall:
   - 80/tcp
   - 443/tcp
@@ -60,13 +59,14 @@ Generally, the following 12 ports should be open on the firewall:
   - 67/udp
   - 69/udp
   - 5000/tcp
-Rationale: #TODO#
 
 Infrastructure
 
 Infrastructure Architecture
-Investigation: #TODO#
-Observation: #TODO#
+Investigation: List the organisations and locations associated with the Satellite server.
+Observation:
+{{ result_hammer_org }}
+{{ result_hammer_location }}
 Guidance: #TODO#
 Rationale: #TODO#
 
