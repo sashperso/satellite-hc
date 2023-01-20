@@ -13,6 +13,7 @@
     - qpidd_storage_check
     - loggin_check
     - remote_execution_check
+    - errata_check
 
   tasks:
     - name: Generate the Satellite Health Check Report

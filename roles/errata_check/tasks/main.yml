@@ -1,0 +1,6 @@
+---
+# tasks file for ./roles/errata_check
+
+- name: List all updatable or installable errata across registered hosts on the Satellite.
+  ansible.builtin.shell: for i in `hammer host list| sed -e '1,3d'|sed -e '$d'|cut -d' ' -f 1`; do echo -e "Errata details for:\n" `hammer host info --id $i|sed '2!d'`;hammer host errata list --host-id $i; done
+  register: result_errata

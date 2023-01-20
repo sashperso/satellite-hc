@@ -133,10 +133,11 @@ Guidance: #CONSULTANT TODO#
 Rationale: #CONSULTANT TODO#
 
 ==Errata
-Investigation: #TODO#
-Observation: #TODO#
+Investigation: Are errata used? How is Errata managed? What errata are installable on the registered hosts?
+Observation: 
+{{ result_errata.stdout | to_nice_yaml }}
 Guidance: #TODO#
-Rationale: #TODO#
+Rationale: As a part of Red Hat’s quality control and release process, we provide customers with updates for each release of official Red Hat RPMs. Red Hat compiles groups of related package into an erratum along with an advisory that provides a description of the update. Security Advisory errata describe fixed security issues found in the package. Bug Fix Advisory errata describes bug fixes, and Product Enhancement Advisory describes enhancements and new features added to the package. 
 
 ==Managed Host Logging
 Investigation: #TODO#
@@ -145,12 +146,6 @@ Guidance: #TODO#
 Rationale: #TODO#
 
 =Satellite Management
-
-==Repositories
-Investigation: #TODO#
-Observation: #TODO#
-Guidance: #TODO#
-Rationale: #TODO#
 
 ==Satellite Logging
 Investigation: Are any errors logged in the foreman, foreman-proxy, or /var logs? Do any issues tie in with other issues identified in the report?
@@ -195,12 +190,6 @@ Guidance: #TODO#
 Rationale: #TODO#
 
 ==Activation Keys
-Investigation: #TODO#
-Observation: #TODO#
-Guidance: #TODO#
-Rationale: #TODO#
-
-==Host Groups
 Investigation: #TODO#
 Observation: #TODO#
 Guidance: #TODO#
