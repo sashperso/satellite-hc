@@ -8,9 +8,9 @@ It is based on the RHEL Automated Health Check available here: https://gitlab.co
 Automated Satellite Health Check
 
 ## Description
-This project uses Ansible to automate certain components of a RHEL health check.
+This project uses Ansible to automate certain components of a Satellite health check.
 
-Two existing Satellite health check CER templates can be found here:
+Two similar existing Satellite health check CER templates which have informed this project can be found here:
 https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/viavi-satellite-6-healthcheck
 
 https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/asml/2021-01-asml-satellite-healthcheck
@@ -75,11 +75,17 @@ $ cat /tmp/rhel_hc_report_<time>_<date>
 Milestone 1: Project Started
 Date: 12/12/22
 
+Milestone 2: Began adding roles
+Date: 16/01/23
+
 ## Contributing
 We are open to contributions. 
 We need designers who can identify problems, and co-create solutions with engineers. We need engineers to build the prototype.
 
 Please read CONTRIBUTING.md for more information.
+
+## Contributors
+Sasha Personeni - spersone@redhat.com
 
 ## License
 Refer to the License file for more information.
