@@ -1,0 +1,7 @@
+---
+# tasks file for ./roles/registered_host_check
+
+- name: List the Satellite's registered hosts. **Disable this role if too many hosts are registered**
+  ansible.builtin.shell: hammer --csv --no-headers host list | grep -v `hostname` | cut -d',' -f2,5 | column -s',' -t
+  register: result_registered_hosts
+  ignore_errors: true
