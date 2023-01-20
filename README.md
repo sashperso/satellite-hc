@@ -1,6 +1,8 @@
 # automated_satellite_health_check
 
-The goal of this project is to automate a Satellite 6 health check. The idea behind this project is that the playbook can be run on a Satellite server to collect a vast quantity of information that is populated directly into an organised text-file report that can be analysed. This allows a consultant more time for analysis and recommendations, rather than conducting information gathering activities. It is based on the RHEL Automated Health Check available here: https://gitlab.consulting.redhat.com/automated_health_check_crew/rhel
+The goal of this project is to automate a Satellite 6 health check. The idea behind this project is that the playbook can be run on a Satellite server to collect a vast quantity of information that is populated directly into an organised text-file report that can be analysed. This allows a consultant more time for analysis and recommendations, rather than conducting information gathering activities. 
+
+It is based on the RHEL Automated Health Check available here: https://gitlab.consulting.redhat.com/automated_health_check_crew/rhel. Using the RHEL health check in conjunction with the Satellite health check can allow a consultant to gain detailed insight on hosts associated with the Satellite, and can help add granularity if needed.
 
 ## Name
 Automated Satellite Health Check
