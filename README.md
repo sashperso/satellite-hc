@@ -39,7 +39,7 @@ More information on contributing and GitOps can be found in the CONTRIBUTING.md 
 
 ### Opportunities
 - More time for the consultant to add value - perform analysis and recommendations, rather than gather information.
-- Standardise Sarellite health check engagements at a high level.
+- Standardise Satellite health check engagements at a high level.
 - The ability to autopopulate a CER report with the playbook, or covert the findings into a presentation would be a great feature in the future. NOTE: A team in the US has automated CER autopopulation for an OCP health check. The mechanics of the health check are different to the mechanics used in this project, but this may be of use in the future:
 https://search-portfolio-hub.6923.rh-us-east-1.openshiftapps.com/serviceskit/openshift_health_check
 
@@ -59,12 +59,12 @@ Depending on what you are making, it can be a good idea to include screenshots o
 Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
 ## Usage
-The following instructions allow the user to conduct a rhel health check on their local machine.
+The following instructions allow the user to conduct a Satellite health check on their local machine.
 $ git clone <url>
-$ cd ~/rhel
-$ ansible-playbook rhel_hc_init.yml -K
+$ cd ~/satellite
+$ ansible-playbook satellite_hc_init.yml -u <root_user> --ask-pass
 Enter root password
-$ cat /tmp/rhel_hc_report_<time>_<date>
+$ cat /tmp/satellite_hc_report_<satellite_hostname>
 
 ## Support
 - Create a card on the Kanban board for action.
