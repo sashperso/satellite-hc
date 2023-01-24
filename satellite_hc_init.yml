@@ -17,14 +17,25 @@
     - registered_hosts_check
 
   tasks:
-    - name: Generate the Satellite Health Check Report
+    - name: Generate the Satellite Health Check Report in .txt format
       ansible.builtin.template:
         src: ./satellite_hc_report.j2
         dest: /tmp/satellite_hc_report_"{{ ansible_hostname }}"
+   
+    - name: Generate the Satellite Health Check Report in .adoc format
+      ansible.builtin.template:
+        src: ./satellite_hc_report.adoc
+        dest: /tmp/satellite_hc_report_"{{ ansible_hostname }}".adoc        
     
-    - name: Fetch the satellite report and copy it to the local machine
+    - name: Fetch the .txt Satellite report and copy it to the local machine
       ansible.builtin.fetch:
         src: /tmp/satellite_hc_report_"{{ ansible_hostname }}"
+        dest: /tmp/
+        flat: yes
+
+    - name: Fetch the .adoc Satellite report and copy it to the local machine
+      ansible.builtin.fetch:
+        src: /tmp/satellite_hc_report_"{{ ansible_hostname }}".adoc
         dest: /tmp/
         flat: yes
 
