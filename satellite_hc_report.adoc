@@ -2,7 +2,7 @@
 
 This is a health check report for the {{ ansible_hostname }} Satellite server conducted on a {{ ansible_distribution }} {{ansible_distribution_version }} instance, at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
 
-= Analysis
+== Analysis
 
 Test: {{ test_result.stdout | to_nice_yaml }} 
 
