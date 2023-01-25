@@ -198,7 +198,7 @@ The ports that are currently open are:
 |=====
 *Observation:*
 ----
-{{ result_remote_execution.stdout_lines }}
+{{ result_remote_execution.stdout_lines | to_nice_yaml }}
 ----
 
 === Provisioning
