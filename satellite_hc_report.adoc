@@ -135,6 +135,7 @@ The ports that are currently open are:
 |*Rationale:*| #TODO#
 |=====
 *Observation:*
+
 .Ping results:
 ----
 {{ result_ping.stdout_lines | to_nice_yaml }}
@@ -197,7 +198,7 @@ The ports that are currently open are:
 |=====
 *Observation:*
 ----
-{{ result_remote_execution.stdout_lines | to_nice_yaml }}
+{{ result_remote_execution.stdout_lines }}
 ----
 
 === Provisioning
@@ -216,7 +217,7 @@ The ports that are currently open are:
 |=====
 *Observation:*
 
-#NOTE# - The errata variable has been omitted in the report due to size of role. Replace the variable here if you choose to include the role.
+NOTE: The errata variable has been omitted in the report due to size of role. Replace the variable here if you choose to include the role.
 
 == Satellite Management
 
@@ -282,6 +283,7 @@ The messages log does not contain any errors.
 === Registered hosts
 
 *Investigation:* How many registered hosts are connected to the Satellite? 
+
 *Observation:*
 ----
 {{ result_registered_hosts.stdout_lines | to_nice_yaml }}
