@@ -8,10 +8,10 @@ Analysis
 Test: {{ test_result.stdout | to_nice_yaml }} 
 
 =High-Level Check:
-{{ result_health_check.stdout_lines | to_nice_yaml }}
+{{ result_health_check.stdout }}
 
 Satellite service status:
-{{ result_running_services.stdout_lines | to_nice_yaml }}
+{{ result_running_services.stdout }}
 
 
 =Satellite Configuration
@@ -27,10 +27,12 @@ Observation:
 - Red Hat Release: {{ result_redhat_release.stdout | to_nice_yaml }}
 
 The CPU usage information is as follows:
+
 {{ result_system_cpu.stdout_lines | to_nice_yaml}}
 
 Is there at least 20gb of disk space available in /var?
-{{ result_disk_space }}
+
+{{ result_disk_space.stdout_lines | to_nice_yaml }}
 Guidance: #TODO#
 Rationale: There should be at least 20 gig of space available in /var directory to perform future synchronizations. Please note that if you are to download a major release (e.g. RHEL 6 Server), you will require a minimum of 20Gig per release.
 
@@ -51,7 +53,7 @@ Observation:
 {% if result_capsule_version.failed == false %}
 {{ result_capsule_version.stdout_lines | to_nice_yaml }} is installed on the Capsule server.
 {% else %}
-Package satellite-capsule is not installed.
+Package satellite-capsule is not installed on the Capsule Server.
 {% endif %}
 Guidance: #TODO#
 Rationale: #TODO#
@@ -86,10 +88,9 @@ Guidance: #TODO#
 Rationale: #TODO#
 
 ==Network Requirements
-Investigation: The network connectivey between Satellite and its capsules needs to be reliable. Can the Satellite connect to the CDN without issue? Do the FQDN, Domain, and Shortname connections resolve? Does the Satellite have full forward and reverse dns resolution?
+Investigation: The network connectivey between Satellite and its capsules needs to be reliable. Can the Satellite connect to the CDN without issue? Do the FQDN, Domain, and Shortname connections resolve?
 Observation:
 {{ result_ping.stdout | to_nice_yaml }}
-{{ result_reverse_resolution.stdout | to_nice_yaml }}
 {{ result_cdn_conn.stdout | to_nice_yaml }}
 {{ result_port_listen.stdout | to_nice_yaml }}
 Guidance: #TODO#
@@ -104,10 +105,19 @@ Rationale: #TODO#
 =Storage
 
 ==Qpidd Storage
-Investigation: How much soace is available in the qpidd partition? is the qpidd parititon too large?
+Investigation: Is the qpidd service available? How much space is available in the qpidd partition? is the qpidd parititon too large?
 Observation:
+{% if result_qpidd_status.failed == false %}
 {{ result_qpidd_status.stdout | to_nice_yaml }}
+{% else %}
+{{ result_qpidd_status.stderr_lines | to_nice_yaml }}
+{% endif %}
+
+{% if result_qpidd_status.failed == false %}
 {{ result_qpidd_storage.stdout | to_nice_yaml }}
+{% else %}
+{{ result_qpidd_storage.stderr_lines | to_nice_yaml }}
+{% endif %}
 Guidance: #TODO#
 Rationale: #TODO#
 
@@ -135,7 +145,7 @@ Rationale: #CONSULTANT TODO#
 ==Errata
 Investigation: Are errata used? How is Errata managed? What errata are installable on the registered hosts?
 Observation: 
-{{ result_errata.stdout | to_nice_yaml }}
+Note: Ommitted errata variable
 Guidance: #TODO#
 Rationale: As a part of Red Hat’s quality control and release process, we provide customers with updates for each release of official Red Hat RPMs. Red Hat compiles groups of related package into an erratum along with an advisory that provides a description of the update. Security Advisory errata describe fixed security issues found in the package. Bug Fix Advisory errata describes bug fixes, and Product Enhancement Advisory describes enhancements and new features added to the package. 
 

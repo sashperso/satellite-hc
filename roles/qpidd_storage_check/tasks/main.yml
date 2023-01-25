@@ -4,7 +4,9 @@
 - name: Verify qpidd status
   ansible.builtin.shell: systemctl status qpidd
   register: result_qpidd_status
+  ignore_errors: true
 
 - name: Check qpidd disk usage.
   ansible.builtin.shell: du -h /var/lib/qpidd
   register: result_qpidd_storage
+  ignore_errors: true

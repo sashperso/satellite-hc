@@ -1,6 +1,6 @@
 ---
 - name: Initialise the Satellite Health Check
-  hosts: #satellite ip addr
+  hosts: # satellite ip addr
   roles:
     - high_level_check
     - test-role
@@ -11,10 +11,10 @@
     - infrastructure_design_check
     - network_connectivity_check
     - qpidd_storage_check
-    - loggin_check
+    - logging_check
     - remote_execution_check
-    - errata_check
-    - registered_hosts_check
+#    - errata_check
+    - registered_host_check
 
   tasks:
     - name: Generate the Satellite Health Check Report in .txt format

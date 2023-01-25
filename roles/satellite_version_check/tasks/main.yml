@@ -7,5 +7,5 @@
 
 - name: Find the Red Hat Satellite version installed on the capsules.
   ansible.builtin.shell: rpm -q satellite-capsule
-  register: result_satellite_version
+  register: result_capsule_version
   ignore_errors: true
