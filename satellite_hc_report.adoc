@@ -5,11 +5,14 @@ This is a health check report for the {{ ansible_hostname }} Satellite server co
 == Analysis
 
 === Health Check Overview:
+----
 {{ result_health_check.stdout }}
+----
 
 === Satellite Service Status:
+----
 {{ result_running_services.stdout | to_nice_yaml }}
-
+----
 
 == Satellite Configuration
 
@@ -18,7 +21,7 @@ This is a health check report for the {{ ansible_hostname }} Satellite server co
 *Investigation:* What version of RHEL is the Satellite server running on? What is the architecture? Is the CPU suitable to the Satellite server? is the hostname unique?
 
 *Observation:*
-
+----
 - Hostname: {{ result_hostname.stdout | to_nice_yaml }}
 
 - IP Address: {{ result_ip_addr.stdout | to_nice_yaml }}
@@ -30,10 +33,12 @@ This is a health check report for the {{ ansible_hostname }} Satellite server co
 - Last Reboot Time: {{ result_reboot.stdout | to_nice_yaml }}
 
 - Red Hat Release: {{ result_redhat_release.stdout | to_nice_yaml }}
+----
 
 The CPU usage information is as follows:
-
+----
 {{ result_system_cpu.stdout_lines | to_nice_yaml}}
+----
 
 Is there at least 20gb of disk space available in /var?
 
@@ -51,10 +56,12 @@ Is there at least 20gb of disk space available in /var?
 |*Rationale:*| #TODO#
 |=======
 *Observation:*
-
+----
 {{ result_capsule_list.stdout }}
-
+----
+----
 {{ result_organization_list.stdout }} 
+----
 
 NOTE: For more information on a given organisation, run `hammer organization info --id <id_number>`
 
@@ -68,8 +75,8 @@ NOTE: For more information on a given organisation, run `hammer organization inf
 *Observation:* 
 
 {{ result_satellite_version.stdout_lines | to_nice_yaml }} is installed on the Satellite server.
-{% if result_capsule_version.failed == false %}
 
+{% if result_capsule_version.failed == false %}
 {{ result_capsule_version.stdout_lines | to_nice_yaml }} is installed on the Capsule server.
 {% else %}
 Package satellite-capsule is not installed on the Capsule Server.
@@ -97,8 +104,10 @@ Generally, the following 12 ports should be open on the firewall:
 - 5000/tcp
 |=====
 *Observation:* 
-The ports that are currently open are - 
+The ports that are currently open are:
+---- 
 {{ result_firewall_ports.stdout | to_nice_yaml }}
+----
 
 
 == Infrastructure
@@ -110,11 +119,12 @@ The ports that are currently open are -
 |*Rationale:*| #TODO#
 |=====
 *Observation:*
-
+----
 {{ result_hammer_org.stdout }}
-
+----
+----
 {{ result_hammer_location.stdout }}
-
+----
 
 === Network Requirements
 |=====
@@ -213,28 +223,31 @@ The ports that are currently open are -
 *Observation:*
 
 + /var/log/foreman/production.log returns:
-
+----
 {% if result_production_log.failed == false %}
 {{ result_production_log.stdout_lines | to_nice_yaml }}
 {% else %}
 The production.log does not contain any errors.
 {% endif %}
+----
 
 + /var/log/foreman-proxy/proxy.log returns:
-
+----
 {% if result_proxy_log.failed == false %}
 {{ result_proxy_log.stdout_lines | to_nice_yaml }}
 {% else %}
 The proxy.log does not contain any errors.
 {% endif %}
+----
 
 + /var/log/messages returns:
-
+----
 {% if result_messages_log.failed == false %}
 {{ result_messages_log.stdout_lines | to_nice_yaml }}
 {% else %}
 The messages log does not contain any errors.
 {% endif %}
+----
 
 === Patch Cycles
 |=====
@@ -264,5 +277,6 @@ The messages log does not contain any errors.
 
 *Investigation:* How many registered hosts are connected to the Satellite? 
 *Observation:*
-
+----
 {{ result_registered_hosts.stdout_lines | to_nice_yaml }}
+----
