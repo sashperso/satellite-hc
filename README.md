@@ -2,13 +2,15 @@
 
 The goal of this project is to automate a Satellite 6 health check. The idea behind this project is that the playbook can be run on a Satellite server to collect a vast quantity of information that is populated directly into an organised text-file report that can be analysed. This allows a consultant more time for analysis and recommendations, rather than conducting information gathering activities. 
 
-It is based on the RHEL Automated Health Check available here: https://gitlab.consulting.redhat.com/automated_health_check_crew/rhel. Using the RHEL health check in conjunction with the Satellite health check can allow a consultant to gain detailed insight on hosts associated with the Satellite, and can help add granularity if needed.
+This project also allows a consultant to produce a PDF file of the report that is easy to read and ascii-doc formatted. For instructions on how to do this, scroll down to 'Usage'.
+
+It is based on the RHEL Automated Health Check started by Rodger Li (rodli@redhat.com) available here: https://gitlab.consulting.redhat.com/automated_health_check_crew/rhel. Using the RHEL health check in conjunction with the Satellite health check can allow a consultant to gain detailed insight on hosts associated with the Satellite, and can help add granularity if needed.
 
 ## Name
 Automated Satellite Health Check
 
 ## Description
-This project uses Ansible to automate certain components of a Satellite health check.
+This project uses Ansible to automate certain components of a Satellite health check. It can be used to produce a "leave-behind" high level document providing the reader with an easy-to-read summary of the health of their Satellite server system.
 
 Two similar existing Satellite health check CER templates which have informed this project can be found here:
 https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/viavi-satellite-6-healthcheck
@@ -25,6 +27,24 @@ git branch -M main
 git push -uf origin main
 ```
 More information on contributing and GitOps can be found in the CONTRIBUTING.md file.
+
+## Usage
+The following instructions allow the user to conduct a Satellite health check on their local machine:
+
+$ git clone <url>
+$ cd ~/automated_satellite_health_check
+$ ansible-playbook satellite_hc_init.yml -u <root_user> --ask-pass
+Enter root password
+$ cat ./satellite_hc_report_<satellite_hostname>
+
+
+How to Generate the PDF Report:
+
+IMPORTANT: Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing these steps.
+$ cd ~/automated_satellite_health_check
+$ sh generate-pdf -f 'satellite_hc_report"<<ansible_hostname>>".doc'
+
+NOTE: Use sh generate-pdf -h to learn more about the PDF generation options available to you.
 
 # Project Benefits
 ### Strengths
@@ -58,14 +78,6 @@ Depending on what you are making, it can be a good idea to include screenshots o
 ## Installation
 Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-The following instructions allow the user to conduct a Satellite health check on their local machine.
-$ git clone <url>
-$ cd ~/satellite
-$ ansible-playbook satellite_hc_init.yml -u <root_user> --ask-pass
-Enter root password
-$ cat /tmp/satellite_hc_report_<satellite_hostname>
-
 ## Support
 - Create a card on the Kanban board for action.
 - Email or message any of the contributors for the project.
@@ -77,6 +89,12 @@ Date: 12/12/22
 
 Milestone 2: Began adding roles
 Date: 16/01/23
+
+Milestone 3: Finished first prototype
+Date: 20/01/23
+
+Milestone 4: Added PDF-generation capabilities
+Date: 25/01/23
 
 ## Contributing
 We are open to contributions. 
