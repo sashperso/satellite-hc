@@ -1,0 +1,640 @@
+= Satellite Health Check Report
+
+This is a health check report for the sat-1 Satellite server conducted on a RedHat 8.7 instance, at 14:06:45 on 2023-01-25.
+
+== Analysis
+
+=== Health Check Overview:
+----
+Running ForemanMaintain::Scenario::FilteredScenario
+================================================================================
+Clean old Kernel and initramfs files from tftp-boot:                  [32m[1m[OK][0m
+--------------------------------------------------------------------------------
+Check number of fact names in database:                               [32m[1m[OK][0m
+--------------------------------------------------------------------------------
+Check whether all services are running:                               [32m[1m[OK][0m
+--------------------------------------------------------------------------------
+Check whether all services are running using the ping call:           [32m[1m[OK][0m
+--------------------------------------------------------------------------------
+Check for paused tasks:                                               [32m[1m[OK][0m
+--------------------------------------------------------------------------------
+Check to verify no empty CA cert requests exist:                      [32m[1m[OK][0m
+--------------------------------------------------------------------------------
+Check whether system is self-registered or not:                       [32m[1m[OK][0m
+--------------------------------------------------------------------------------
+----
+
+=== Satellite Service Status:
+----
+"Running Service List\n================================================================================\nList
+    applicable services: \ndynflow-sidekiq@.service                   indirect\nforeman-proxy.service
+    \                     enabled \nforeman.service                            enabled
+    \nhttpd.service                              enabled \npostgresql.service                         enabled
+    \npulpcore-api.service                       enabled \npulpcore-content.service
+    \                  enabled \npulpcore-worker@.service                   indirect\npuppetserver.service
+    \                      enabled \nredis.service                              enabled
+    \ntomcat.service                             enabled\n\nAll services listed                                                   \e[32m\e[1m[OK]\e[0m\n--------------------------------------------------------------------------------"
+
+----
+
+== Satellite Configuration
+
+=== Satellite System Details
+
+*Investigation:* What version of RHEL is the Satellite server running on? What is the architecture? Is the CPU suitable to the Satellite server? is the hostname unique?
+
+*Observation:*
+----
+- Hostname: "   Static hostname: sat-1.gpslab.cbr.redhat.com\n         Icon name: computer-vm\n
+    \          Chassis: vm\n        Machine ID: 80a1ebb5051b4c04ad150d5ceab414cd\n
+    \          Boot ID: 56062e4d3b964b66b76920d457021f28\n    Virtualization: kvm\n
+    \ Operating System: Red Hat Enterprise Linux 8.7 (Ootpa)\n       CPE OS Name:
+    cpe:/o:redhat:enterprise_linux:8::baseos\n            Kernel: Linux 4.18.0-425.3.1.el8.x86_64\n
+    \     Architecture: x86-64"
+
+
+- IP Address: 10.76.23.10/24
+...
+
+
+- Kernel Version: 4.18.0-425.3.1.el8.x86_64
+...
+
+
+- Uptime: 2 days
+...
+
+
+- Last Reboot Time: 2023-01-23 10:09
+...
+
+
+- Red Hat Release: Red Hat Enterprise Linux release 8.7 (Ootpa)
+...
+
+----
+
+The CPU usage information is as follows:
+----
+- 'Architecture:        x86_64'
+- 'CPU op-mode(s):      32-bit, 64-bit'
+- 'Byte Order:          Little Endian'
+- 'CPU(s):              8'
+- 'On-line CPU(s) list: 0-7'
+- 'Thread(s) per core:  1'
+- 'Core(s) per socket:  1'
+- 'Socket(s):           8'
+- 'NUMA node(s):        1'
+- 'Vendor ID:           GenuineIntel'
+- 'BIOS Vendor ID:      Red Hat'
+- 'CPU family:          6'
+- 'Model:               85'
+- 'Model name:          Intel Xeon Processor (Skylake, IBRS)'
+- 'BIOS Model name:     RHEL-8.2.0 PC (Q35 + ICH9, 2009)'
+- 'Stepping:            4'
+- 'CPU MHz:             2099.998'
+- 'BogoMIPS:            4199.99'
+- 'Virtualization:      VT-x'
+- 'Hypervisor vendor:   KVM'
+- 'Virtualization type: full'
+- 'L1d cache:           32K'
+- 'L1i cache:           32K'
+- 'L2 cache:            4096K'
+- 'L3 cache:            16384K'
+- 'NUMA node0 CPU(s):   0-7'
+
+----
+
+Is there at least 20gb of disk space available in /var?
+
+- 20953852 Kilobytes is insufficient for a channel download
+
+
+*Guidance:* #TODO#
+
+*Rationale:* There should be at least 20 gig of space available in /var directory to perform future synchronizations. Please note that if you are to download a major release (e.g. RHEL 6 Server), you will require a minimum of 20Gig per release.
+
+
+=== Satellite and Capsule Architecture
+|=======
+|*Investigation:*| List the names and urls of the Satellite and Capsule servers. List the organisations linked to the Satellite and Capsule servers.
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|=======
+*Observation:*
+----
+---|-----------------------------|------------------------------------------|---------------------------------------------------------------------------------
+ID | NAME                        | URL                                      | FEATURES                                                                        
+---|-----------------------------|------------------------------------------|---------------------------------------------------------------------------------
+1  | sat-1.gpslab.cbr.redhat.com | https://sat-1.gpslab.cbr.redhat.com:9090 | Discovery, Dynflow, Ansible, Openscap, SSH, TFTP, Puppet CA, Puppet, Logs, Pu...
+---|-----------------------------|------------------------------------------|---------------------------------------------------------------------------------
+----
+----
+---|-----------|-----------|-------------|----------
+ID | TITLE     | NAME      | DESCRIPTION | LABEL    
+---|-----------|-----------|-------------|----------
+7  | Funkytown | Funkytown |             | Funkytown
+---|-----------|-----------|-------------|---------- 
+----
+
+NOTE: For more information on a given organisation, run `hammer organization info --id <id_number>`
+
+=== Satellite Version 
+|======
+|*Investigation:*| What is the currently installed Satellite version on the Satellite server and the capsules? What was the initial installation version?
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|======
+
+*Observation:* 
+
+- satellite-6.11.4.1-1.el8sat.noarch
+ is installed on the Satellite server.
+
+Package satellite-capsule is not installed on the Capsule Server.
+
+=== Firewalls and Proxy
+|=====
+|*Investigation:| Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
+|Guidance:| #TODO#
+|Rationale:
+a|
+Generally, the following 12 ports should be open on the firewall:
+
+- 80/tcp
+- 443/tcp
+- 5647/tcp
+- 8000/tcp
+- 8140/tcp 
+- 8443/tcp
+- 9090/tcp
+- 53/tcp
+- 53/udp
+- 67/udp
+- 69/udp
+- 5000/tcp
+|=====
+*Observation:* 
+The ports that are currently open are:
+---- 
+'  ports: 53/udp 53/tcp 67/udp 69/udp 80/tcp 443/tcp 5647/tcp 8000/tcp 9090/tcp 8140/tcp'
+
+----
+
+
+== Infrastructure
+
+=== Infrastructure Architecture
+|=====
+|*Investigation:*| List the organisations and locations associated with the Satellite server.
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|=====
+*Observation:*
+----
+---|-----------|-----------|-------------|----------
+ID | TITLE     | NAME      | DESCRIPTION | LABEL    
+---|-----------|-----------|-------------|----------
+7  | Funkytown | Funkytown |             | Funkytown
+---|-----------|-----------|-------------|----------
+----
+----
+---|------------------|------------------|------------
+ID | TITLE            | NAME             | DESCRIPTION
+---|------------------|------------------|------------
+2  | Default Location | Default Location |            
+---|------------------|------------------|------------
+----
+
+=== Network Requirements
+|=====
+|*Investigation:*| The network connectivey between Satellite and its capsules needs to be reliable. Can the Satellite connect to the CDN without issue? Do the FQDN, Domain, and Shortname connections resolve?
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|=====
+*Observation:*
+
+----
+- PING sat-1.gpslab.cbr.redhat.com (10.76.23.10) 56(84) bytes of data.
+- '64 bytes from sat-1.gpslab.cbr.redhat.com (10.76.23.10): icmp_seq=1 ttl=64 time=0.102
+    ms'
+- ''
+- '--- sat-1.gpslab.cbr.redhat.com ping statistics ---'
+- 1 packets transmitted, 1 received, 0% packet loss, time 0ms
+- rtt min/avg/max/mdev = 0.102/0.102/0.102/0.000 ms
+- PING sat-1.gpslab.cbr.redhat.com (10.76.23.10) 56(84) bytes of data.
+- '64 bytes from sat-1.gpslab.cbr.redhat.com (10.76.23.10): icmp_seq=1 ttl=64 time=0.088
+    ms'
+- ''
+- '--- sat-1.gpslab.cbr.redhat.com ping statistics ---'
+- 1 packets transmitted, 1 received, 0% packet loss, time 0ms
+- rtt min/avg/max/mdev = 0.088/0.088/0.088/0.000 ms
+
+----
+----
+- PING e4177.cd.akamaiedge.net (23.0.236.83) 56(84) bytes of data.
+- '64 bytes from a23-0-236-83.deploy.static.akamaitechnologies.com (23.0.236.83):
+    icmp_seq=1 ttl=54 time=5.11 ms'
+- ''
+- '--- e4177.cd.akamaiedge.net ping statistics ---'
+- 1 packets transmitted, 1 received, 0% packet loss, time 0ms
+- rtt min/avg/max/mdev = 5.114/5.114/5.114/0.000 ms
+
+----
+----
+"LISTEN 0      128               0.0.0.0:9090       0.0.0.0:*          \nLISTEN 0
+    \     50                      *:8140             *:*          \nLISTEN 0      128
+    \                    *:80               *:*          \nLISTEN 0      128                     *:443
+    \             *:*          \nLISTEN 0      128                  [::]:9090          [::]:*
+    \         "
+
+----
+
+=== Custom Hierarchies
+|=====
+|*Investigation:*| #TODO#
+|*Observation:*| #TODO#
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|=====
+
+== Storage
+
+=== Qpidd Storage
+|=====
+|*Investigation:*| Is the qpidd service available? How much space is available in the qpidd partition? is the qpidd parititon too large?
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|=====
+*Observation:*
+
+- Unit qpidd.service could not be found.
+
+
+- 'du: cannot access ''/var/lib/qpidd'': No such file or directory'
+
+
+=== Backup/Restore Procedures
+|=====
+|*Investigation:*| If the client is using snapshots, what are the backups listed in foreman-maintain backups? What kinds of backup procedures are in place for the Satellite? The consultant will likely have to ask the client for additional information on procedures and backup philosophy.
+|*Observation:*| #CONSULTANT TODO#
+|*Guidance:*| #CONSULTANT TODO#
+|*Rationale:*| #CONSULTANT TODO#
+|=====
+
+== Host Management
+
+=== Remote Execution
+|=====
+|*Investigation:*| Is remote execution set up on Satellite? Is cron used to execute these remote jobs?
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|=====
+*Observation:*
+
+"----|------------------------------------------------------|----------------------------|----------|-------------\nID
+    \ | NAME                                                 | JOB CATEGORY               |
+    PROVIDER | TYPE        \n----|------------------------------------------------------|----------------------------|----------|-------------\n178
+    | Ansible Collection - Install from Galaxy             | Ansible Galaxy             |
+    Ansible  | job_template\n179 | Ansible Roles - Ansible Default                      |
+    Ansible Playbook           | Ansible  | job_template\n180 | Ansible Roles - Install
+    from Galaxy                  | Ansible Galaxy             | Ansible  | job_template\n181
+    | Ansible Roles - Install from git                     | Ansible Roles Installation
+    | Ansible  | job_template\n185 | Ansible - Run insights maintenance plan              |
+    Ansible Playbook           | Ansible  | job_template\n191 | Ansible - Run playbook
+    \                              | Ansible Playbook           | Ansible  | job_template\n182
+    | Capsule Upgrade Playbook                             | Maintenance Operations
+    \    | Ansible  | job_template\n206 | Change content source                                |
+    Katello                    | SSH      | job_template\n211 | Check Leapp                                          |
+    Leapp                      | SSH      | snippet     \n149 | Check Update - SSH
+    Default                           | Packages                   | SSH      | job_template\n183
+    | Configure Cloud Connector                            | Maintenance Operations
+    \    | Ansible  | job_template\n184 | Convert to RHEL                                      |
+    Convert 2 RHEL             | Ansible  | job_template\n207 | Install errata by
+    search query - Katello SSH Default | Katello                    | SSH      | job_template\n161
+    | Install Errata - Katello Ansible Default             | Katello via Ansible        |
+    Ansible  | job_template\n160 | Install Errata - Katello SSH Default                 |
+    Katello                    | SSH      | job_template\n163 | Install Group - Katello
+    Ansible Default              | Katello via Ansible        | Ansible  | job_template\n162
+    | Install Group - Katello SSH Default                  | Katello                    |
+    SSH      | job_template\n165 | Install Package - Katello Ansible Default            |
+    Katello via Ansible        | Ansible  | job_template\n164 | Install Package -
+    Katello SSH Default                | Katello                    | SSH      | job_template\n186
+    | Module Action - Ansible Default                      | Ansible Modules            |
+    Ansible  | job_template\n150 | Module Action - SSH Default                          |
+    Modules                    | SSH      | job_template\n187 | Package Action - Ansible
+    Default                     | Ansible Packages           | Ansible  | job_template\n151
+    | Package Action - SSH Default                         | Packages                   |
+    SSH      | job_template\n188 | Power Action - Ansible Default                       |
+    Ansible Power              | Ansible  | job_template\n152 | Power Action - SSH
+    Default                           | Power                      | SSH      | job_template\n153
+    | Puppet Agent Disable - SSH Default                   | Puppet                     |
+    SSH      | job_template\n154 | Puppet Agent Enable - SSH Default                    |
+    Puppet                     | SSH      | job_template\n155 | Puppet Module - Install
+    from forge - SSH Default     | Puppet                     | SSH      | job_template\n156
+    | Puppet Module - Install from git - SSH Default       | Puppet                     |
+    SSH      | job_template\n189 | Puppet Run Once - Ansible Default                    |
+    Ansible Puppet             | Ansible  | job_template\n157 | Puppet Run Once -
+    SSH Default                        | Puppet                     | SSH      | job_template\n167
+    | Remove Group - Katello Ansible Default               | Katello via Ansible        |
+    Ansible  | job_template\n166 | Remove Group - Katello SSH Default                   |
+    Katello                    | SSH      | job_template\n169 | Remove Package - Katello
+    Ansible Default             | Katello via Ansible        | Ansible  | job_template\n168
+    | Remove Package - Katello SSH Default                 | Katello                    |
+    SSH      | job_template\n209 | Resolve Traces - Katello Ansible Default             |
+    Katello via Ansible        | Ansible  | job_template\n208 | Resolve Traces - Katello
+    SSH Default                 | Katello                    | SSH      | job_template\n171
+    | Restart Services - Katello Ansible Default           | Katello via Ansible        |
+    Ansible  | job_template\n170 | Restart Services - Katello SSH Default               |
+    Katello                    | SSH      | job_template\n205 | Run a playbook downloaded
+    from RH cloud              | Red Hat Insights           | Ansible  | job_template\n190
+    | Run Command - Ansible Default                        | Ansible Commands           |
+    Ansible  | job_template\n158 | Run Command - SSH Default                            |
+    Commands                   | SSH      | job_template\n176 | Run OpenSCAP scans
+    \                                  | OpenSCAP                   | SSH      | job_template\n210
+    | Run OpenSCAP scans - Ansible Default                 | OpenSCAP Ansible Commands
+    \ | Ansible  | job_template\n177 | Run OVAL scans                                       |
+    OpenSCAP                   | SSH      | job_template\n212 | Run preupgrade via
+    Leapp                             | Leapp - Preupgrade         | SSH      | job_template\n213
+    | Run remediation plan via Leapp                       | Other                      |
+    SSH      | job_template\n148 | Run remediations based on Insights recommendations
+    \  | Red Hat Insights           | Ansible  | job_template\n214 | Run upgrade via
+    Leapp                                | Leapp - Upgrade            | Ansible  |
+    job_template\n192 | Service Action - Ansible Default                     | Ansible
+    Services           | Ansible  | job_template\n193 | Service Action - Enable Web
+    Console                  | Ansible Services           | Ansible  | job_template\n159
+    | Service Action - SSH Default                         | Services                   |
+    SSH      | job_template\n173 | Update Group - Katello Ansible Default               |
+    Katello via Ansible        | Ansible  | job_template\n172 | Update Group - Katello
+    SSH Default                   | Katello                    | SSH      | job_template\n175
+    | Update Package - Katello Ansible Default             | Katello via Ansible        |
+    Ansible  | job_template\n174 | Update Package - Katello SSH Default                 |
+    Katello                    | SSH      | job_template\n----|------------------------------------------------------|----------------------------|----------|-------------"
+
+
+=== Provisioning
+|=====
+|*Investigation:*| #TODO#
+|*Observation:*| #CONSULTANT TODO#
+|*Guidance:*| #CONSULTANT TODO#
+|*Rationale:*| #CONSULTANT TODO#
+|=====
+
+=== Errata
+|=====
+|*Investigation:*| Are errata used? How is Errata managed? What errata are installable on the registered hosts?
+|*Guidance:*| #TODO#
+|*Rationale:*| As a part of Red Hat’s quality control and release process, we provide customers with updates for each release of official Red Hat RPMs. Red Hat compiles groups of related package into an erratum along with an advisory that provides a description of the update. Security Advisory errata describe fixed security issues found in the package. Bug Fix Advisory errata describes bug fixes, and Product Enhancement Advisory describes enhancements and new features added to the package. 
+|=====
+*Observation:*
+
+#NOTE# - The errata variable has been omitted in the report due to size of role. Replace the variable here if you choose to include the role.
+
+== Satellite Management
+
+=== Satellite Logging
+|=====
+|*Investigation:*| Are any errors logged in the foreman, foreman-proxy, or /var logs? Do any issues tie in with other issues identified in the report?
+|*Guidance:*| #TODO#
+|*Rationale:*| Any errors that appear in the logs should be investigated to ensure that Satellite is functioning effectively and correctly to avoid bugs and security vulnerabilities. 
+|=====
+*Observation:*
+
++ /var/log/foreman/production.log returns:
+----
+The production.log does not contain any errors.
+----
+
++ /var/log/foreman-proxy/proxy.log returns:
+----
+The proxy.log does not contain any errors.
+----
+
++ /var/log/messages returns:
+----
+- 'Jan 25 10:23:15 sat-1 ansible-ansible.legacy.command[71509]: Invoked with _raw_params=cat
+    /var/log/foreman/production.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:23:17 sat-1 ansible-ansible.legacy.command[71630]: Invoked with _raw_params=cat
+    /var/log/foreman-proxy/proxy.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:23:18 sat-1 ansible-ansible.legacy.command[71751]: Invoked with _raw_params=cat
+    /var/log/messages | grep error | grep failed _uses_shell=True warn=False stdin_add_newline=True
+    strip_empty_ends=True argv=None chdir=None executable=None creates=None removes=None
+    stdin=None'
+- 'Jan 25 10:40:23 sat-1 ansible-ansible.legacy.command[76350]: Invoked with _raw_params=cat
+    /var/log/foreman/production.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:40:24 sat-1 ansible-ansible.legacy.command[76471]: Invoked with _raw_params=cat
+    /var/log/foreman-proxy/proxy.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:40:26 sat-1 ansible-ansible.legacy.command[76593]: Invoked with _raw_params=cat
+    /var/log/messages | grep error | grep failed _uses_shell=True warn=False stdin_add_newline=True
+    strip_empty_ends=True argv=None chdir=None executable=None creates=None removes=None
+    stdin=None'
+- 'Jan 25 10:42:57 sat-1 ansible-ansible.legacy.command[80676]: Invoked with _raw_params=cat
+    /var/log/foreman/production.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:42:58 sat-1 ansible-ansible.legacy.command[80797]: Invoked with _raw_params=cat
+    /var/log/foreman-proxy/proxy.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:43:00 sat-1 ansible-ansible.legacy.command[80918]: Invoked with _raw_params=cat
+    /var/log/messages | grep error | grep failed _uses_shell=True warn=False stdin_add_newline=True
+    strip_empty_ends=True argv=None chdir=None executable=None creates=None removes=None
+    stdin=None'
+- 'Jan 25 10:45:22 sat-1 ansible-ansible.legacy.command[84962]: Invoked with _raw_params=cat
+    /var/log/foreman/production.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:45:24 sat-1 ansible-ansible.legacy.command[85084]: Invoked with _raw_params=cat
+    /var/log/foreman-proxy/proxy.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:45:25 sat-1 ansible-ansible.legacy.command[85205]: Invoked with _raw_params=cat
+    /var/log/messages | grep error | grep failed _uses_shell=True warn=False stdin_add_newline=True
+    strip_empty_ends=True argv=None chdir=None executable=None creates=None removes=None
+    stdin=None'
+- 'Jan 25 10:50:30 sat-1 ansible-ansible.legacy.command[89267]: Invoked with _raw_params=cat
+    /var/log/foreman/production.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:50:32 sat-1 ansible-ansible.legacy.command[89388]: Invoked with _raw_params=cat
+    /var/log/foreman-proxy/proxy.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:50:33 sat-1 ansible-ansible.legacy.command[89509]: Invoked with _raw_params=cat
+    /var/log/messages | grep error | grep failed _uses_shell=True warn=False stdin_add_newline=True
+    strip_empty_ends=True argv=None chdir=None executable=None creates=None removes=None
+    stdin=None'
+- 'Jan 25 10:58:06 sat-1 ansible-ansible.legacy.command[94241]: Invoked with _raw_params=cat
+    /var/log/foreman/production.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:58:08 sat-1 ansible-ansible.legacy.command[94362]: Invoked with _raw_params=cat
+    /var/log/foreman-proxy/proxy.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 10:58:09 sat-1 ansible-ansible.legacy.command[94483]: Invoked with _raw_params=cat
+    /var/log/messages | grep error | grep failed _uses_shell=True warn=False stdin_add_newline=True
+    strip_empty_ends=True argv=None chdir=None executable=None creates=None removes=None
+    stdin=None'
+- 'Jan 25 14:07:38 sat-1 ansible-ansible.legacy.command[102637]: Invoked with _raw_params=cat
+    /var/log/foreman/production.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 14:07:39 sat-1 ansible-ansible.legacy.command[102763]: Invoked with _raw_params=cat
+    /var/log/foreman-proxy/proxy.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+
+----
+
+=== Patch Cycles
+|=====
+|*Investigation:*| #CONSULTANT TODO#
+|*Observation:*| #CONSULTANT TODO#
+|*Guidance:*| #CONSULTANT TODO#
+|*Rationale:*| #CONSULTANT TODO#
+|=====
+
+=== Sync Plans
+|=====
+|*Investigation:*| #TODO#
+|*Observation:*| #TODO#
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|=====
+
+=== Activation Keys
+|=====
+|*Investigation:*| #TODO#
+|*Observation:*| #TODO#
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|=====
+
+=== Registered hosts
+
+*Investigation:* How many registered hosts are connected to the Satellite? 
+*Observation:*
+----
+- aap.gpslab.cbr.redhat.com                                         10.76.23.75
+- aap-poc2.gpslab.cbr.redhat.com                                    10.76.23.23
+- assisted-service.gpslab.cbr.redhat.com                            10.76.23.8
+- backend-01.vm.gpslab.cbr.redhat.com                               172.16.5.20
+- backend-02.vm.gpslab.cbr.redhat.com                               172.16.5.21
+- backend-03.vm.gpslab.cbr.redhat.com                               172.16.5.22
+- bastion.gpslab.cbr.redhat.com                                     10.76.23.8
+- browbeat.gpslab.cbr.redhat.com                                    10.76.23.15
+- cephfs1.gpslab.cbr.redhat.com                                     10.76.23.17
+- disco-bastion.gpslab.cbr.redhat.com                               10.88.0.1
+- disco-tang.gpslab.cbr.redhat.com                                  192.168.200.135
+- disco-tang.vm.gpslab.cbr.redhat.com                               10.0.1.112
+- ha2-proxy-backend-01-74wzrcw4jnjl-server-vqzwxhesifqr.vm.gpslab   172.16.5.96
+- ha2-proxy-backend-01-itdvzgshh5cu-server-itc7c4wkakxj.vm.gpslab   172.16.5.87
+- ha2-proxy-backend-01-ybhz342ekg7l-server-b7y5gasvgv4e.vm.gpslab   172.16.5.127
+- ha2-proxy-backend-02-dahbrxmovmro-server-uyfdpeekxm3c.vm.gpslab   172.16.5.243
+- ha2-proxy-backend-02-g6wjwsxqyvbs-server-6qryxddodqwq.vm.gpslab   172.16.5.131
+- ha2-proxy-backend-02-pt4ha5e7gohj-server-p4xb4fbrhcgb.vm.gpslab   172.16.5.66
+- ha2-proxy-backend-03-5gexvnc74aww-server-wnwbh632xv63.vm.gpslab   172.16.5.10
+- ha2-proxy-backend-03-naua63ftfd7m-server-ipjoe7e7ersv.vm.gpslab   172.16.5.238
+- ha2-proxy-backend-03-xtvckf4wiyf4-server-lcc6zbqly7rk.vm.gpslab   172.16.5.207
+- ha2-proxy-bastion-nsvlwizm5m5i-server-gmhnmkno5e45.vm.gpslab.cbr  172.16.5.203
+- ha2-proxy-bastion-uz7mpzd3hjnh-server-llf3fggcroq7.vm.gpslab.cbr  172.16.5.56
+- ha2-proxy-bastion-zvrjabmpoduh-server-ad3iwr5imr4v.vm.gpslab.cbr  172.16.5.149
+- ha2-proxy-proxy-01-f6f42gtvnwt6-server-obwefs7hlgud.vm.gpslab.cb  172.16.5.216
+- ha2-proxy-proxy-01-mwzu7l2jxkk5-server-k7hcqlu5zxr7.vm.gpslab.cb  172.16.5.218
+- ha2-proxy-proxy-01-teaud2wnib5n-server-iuc44q2vavnf.vm.gpslab.cb  172.16.5.22
+- ha2-proxy-proxy-02-m6hul6apypp4-server-lsnfdrqgxwy5.vm.gpslab.cb  172.16.5.80
+- ha2-proxy-proxy-02-tlrj25x6aav7-server-7qeispdud2kg.vm.gpslab.cb  172.16.5.122
+- ha2-proxy-proxy-02-vmsb32jhqq4z-server-n22fgji5s7vx.vm.gpslab.cb  172.16.5.65
+- ha-bastion.vm.gpslab.cbr.redhat.com                               172.16.5.5
+- haproxy-1.gpslab.cbr.redhat.com                                   192.168.22.22
+- haproxy-2.gpslab.cbr.redhat.com                                   192.168.22.23
+- ha-proxy-main.vm.gpslab.cbr.redhat.com                            172.16.5.11
+- ha-proxy-spare.vm.gpslab.cbr.redhat.com                           172.16.5.12
+- ipa1.gpslab.cbr.redhat.com                                        10.76.23.245
+- ipa2.gpslab.cbr.redhat.com                                        10.76.23.244
+- ipa3.gpslab.cbr.redhat.com                                        10.76.23.243
+- ipa6.gpslab.cbr.redhat.com                                        10.76.23.46
+- ipa-test.gpslab.cbr.redhat.com                                    10.76.23.16
+- jirasd-poc.gpslab.cbr.redhat.com                                  10.76.23.18
+- jira-temp.gpslab.cbr.redhat.com                                   10.76.23.44
+- jumpbox.gpslab.cbr.redhat.com                                     10.76.23.21
+- kvm1.gpslab.cbr.redhat.com                                        10.76.23.45
+- lab-ceph-1.gpslab.cbr.redhat.com                                  10.76.23.60
+- lab-ceph-2.gpslab.cbr.redhat.com                                  10.76.23.61
+- lab-ceph-3.gpslab.cbr.redhat.com                                  10.76.23.62
+- lab-ceph-4.gpslab.cbr.redhat.com                                  10.76.23.63
+- lab-ceph-5.gpslab.cbr.redhat.com                                  10.76.23.64
+- lab-ceph-admin.gpslab.cbr.redhat.com                              192.168.22.59
+- lab-compute-1.gpslab.cbr.redhat.com                               192.168.14.8
+- lab-compute-2.gpslab.cbr.redhat.com                               10.76.23.81
+- lab-compute-3.gpslab.cbr.redhat.com                               192.168.22.10
+- lab-ctlr-1.gpslab.cbr.redhat.com                                  192.168.14.5
+- lab-ctlr-2.gpslab.cbr.redhat.com                                  192.168.11.92
+- lab-ctlr-3.gpslab.cbr.redhat.com                                  10.76.23.90
+- lab-kvm-1.gpslab.cbr.redhat.com                                   192.168.10.43
+- lab-ospd-1.gpslab.cbr.redhat.com                                  10.76.23.4
+- lab-prometheus-1.gpslab.cbr.redhat.com                            10.76.23.31
+- 'lab-rhv-1.gpslab.cbr.redhat.com                                   '
+- 'lab-rhv-2.gpslab.cbr.redhat.com                                   '
+- nfs.gpslab.cbr.redhat.com                                         10.76.23.40
+- os-control.gpslab.cbr.redhat.com                                  10.76.23.17
+- osp17-ospd.gpslab.cbr.redhat.com                                  10.76.23.55
+- ost1-bastion                                                      172.21.0.252
+- ost1-bastion.vm.gpslab.cbr.redhat.com                             172.21.0.252
+- ost1-ceph-1                                                       192.168.100.31
+- ost1-ceph-1.vm.gpslab.cbr.redhat.com                              172.22.0.31
+- ost1-ceph-2                                                       172.19.0.32
+- ost1-ceph-2.vm.gpslab.cbr.redhat.com                              172.19.0.32
+- ost1-ceph-3                                                       192.168.100.33
+- ost1-ceph-3.vm.gpslab.cbr.redhat.com                              172.22.0.33
+- ost1-ceph-4                                                       192.168.100.34
+- ost1-ceph-4.vm.gpslab.cbr.redhat.com                              192.168.100.34
+- ost1-ceph-5                                                       172.19.0.35
+- ost1-ceph-5.vm.gpslab.cbr.redhat.com                              172.19.0.35
+- 'ost1-ospd-1                                                       '
+- 'ost1-ospd-1.vm.gpslab.cbr.redhat.com                              '
+- ost3-bastion.vm.gpslab.cbr.redhat.com                             192.168.24.252
+- ost4-bastion.vm.gpslab.cbr.redhat.com                             192.168.24.252
+- ost4-ceph-1.vm.gpslab.cbr.redhat.com                              172.22.0.31
+- ost4-ceph-2.vm.gpslab.cbr.redhat.com                              172.19.0.32
+- ost4-ceph-3.vm.gpslab.cbr.redhat.com                              172.22.0.33
+- ost4-ceph-4.vm.gpslab.cbr.redhat.com                              172.19.0.34
+- ost4-ceph-5.vm.gpslab.cbr.redhat.com                              172.19.0.35
+- 'ost4-ospd-1.vm.gpslab.cbr.redhat.com                              '
+- ost5-bastion.vm.gpslab.cbr.redhat.com                             192.168.24.252
+- ost6-bastion.vm.gpslab.cbr.redhat.com                             192.168.24.252
+- ost6-ceph-1.vm.gpslab.cbr.redhat.com                              192.168.100.31
+- ost6-ceph-2.vm.gpslab.cbr.redhat.com                              172.22.0.32
+- ost6-ceph-3.vm.gpslab.cbr.redhat.com                              192.168.100.33
+- ost6-ceph-4.vm.gpslab.cbr.redhat.com                              172.19.0.34
+- ost6-ceph-5.vm.gpslab.cbr.redhat.com                              172.22.0.35
+- ost6-novajoin-1                                                   192.168.24.7
+- ost6-novajoin-1.vm.gpslab.cbr.redhat.com                          192.168.24.7
+- ost6-novajoin-2                                                   192.168.24.8
+- ost6-novajoin-2.vm.gpslab.cbr.redhat.com                          172.21.0.8
+- ost6-ospd-1.vm.gpslab.cbr.redhat.com                              192.168.100.253
+- ost7-bastion.vm.gpslab.cbr.redhat.com                             172.22.0.252
+- quay.gpslab.cbr.redhat.com                                        10.76.23.14
+- sat-2.gpslab.cbr.redhat.com                                       10.76.23.9
+- tang.gpslab.cbr.redhat.com                                        10.76.23.76
+- test01.vm.gpslab.cbr.redhat.com                                   192.168.1.114
+- test-ceph-1                                                       192.168.99.11
+- test-ceph-2                                                       192.168.99.12
+- test-ceph-3                                                       192.168.99.13
+- test-ceph-4                                                       192.168.99.14
+- test-ceph-5                                                       192.168.99.15
+- test-ceph-admin                                                   10.76.23.47
+- test.gpslab.cbr.redhat.com                                        10.76.23.17
+- test-ospd-1.gpslab.cbr.redhat.com                                 10.76.23.8
+- thanos.gpslab.cbr.redhat.com                                      10.76.23.30
+
+----
