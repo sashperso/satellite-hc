@@ -1,6 +1,6 @@
 = Satellite Health Check Report
 
-This is a health check report for the sat-1 Satellite server conducted on a RedHat 8.7 instance, at 14:34:47 on 2023-01-25.
+This is a health check report for the sat-1 Satellite server conducted on a RedHat 8.7 instance, at 14:40:04 on 2023-01-25.
 
 == Analysis
 
@@ -26,14 +26,23 @@ Check whether system is self-registered or not:                       [32m[1m[
 
 === Satellite Service Status:
 ----
-"Running Service List\n================================================================================\nList
-    applicable services: \ndynflow-sidekiq@.service                   indirect\nforeman-proxy.service
-    \                     enabled \nforeman.service                            enabled
-    \nhttpd.service                              enabled \npostgresql.service                         enabled
-    \npulpcore-api.service                       enabled \npulpcore-content.service
-    \                  enabled \npulpcore-worker@.service                   indirect\npuppetserver.service
-    \                      enabled \nredis.service                              enabled
-    \ntomcat.service                             enabled\n\nAll services listed                                                   \e[32m\e[1m[OK]\e[0m\n--------------------------------------------------------------------------------"
+- Running Service List
+- ================================================================================
+- 'List applicable services: '
+- dynflow-sidekiq@.service                   indirect
+- 'foreman-proxy.service                      enabled '
+- 'foreman.service                            enabled '
+- 'httpd.service                              enabled '
+- 'postgresql.service                         enabled '
+- 'pulpcore-api.service                       enabled '
+- 'pulpcore-content.service                   enabled '
+- pulpcore-worker@.service                   indirect
+- 'puppetserver.service                       enabled '
+- 'redis.service                              enabled '
+- tomcat.service                             enabled
+- ''
+- "All services listed                                                   \e[32m\e[1m[OK]\e[0m"
+- '--------------------------------------------------------------------------------'
 
 ----
 
@@ -99,7 +108,7 @@ The CPU details are as follows:
 
 Is there at least 20gb of disk space available in /var?
 
-- 20952012 Kilobytes is insufficient for a channel download
+- 20950336 Kilobytes is insufficient for a channel download
 
 
 *Guidance:* #TODO#
@@ -216,30 +225,30 @@ ID | TITLE            | NAME             | DESCRIPTION
 .Ping results:
 ----
 - PING sat-1.gpslab.cbr.redhat.com (10.76.23.10) 56(84) bytes of data.
-- '64 bytes from sat-1.gpslab.cbr.redhat.com (10.76.23.10): icmp_seq=1 ttl=64 time=0.091
+- '64 bytes from sat-1.gpslab.cbr.redhat.com (10.76.23.10): icmp_seq=1 ttl=64 time=0.094
     ms'
 - ''
 - '--- sat-1.gpslab.cbr.redhat.com ping statistics ---'
 - 1 packets transmitted, 1 received, 0% packet loss, time 0ms
-- rtt min/avg/max/mdev = 0.091/0.091/0.091/0.000 ms
+- rtt min/avg/max/mdev = 0.094/0.094/0.094/0.000 ms
 - PING sat-1.gpslab.cbr.redhat.com (10.76.23.10) 56(84) bytes of data.
-- '64 bytes from sat-1.gpslab.cbr.redhat.com (10.76.23.10): icmp_seq=1 ttl=64 time=0.109
+- '64 bytes from sat-1.gpslab.cbr.redhat.com (10.76.23.10): icmp_seq=1 ttl=64 time=0.083
     ms'
 - ''
 - '--- sat-1.gpslab.cbr.redhat.com ping statistics ---'
 - 1 packets transmitted, 1 received, 0% packet loss, time 0ms
-- rtt min/avg/max/mdev = 0.109/0.109/0.109/0.000 ms
+- rtt min/avg/max/mdev = 0.083/0.083/0.083/0.000 ms
 
 ----
 .CDN Connection:
 ----
 - PING e4177.cd.akamaiedge.net (23.0.236.83) 56(84) bytes of data.
 - '64 bytes from a23-0-236-83.deploy.static.akamaitechnologies.com (23.0.236.83):
-    icmp_seq=1 ttl=54 time=5.28 ms'
+    icmp_seq=1 ttl=54 time=5.24 ms'
 - ''
 - '--- e4177.cd.akamaiedge.net ping statistics ---'
 - 1 packets transmitted, 1 received, 0% packet loss, time 0ms
-- rtt min/avg/max/mdev = 5.284/5.284/5.284/0.000 ms
+- rtt min/avg/max/mdev = 5.237/5.237/5.237/0.000 ms
 
 ----
 .Are the required ports listening?
@@ -568,6 +577,18 @@ The proxy.log does not contain any errors.
     stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
     creates=None removes=None stdin=None'
 - 'Jan 25 14:35:46 sat-1 ansible-ansible.legacy.command[118459]: Invoked with _raw_params=cat
+    /var/log/foreman-proxy/proxy.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 14:35:47 sat-1 ansible-ansible.legacy.command[118580]: Invoked with _raw_params=cat
+    /var/log/messages | grep error | grep failed _uses_shell=True warn=False stdin_add_newline=True
+    strip_empty_ends=True argv=None chdir=None executable=None creates=None removes=None
+    stdin=None'
+- 'Jan 25 14:41:02 sat-1 ansible-ansible.legacy.command[123435]: Invoked with _raw_params=cat
+    /var/log/foreman/production.log | grep error | grep failed _uses_shell=True warn=False
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan 25 14:41:03 sat-1 ansible-ansible.legacy.command[123561]: Invoked with _raw_params=cat
     /var/log/foreman-proxy/proxy.log | grep error | grep failed _uses_shell=True warn=False
     stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
     creates=None removes=None stdin=None'
