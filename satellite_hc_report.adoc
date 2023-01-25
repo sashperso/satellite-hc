@@ -4,13 +4,11 @@ This is a health check report for the {{ ansible_hostname }} Satellite server co
 
 == Analysis
 
-Test: {{ test_result.stdout | to_nice_yaml }} 
-
 === Health Check Overview:
-{{ result_health_check.stdout_lines | to_nice_yaml }}
+{{ result_health_check.stdout }}
 
 === Satellite Service Status:
-{{ result_running_services.stdout_lines | to_nice_yaml }}
+{{ result_running_services.stdout | to_nice_yaml }}
 
 
 == Satellite Configuration
@@ -34,9 +32,11 @@ Test: {{ test_result.stdout | to_nice_yaml }}
 - Red Hat Release: {{ result_redhat_release.stdout | to_nice_yaml }}
 
 The CPU usage information is as follows:
+
 {{ result_system_cpu.stdout_lines | to_nice_yaml}}
 
 Is there at least 20gb of disk space available in /var?
+
 {{ result_disk_space.stdout_lines | to_nice_yaml }}
 
 *Guidance:* #TODO#
@@ -52,11 +52,11 @@ Is there at least 20gb of disk space available in /var?
 |=======
 *Observation:*
 
-{{ result_capsule_list.stdout_lines | to_nice_yaml }}
+{{ result_capsule_list.stdout }}
 
-{{ result_organization_list.stdout_lines | to_nice_yaml }} 
+{{ result_organization_list.stdout }} 
 
-[NOTE] For more information on a given organisation, run `hammer organization info --id <id_number>`
+NOTE: For more information on a given organisation, run `hammer organization info --id <id_number>`
 
 === Satellite Version 
 |======
@@ -69,6 +69,7 @@ Is there at least 20gb of disk space available in /var?
 
 {{ result_satellite_version.stdout_lines | to_nice_yaml }} is installed on the Satellite server.
 {% if result_capsule_version.failed == false %}
+
 {{ result_capsule_version.stdout_lines | to_nice_yaml }} is installed on the Capsule server.
 {% else %}
 Package satellite-capsule is not installed on the Capsule Server.
@@ -96,6 +97,7 @@ Generally, the following 12 ports should be open on the firewall:
 - 5000/tcp
 |=====
 *Observation:* 
+The ports that are currently open are - 
 {{ result_firewall_ports.stdout | to_nice_yaml }}
 
 
@@ -109,9 +111,9 @@ Generally, the following 12 ports should be open on the firewall:
 |=====
 *Observation:*
 
-{{ result_hammer_org.stdout | to_nice_yaml }}
+{{ result_hammer_org.stdout }}
 
-{{ result_hammer_location.stdout | to_nice_yaml }}
+{{ result_hammer_location.stdout }}
 
 
 === Network Requirements
@@ -122,11 +124,15 @@ Generally, the following 12 ports should be open on the firewall:
 |=====
 *Observation:*
 
-{{ result_ping.stdout | to_nice_yaml }}
-
-{{ result_cdn_conn.stdout | to_nice_yaml }}
-
+----
+{{ result_ping.stdout_lines | to_nice_yaml }}
+----
+----
+{{ result_cdn_conn.stdout_lines | to_nice_yaml }}
+----
+----
 {{ result_port_listen.stdout | to_nice_yaml }}
+----
 
 === Custom Hierarchies
 |=====
@@ -140,7 +146,7 @@ Generally, the following 12 ports should be open on the firewall:
 
 === Qpidd Storage
 |=====
-|*Investigation:*| How much soace is available in the qpidd partition? is the qpidd parititon too large?
+|*Investigation:*| Is the qpidd service available? How much space is available in the qpidd partition? is the qpidd parititon too large?
 |*Guidance:*| #TODO#
 |*Rationale:*| #TODO#
 |=====
@@ -176,7 +182,7 @@ Generally, the following 12 ports should be open on the firewall:
 |=====
 *Observation:*
 
-{{ result_remote_execution.stdout_lines | to_nice_yaml }}
+{{ result_remote_execution.stdout | to_nice_yaml }}
 
 === Provisioning
 |=====
