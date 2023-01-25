@@ -1,6 +1,6 @@
 ---
 - name: Initialise the Satellite Health Check
-  hosts: #sat ip addr
+  hosts: # satellite ip addr
   roles:
     - high_level_check
     - test-role
@@ -25,7 +25,7 @@
     - name: Generate the Satellite Health Check Report in .adoc format
       ansible.builtin.template:
         src: ./satellite_hc_report.adoc
-        dest: ./satellite_hc_report_"{{ ansible_hostname }}".adoc        
+        dest: ./satellite_hc_report_"{{ ansible_hostname }}".adoc      
     
     - name: Fetch the .txt Satellite report and copy it to the local machine
       ansible.builtin.fetch:

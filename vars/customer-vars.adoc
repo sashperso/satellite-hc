@@ -1,0 +1,26 @@
+// --------------------------------
+// Document Information
+// The customer-vars.adoc is meant for customer specific information such as the name,
+// short name, and gss information
+// --------------------------------
+
+:description: Satellite Health Check
+
+// This is where the customer name, customer, and short-name cust are inserted
+:customer: Funkytown
+:cust: Funkytown
+
+// add name of customer logo here (store in images directory)
+// Leave it "empty" WITHOUT QUOTES if not there.
+:customerlogo:
+
+:custprojectmanager: Sasha Perosneni
+
+// these are required for the support chapter.
+:custgss:
+:nogss:
+
+// --------------------------------
+// Other Vars
+// --------------------------------
+
