@@ -1,6 +1,6 @@
 ---
 - name: Initialise the Satellite Health Check
-  hosts: # satellite ip addr
+  hosts: #satellite ip addr
   roles:
     - high_level_check
     - test-role

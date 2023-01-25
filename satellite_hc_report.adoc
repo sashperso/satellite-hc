@@ -23,19 +23,15 @@ This is a health check report for the {{ ansible_hostname }} Satellite server co
 *Observation:*
 ----
 - Hostname: {{ result_hostname.stdout | to_nice_yaml }}
-
+- Operating System: {{ result_system.stdout | to_nice_yaml }}
 - IP Address: {{ result_ip_addr.stdout | to_nice_yaml }}
-
 - Kernel Version: {{ result_kernel_version.stdout | to_nice_yaml }}
-
 - Uptime: {{ result_uptime.stdout | to_nice_yaml }}
-
 - Last Reboot Time: {{ result_reboot.stdout | to_nice_yaml }}
-
 - Red Hat Release: {{ result_redhat_release.stdout | to_nice_yaml }}
 ----
 
-The CPU usage information is as follows:
+The CPU details are as follows:
 ----
 {{ result_system_cpu.stdout_lines | to_nice_yaml}}
 ----
@@ -56,9 +52,12 @@ Is there at least 20gb of disk space available in /var?
 |*Rationale:*| #TODO#
 |=======
 *Observation:*
+
+.Satellites/Capsules:
 ----
 {{ result_capsule_list.stdout }}
 ----
+.Organisations:
 ----
 {{ result_organization_list.stdout }} 
 ----
@@ -74,10 +73,10 @@ NOTE: For more information on a given organisation, run `hammer organization inf
 
 *Observation:* 
 
-{{ result_satellite_version.stdout_lines | to_nice_yaml }} is installed on the Satellite server.
+{{ result_satellite_version.stdout | to_nice_yaml }} is installed on the Satellite server.
 
 {% if result_capsule_version.failed == false %}
-{{ result_capsule_version.stdout_lines | to_nice_yaml }} is installed on the Capsule server.
+{{ result_capsule_version.stdout | to_nice_yaml }} is installed on the Capsule server.
 {% else %}
 Package satellite-capsule is not installed on the Capsule Server.
 {% endif %}
@@ -119,9 +118,12 @@ The ports that are currently open are:
 |*Rationale:*| #TODO#
 |=====
 *Observation:*
+
+.Organisations:
 ----
 {{ result_hammer_org.stdout }}
 ----
+.Locations:
 ----
 {{ result_hammer_location.stdout }}
 ----
@@ -133,15 +135,17 @@ The ports that are currently open are:
 |*Rationale:*| #TODO#
 |=====
 *Observation:*
-
+.Ping results:
 ----
 {{ result_ping.stdout_lines | to_nice_yaml }}
 ----
+.CDN Connection:
 ----
 {{ result_cdn_conn.stdout_lines | to_nice_yaml }}
 ----
+.Are the required ports listening?
 ----
-{{ result_port_listen.stdout | to_nice_yaml }}
+{{ result_port_listen.stdout_lines | to_nice_yaml }}
 ----
 
 === Custom Hierarchies
@@ -174,6 +178,7 @@ The ports that are currently open are:
 {{ result_qpidd_storage.stderr_lines | to_nice_yaml }}
 {% endif %}
 
+
 === Backup/Restore Procedures
 |=====
 |*Investigation:*| If the client is using snapshots, what are the backups listed in foreman-maintain backups? What kinds of backup procedures are in place for the Satellite? The consultant will likely have to ask the client for additional information on procedures and backup philosophy.
@@ -191,8 +196,9 @@ The ports that are currently open are:
 |*Rationale:*| #TODO#
 |=====
 *Observation:*
-
-{{ result_remote_execution.stdout | to_nice_yaml }}
+----
+{{ result_remote_execution.stdout_lines | to_nice_yaml }}
+----
 
 === Provisioning
 |=====

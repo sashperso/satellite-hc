@@ -2,8 +2,12 @@
 # tasks file for ./roles/system_reqs_check
 
 - name: Fetch Satellite hostname
-  ansible.builtin.command: hostnamectl
+  ansible.builtin.shell: hostnamectl | grep hostname
   register: result_hostname
+
+- name: Fetch Satellite Operating System
+  ansible.builtin.shell: hostnamectl | grep System
+  register: result_system
 
 - name: Fetch Satellite IP address
   ansible.builtin.shell: ip -4 -o a | grep -v "127.0.0" | awk '{print $4}'
