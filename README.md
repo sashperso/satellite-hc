@@ -4,18 +4,13 @@ The goal of this project is to automate a Satellite 6 health check. The idea beh
 
 This project also allows a consultant to produce a PDF file of the report that is easy to read and ascii-doc formatted. For instructions on how to do this, scroll down to 'Usage'.
 
-It is based on the RHEL Automated Health Check started by Rodger Li (rodli@redhat.com) available here: https://gitlab.consulting.redhat.com/automated_health_check_crew/rhel. Using the RHEL health check in conjunction with the Satellite health check can allow a consultant to gain detailed insight on hosts associated with the Satellite, and can help add granularity if needed.
+It is based on the RHEL Automated Health Check started by *Rodger Li (rodli@redhat.com)* available [here](https://gitlab.consulting.redhat.com/automated_health_check_crew/rhel).  Using the RHEL health check in conjunction with the Satellite health check can allow a consultant to gain detailed insight on hosts associated with the Satellite, and can help add granularity if needed.
 
-## Name
-Automated Satellite Health Check
 
 ## Description
 This project uses Ansible to automate certain components of a Satellite health check. It can be used to produce a "leave-behind" high level document providing the reader with an easy-to-read summary of the health of their Satellite server system.
 
-Two similar existing Satellite health check CER templates which have informed this project can be found here:
-https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/viavi-satellite-6-healthcheck
-
-https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/asml/2021-01-asml-satellite-healthcheck
+Two similar existing Satellite health check CER templates which have informed this project can be found [here](https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/viavi-satellite-6-healthcheck) and [here](https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/asml/2021-01-asml-satellite-healthcheck).
 
 
 ## Cloning this repository
@@ -29,22 +24,26 @@ git push -uf origin main
 More information on contributing and GitOps can be found in the CONTRIBUTING.md file.
 
 ## Usage
-The following instructions allow the user to conduct a Satellite health check on their local machine:
-
+**The following instructions allow the user to conduct a Satellite health check on their local machine:**
+```
 $ git clone <url>
 $ cd ~/automated_satellite_health_check
 $ ansible-playbook satellite_hc_init.yml -u <root_user> --ask-pass
-Enter root password
+>Enter root password
 $ cat ./satellite_hc_report_<satellite_hostname>
+```
 
-
-How to Generate the PDF Report:
+**How to Generate the PDF Report:**
 
 IMPORTANT: Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing these steps.
+```
 $ cd ~/automated_satellite_health_check
-$ sh generate-pdf -f 'satellite_hc_report"<<ansible_hostname>>".doc'
+$ sh generate-pdf -f 'satellite_hc_report"<satellite_hostname>".doc'
+```
 
-NOTE: Use sh generate-pdf -h to learn more about the PDF generation options available to you.
+[NOTE] Use sh generate-pdf -h to learn more about the PDF generation options available to you.
+
+*******
 
 # Project Benefits
 ### Strengths
@@ -75,8 +74,9 @@ On some READMEs, you may see small images that convey metadata, such as whether 
 ## Visuals
 Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method. The more documentation the better, and using different modes of documentation can help other contributors or non-technical audiences to understand what has been done.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+
+*******
+# Admin Section
 
 ## Support
 - Create a card on the Kanban board for action.
@@ -84,6 +84,7 @@ Within a particular ecosystem, there may be a common way of installing things, s
 - Refer to internal Red Hat documents or Red Hat product Google Spaces for advice or extra documentation.
 
 ## Roadmap
+
 Milestone 1: Project Started
 Date: 12/12/22
 
