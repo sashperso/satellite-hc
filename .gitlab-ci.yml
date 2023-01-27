@@ -21,7 +21,7 @@ generate_pdf:
   extends: .base
   stage: build
   script:
-    - "./generate-pdf"
+    - "generate-pdf"
   artifacts:
     name: "CER PDF"
     expire_in: 2 weeks
