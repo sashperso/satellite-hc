@@ -288,3 +288,5 @@ The messages log does not contain any errors.
 ----
 {{ result_registered_hosts.stdout_lines | to_nice_yaml }}
 ----
+
+This is a test commit.
