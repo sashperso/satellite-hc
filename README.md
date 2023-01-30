@@ -40,6 +40,9 @@ IMPORTANT: Ensure you have changed the customer variables listed in vars/custome
 $ cd ~/automated_satellite_health_check
 $ sh generate-pdf -f 'satellite_hc_report"<satellite_hostname>".doc'
 ```
+This will produce a ready-to-use report. If you wish to add any additional sections, topics, or discussion (such as filling out the tables within the document), you will have to edit the .adoc file that is autopopulated by the ansible playbooks. 
+
+[NOTE] The .pdf file formatting is currently being developed to stylistically be inline with Red Hat standards. At present it is just the asciidoc formatting.
 
 [NOTE] Use sh generate-pdf -h to learn more about the PDF generation options available to you.
 
