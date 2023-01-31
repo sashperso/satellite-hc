@@ -1,4 +1,4 @@
-Role Name
+organisations_check
 =========
 
 This role conducts an organisation check. It does this by checking for and listing all capsule names and URLs, and lists all organisations on the master server.
