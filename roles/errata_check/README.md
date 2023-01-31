@@ -1,6 +1,8 @@
 errata_check
 =========
 
+This role lists all updateable or installable errata across registered hosts on the Satellite.
+
 Requirements
 ------------
 
