@@ -1,22 +1,22 @@
-Role Name
+test-role
 =========
 
-A brief description of the role goes here.
+This is a test role that verifies the host is reachable by the role. It will show an output saying "The test was successful" if this role can succesfully complete.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+N/A
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+N/A
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+The dependencies for this role are the other roles listed in the Satellite 6 Health Check report playbook and the satellite_hc_report.j2 file. Please note that changes to the section of the report calling the variables registered by this role may break the final report. If you choose to omit this role, please ensure you delete the variable in the satellite_hc_report.j2 file, or replace with a default variable instead.
 
 Example Playbook
 ----------------
@@ -25,7 +25,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - test-role
 
 License
 -------
@@ -34,5 +34,4 @@ BSD
 
 Author Information
 ------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Sasha Personeni spersone@redhat.com and Elise Elkerton elise@redhat.com
