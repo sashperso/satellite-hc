@@ -47,7 +47,7 @@ $ ansible-playbook satellite_hc_init.yml -u <root_user> --ask-pass
 $ cat ./satellite_hc_report_<satellite_hostname>
 ```
 
-**How to Generate the PDF Report:**
+### PDF Report Generation Procedure
 
 IMPORTANT: Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing the PDF Generation.
 
