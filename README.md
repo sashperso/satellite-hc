@@ -27,12 +27,12 @@ More information on contributing and GitOps can be found in the CONTRIBUTING.md 
 Running this playbook enables a consultant to generate both .txt and .adoc reports. The .txt report may be useful for a technical audience or can serve as a low-storage artifact left behind on a system for reference by sysadmins or other techincal staff at the client site. The .adoc report enables the generation of a PDF report which is easy to read and can be suited for a wide range of audiences. This report is also formatted in line with Red Hat style conventions and can thus be used as a business tool. 
 
 ```mermaid
-graph TD;
-   Run the playbook-->Create .adoc report;
-   Run the playbook-->Create .txt report;
-   Create .adoc report-->Generate pdf;
-   Generate pdf-->Artifact generated for client;
-   Create .txt report-->Artifact generated for client;
+graph TD
+    A[Run the playbook] --> B[Create .adoc report]
+    A[Run the playbook] --> C[Create .txt report]
+    B[Create .adoc report]--> D[Generate pdf]
+    D[Generate pdf] --> E[Artifact generated for client]
+    C[Create .txt report] --> E[Artifact generated for client]
 ```
 
 To generate the PDF report, certain elements should be tweaked by the consultant prior to running the script. Instructions for this step are explained below.
