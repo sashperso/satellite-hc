@@ -9,11 +9,6 @@
 // only 'draft' gets special handling, but remember that the docstatus is printed in every page header.
 :docstatus: draft
 
-
-ifeval::[ "{docstatus}" == "draft"]
-:page-background-image: image:draft.png[]
-endif::[]
-
 :revnumber: {gitdate}
 
 ifeval::[ "{sethash}" == "yes"]
