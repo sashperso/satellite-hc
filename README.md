@@ -26,6 +26,7 @@ More information on contributing and GitOps can be found in the CONTRIBUTING.md 
 # Using this playbook
 Running this playbook enables a consultant to generate both .txt and .adoc reports. The .txt report may be useful for a technical audience or can serve as a low-storage artifact left behind on a system for reference by sysadmins or other techincal staff at the client site. The .adoc report enables the generation of a PDF report which is easy to read and can be suited for a wide range of audiences. This report is also formatted in line with Red Hat style conventions and can thus be used as a business tool. 
 
+<div class="center">
 ```mermaid
 graph TD
     A[Run the playbook] --> B[Create .adoc report]
@@ -34,10 +35,11 @@ graph TD
     D[Generate pdf] --> E[Artifact generated for client]
     C[Create .txt report] --> E[Artifact generated for client]
 ```
+</div>
 
 To generate the PDF report, certain elements should be tweaked by the consultant prior to running the script. Instructions for this step are explained below.
 
-## Generating the reports (.txt and .adoc)
+### Generating the reports (.txt and .adoc)
 The following instructions allow the user to conduct a Satellite health check on their local machine. **Please note that to use this playbook, you will have to insert the IP address(es) of the Satellite(s) being checked in both the inventory file and the ansible_hc_init.yml file prior to running the playbook.**
 ```
 $ git clone <url>
