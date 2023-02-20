@@ -23,8 +23,22 @@ git push -uf origin main
 ```
 More information on contributing and GitOps can be found in the CONTRIBUTING.md file.
 
-## Usage
-**The following instructions allow the user to conduct a Satellite health check on their local machine:**
+# Using this playbook
+Running this playbook enables a consultant to generate both .txt and .adoc reports. The .txt report may be useful for a technical audience or can serve as a low-storage artifact left behind on a system for reference by sysadmins or other techincal staff at the client site. The .adoc report enables the generation of a PDF report which is easy to read and can be suited for a wide range of audiences. This report is also formatted in line with Red Hat style conventions and can thus be used as a business tool. 
+
+```mermaid
+graph TD;
+   Run the playbook-->Create .adoc report;
+   Run the playbook-->Create .txt report;
+   Create .adoc report-->Generate pdf;
+   Generate pdf-->Artifact generated for client;
+   Create .txt report-->Artifact generated for client;
+```
+
+To generate the PDF report, certain elements should be tweaked by the consultant prior to running the script. Instructions for this step are explained below.
+
+## Generating the reports (.txt and .adoc)
+The following instructions allow the user to conduct a Satellite health check on their local machine. **Please note that to use this playbook, you will have to insert the IP address(es) of the Satellite(s) being checked in both the inventory file and the ansible_hc_init.yml file prior to running the playbook.**
 ```
 $ git clone <url>
 $ cd ~/automated_satellite_health_check
@@ -35,20 +49,26 @@ $ cat ./satellite_hc_report_<satellite_hostname>
 
 **How to Generate the PDF Report:**
 
-IMPORTANT: Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing these steps.
+IMPORTANT: Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing the PDF Generation.
+
+**Variables explained:**
+- /vars/customer-vars.adoc --> These variables are where the customer name, customer, and the customer short name are inserted. You can use these to further customise the report content. The variables outlined here are the ones that help name the PDF report, so please take care to fill this out.
+- /vars/document-vars.adoc --> This document-vars.adoc file contains mainly static/routine variables for the CER. It should not contain customer specific variables related to the customer name and related information. You should not need to change these to run the PDF generation script.
+- /vars/redhat-vars.adoc --> This contains short names for products. Now, you can for instance write {rhel} in the CER which will render to the full product name. 
+- /vars/render-vars.adoc --> This describes how the file is created. Might be put into the styles/pdf later. This probably won't need to be changed for the report either.
+
+**Generating the PDF report:**
 ```
 $ cd ~/automated_satellite_health_check
 $ sh generate-pdf -f 'satellite_hc_report"<satellite_hostname>".doc'
 ```
-This will produce a ready-to-use report. If you wish to add any additional sections, topics, or discussion (such as filling out the tables within the document), you will have to edit the .adoc file that is autopopulated by the ansible playbooks. 
-
-[NOTE] The .pdf file formatting is currently being developed to stylistically be inline with Red Hat standards. At present it is just the asciidoc formatting.
+This will produce a ready-to-use report. If you wish to add any additional sections, topics, or discussion (such as filling out the tables within the document), you will have to edit the .adoc file that is autopopulated by the ansible playbooks. Otherwise, if you think there is an important section missing, feel free to reach out and we can add the feature in.
 
 [NOTE] Use sh generate-pdf -h to learn more about the PDF generation options available to you.
 
 *******
 
-# Project Benefits
+# Project Rationale
 ### Strengths
 - Ansible is agentless, so as long as the controller has an ssh connection (or is local), then it is possible to run an Ansible automated health check across a large fleet.
 - Ansible is declarative code, therefore it is easier to read because developers state what they want the program to do, rather than describe how to do it.
@@ -71,12 +91,6 @@ https://search-portfolio-hub.6923.rh-us-east-1.openshiftapps.com/serviceskit/ope
 - Product ownership - who will own and maintain this tool?
 - Difficulty of advanced features such as CER autopopulation, may require the input of consultants or knowledge-holders with advanced Satellite, CER, Ansible or asciidoc skills.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method. The more documentation the better, and using different modes of documentation can help other contributors or non-technical audiences to understand what has been done.
-
 
 *******
 # Admin Section
@@ -88,7 +102,7 @@ Depending on what you are making, it can be a good idea to include screenshots o
 
 ## Roadmap
 
-Milestone 1: Project Started
+Milestone 1: Project started
 Date: 12/12/22
 
 Milestone 2: Began adding roles
@@ -100,14 +114,13 @@ Date: 20/01/23
 Milestone 4: Added PDF-generation capabilities
 Date: 25/01/23
 
+Milestone 5: Added RH styling conventions and finalised project structure.
+
 ## Contributing
 We are open to contributions. 
-We need designers who can identify problems, and co-create solutions with engineers. We need engineers to build the prototype.
+We need designers who can identify problems, suggest improvements or features, and co-create solutions with engineers. Please reach out to any of the contributors if you're interested in helping out! :-)
 
-Please read CONTRIBUTING.md for more information.
 
 ## Contributors
-Sasha Personeni - spersone@redhat.com
-
-## License
-Refer to the License file for more information.
+Project Owner - Sasha Personeni spersone@redhat.com
+Maintainer - Elise Elkerton eelkerto@redhat.com
