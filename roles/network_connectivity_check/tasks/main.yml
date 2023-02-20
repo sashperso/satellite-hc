@@ -4,12 +4,15 @@
 - name: Verify network connectivity
   ansible.builtin.shell: for i in " $(hostname -f)" " $(hostname -d)" " $(hostname -s)";do  ping -c1 $i;done
   register: result_ping
+  ignore_errors: true
 
 - name: Check connection to CDN network
   ansible.builtin.shell: ping -c1 cdn.redhat.com
   register: result_cdn_conn
+  ignore_errors: true
 
 - name: Check if required ports are listening
   ansible.builtin.shell: ss -ltn  | egrep  ":80 |:8080 |:5671 |:443 |:8140 |:9090 "
   register: result_port_listen
+  ignore_errors: true
   
