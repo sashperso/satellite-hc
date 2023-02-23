@@ -1,5 +1,5 @@
-:pdf-theme: styles/pdf/redhat-theme.yml
-:pdf-fontsdir: fonts
+:pdf-theme: ./styles/pdf/redhat-theme.yml
+:pdf-fontsdir: ./fonts
 include::vars/render-vars.adoc[]
 include::vars/document-vars.adoc[]
 
