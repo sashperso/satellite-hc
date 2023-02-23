@@ -16,10 +16,9 @@ Two similar existing Satellite health check CER templates which have informed th
 ## Cloning this repository
 To clone this repository and get started on contributing, type the following commands into the CLI:
 ```
-cd existing_repo
-git remote add origin https://gitlab.consulting.redhat.com/anz-consulting/satellite/automated_satellite_health_check.git
+cd <desired_location>
+$ git clone https://gitlab.consulting.redhat.com/anz-consulting/satellite/automated_satellite_health_check.git
 git branch -M main
-git push -uf origin main
 ```
 More information on contributing and GitOps can be found in the CONTRIBUTING.md file.
 
@@ -34,22 +33,34 @@ graph TD
     D[Generate pdf] --> E[Artifact generated for client]
     C[Create .txt report] --> E[Artifact generated for client]
 ```
-
-To generate the PDF report, certain elements should be tweaked by the consultant prior to running the script. Instructions for this step are explained below.
-
-### Generating the reports (.txt and .adoc)
 The following instructions allow the user to conduct a Satellite health check on their local machine. **Please note that to use this playbook, you will have to insert the IP address(es) of the Satellite(s) being checked in both the inventory file and the ansible_hc_init.yml file prior to running the playbook.**
+
 ```
 $ git clone <url>
 $ cd ~/automated_satellite_health_check
 $ ansible-playbook satellite_hc_init.yml -u <root_user> --ask-pass
 >Enter root password
 $ cat ./satellite_hc_report_<satellite_hostname>
+
 ```
+
+## Generating the reports (.txt and .adoc)
+
+To generate the PDF report, certain elements should be tweaked by the consultant prior to running the script. Instructions for this step are explained below.
 
 ### PDF Report Generation Procedure
 
-IMPORTANT: Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing the PDF Generation.
+**IMPORTANT PREREQUISITES**
+
+1. Please ensure that the podman utility is downloaded on your local machine/the machine that you'd like to generate the pdf machine on. You can download this by using:
+
+```
+$ sudo yum -y install podman
+```
+You *may* encounter asciidoc-doctor related errors on the command line that will require you to install newer versions of the asciidoctor utilities. In this case, please refer to the [asciidoctor-pdf](https://github.com/asciidoctor/asciidoctor-pdf) and [asciidoctor-diagram](https://docs.asciidoctor.org/diagram-extension/latest/) documentation for further instructions.
+
+
+2. Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing the PDF Generation.
 
 **Variables explained:**
 - /vars/customer-vars.adoc --> These variables are where the customer name, customer, and the customer short name are inserted. You can use these to further customise the report content. The variables outlined here are the ones that help name the PDF report, so please take care to fill this out.
