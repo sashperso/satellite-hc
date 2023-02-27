@@ -1,0 +1,10 @@
+# 2023-02-27 - Maurice
+# Changed
+- updated inventory for satellite and capsule groups + playbook hosts to reference inventory groups
+
+- removed quotes around {{ ansible_hostname }} so the output filename is not quoted
+	eg satellite_hc_report_sat-1.adoc instead of  'satellite_hc_report_"sat-1".adoc'
+
+
+
+
