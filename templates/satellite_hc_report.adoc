@@ -5,7 +5,7 @@ include::vars/document-vars.adoc[]
 
 = Satellite Health Check Report
 
-This is a health check report for the {{ ansible_hostname }} Satellite server conducted on a {{ ansible_distribution }} {{ansible_distribution_version }} instance, at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
+This is a health check report for Satellite server *{{ ansible_fqdn }}* at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
 
 == Analysis
 
@@ -21,7 +21,7 @@ This is a health check report for the {{ ansible_hostname }} Satellite server co
 
 == Satellite Configuration
 
-=== Satellite System Details
+=== Base Operating System Details
 
 *Investigation:* What version of RHEL is the Satellite server running on? What is the architecture? Is the CPU suitable to the Satellite server? is the hostname unique?
 
@@ -99,7 +99,7 @@ Generally, the following 12 ports should be open on the firewall:
 - 5647/tcp
 - 8000/tcp
 - 8140/tcp 
-- 8443/tcp
+- 8443/tcp;
 - 9090/tcp
 - 53/tcp
 - 53/udp
