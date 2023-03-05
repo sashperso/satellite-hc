@@ -1,6 +1,11 @@
+:pdf-theme: ./styles/pdf/redhat-theme.yml
+:pdf-fontsdir: ./fonts
+include::vars/render-vars.adoc[]
+include::vars/document-vars.adoc[]
+
 = Satellite Health Check Report
 
-For Satellite server *{{ ansible_fqdn }}* at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
+This is a health check report for the {{ ansible_hostname }} Satellite server conducted on a {{ ansible_distribution }} {{ansible_distribution_version }} instance, at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
 
 == Analysis
 
@@ -17,42 +22,32 @@ For Satellite server *{{ ansible_fqdn }}* at {{ ansible_date_time.time }} on {{ 
 == Satellite Configuration
 
 === Satellite System Details
-|=======
-|*Investigation:*| Gather key facts about the Satellite server 
-|*Guidance:*| #TODO#
-|*Rationale:*| To ensure Satellite has sufficient resources to run efficiently
-|=======
+
+*Investigation:* What version of RHEL is the Satellite server running on? What is the architecture? Is the CPU suitable to the Satellite server? is the hostname unique?
 
 *Observation:*
-
-Base Operating System details:
 ----
-- Hostname:         {{ ansible_fqdn }}
-- Operating System: {{ facter_os['distro']['description'] }}
-- IP Address:       {{ ansible_default_ipv4['address'] }}
-- Kernel Version:   {{ facter_kernelrelease }}
-- Uptime:           {{ facter_system_uptime['uptime'] }}
-----
-
-CPUs:
-----
-- Sockets:		{{ ansible_processor_count }}
-- Cores per socket:	{{ ansible_processor_cores }}
-- Threads per core:	{{ ansible_processor_threads_per_core }}
+- Hostname: {{ result_hostname.stdout | to_nice_yaml }}
+- Operating System: {{ result_system.stdout | to_nice_yaml }}
+- IP Address: {{ result_ip_addr.stdout | to_nice_yaml }}
+- Kernel Version: {{ result_kernel_version.stdout | to_nice_yaml }}
+- Uptime: {{ result_uptime.stdout | to_nice_yaml }}
+- Last Reboot Time: {{ result_reboot.stdout | to_nice_yaml }}
+- Red Hat Release: {{ result_redhat_release.stdout | to_nice_yaml }}
 ----
 
-Memory details:
+The CPU details are as follows:
 ----
-- Total:        {{ facter_memory['system']['total'] }}
-- Used:         {{ facter_memory['system']['used'] }}
-- Swap total:   {{ facter_memory['swap']['total'] }}
-- Swap used:    {{ facter_memory['swap']['used'] }}
+{{ result_system_cpu.stdout_lines | to_nice_yaml}}
 ----
 
-Disk details:
-----
+Is there at least 20gb of disk space available in /var?
+
 {{ result_disk_space.stdout_lines | to_nice_yaml }}
-----
+
+*Guidance:* #TODO#
+
+*Rationale:* There should be at least 20 gig of space available in /var directory to perform future synchronizations. Please note that if you are to download a major release (e.g. RHEL 6 Server), you will require a minimum of 20Gig per release.
 
 
 === Satellite and Capsule Architecture
@@ -74,11 +69,6 @@ Disk details:
 
 NOTE: For more information on a given organisation, run `hammer organization info --id <id_number>`
 
-.Locations:
-----
-{{ result_hammer_location.stdout }}
-----
-
 === Satellite Version 
 |======
 |*Investigation:*| What is the currently installed Satellite version on the Satellite server and the capsules? What was the initial installation version?
@@ -96,91 +86,83 @@ NOTE: For more information on a given organisation, run `hammer organization inf
 Package satellite-capsule is not installed on the Capsule Server.
 {% endif %}
 
-
-== Infrastructure
-
 === Firewalls and Proxy
 |=====
-|*Investigation:*| Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
-
-|*Guidance:*| #TODO#
-|*Rationale:*| If all Satellite services are enabled and running, the following ports should be open on the firewall.
+|*Investigation:| Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
+|Guidance:| #TODO#
+|Rationale:
+a|
+Generally, the following 12 ports should be open on the firewall:
 
 - 80/tcp
 - 443/tcp
-- 5000/tcp
 - 5647/tcp
 - 8000/tcp
-- 8140/tcp
+- 8140/tcp 
 - 8443/tcp
 - 9090/tcp
 - 53/tcp
 - 53/udp
 - 67/udp
 - 69/udp
-
+- 5000/tcp
 |=====
-
 *Observation:* 
-
-The following ports are enabled by firewalld:
+The ports that are currently open are:
 ---- 
 {{ result_firewall_ports.stdout | to_nice_yaml }}
 ----
 
-=== Network Requirements
+
+== Infrastructure
+
+=== Infrastructure Architecture
 |=====
-|*Investigation:*| Network connectivity between Satellite and its capsules needs to be reliable. Can Satellite connect to CDN without issue? Do the FQDN, Domain, and Shortname connections resolve?
+|*Investigation:*| List the organisations and locations associated with the Satellite server.
 |*Guidance:*| #TODO#
 |*Rationale:*| #TODO#
 |=====
 *Observation:*
 
+.Organisations:
+----
+{{ result_hammer_org.stdout }}
+----
+.Locations:
+----
+{{ result_hammer_location.stdout }}
+----
 
-The results show the ping test isn't really proving anything. The investigation is 'do the FQDN, Domain, and Shortname connections resolve' so we should query DNS first
+=== Network Requirements
+|=====
+|*Investigation:*| The network connectivey between Satellite and its capsules needs to be reliable. Can the Satellite connect to the CDN without issue? Do the FQDN, Domain, and Shortname connections resolve?
+|*Guidance:*| #TODO#
+|*Rationale:*| #TODO#
+|=====
+*Observation:*
 
 .Ping results:
 ----
 {{ result_ping.stdout_lines | to_nice_yaml }}
 ----
 .CDN Connection:
-
-Access to CDN is an arbitary thing .. what if this is a disconnected or air-gapped deployment
 ----
 {{ result_cdn_conn.stdout_lines | to_nice_yaml }}
 ----
-
-.Listening Ports
-The following TCP ports are actively listening:
----- 
-{{ ansible_facts['tcp_listen'] | map(attribute='port') | unique | sort | list | to_nice_yaml }}
+.Are the required ports listening?
 ----
-
-The following UDP ports are actively listening:
----- 
-{{ ansible_facts['udp_listen'] | map(attribute='port') | unique | sort | list | to_nice_yaml }}
+{{ result_port_listen.stdout_lines | to_nice_yaml }}
 ----
 
 === Custom Hierarchies
 |=====
 |*Investigation:*| #TODO#
+|*Observation:*| #TODO#
 |*Guidance:*| #TODO#
 |*Rationale:*| #TODO#
 |=====
-*Observation:* #TODO#
-
-
 
 == Storage
-
-=== Pulp Storage
-|=====
-|*Investigation:*| Where does Pulp data exist and is there sufficient space?
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
-|=====
-*Observation:*
-
 
 === Qpidd Storage
 |=====
@@ -210,7 +192,6 @@ The following UDP ports are actively listening:
 |*Guidance:*| #CONSULTANT TODO#
 |*Rationale:*| #CONSULTANT TODO#
 |=====
-
 
 == Host Management
 
@@ -312,3 +293,5 @@ The messages log does not contain any errors.
 ----
 {{ result_registered_hosts.stdout_lines | to_nice_yaml }}
 ----
+
+This is a test commit.
