@@ -1,14 +1,9 @@
 ---
 # tasks file for ./roles/firewall_and_proxy_check
 
-- name: Find all open firewall ports on the Satellite server.
-  ansible.builtin.shell: firewall-cmd --list-all | grep -E " ports"
+- name: Report enabled firewall ports
+  ansible.builtin.shell: firewall-cmd --list-ports
   register: result_firewall_ports
 
-
-#NOTE: This could become a smooth automatic check in future using conditionals. I personally couldn't figure it out, so will come back to it.
-# - debug:
-#     msg: "The {{ item }} port is opened."
-#   loop: "{{ req_ports }}"
-#   when: item in result_firewall_ports.stdout
-#   register: result_firewall_open
+- name: Gather facts on TCP and UDP listening ports
+  community.general.listen_ports_facts:

@@ -3,8 +3,7 @@
   hosts: satellite
   roles:
     - high_level_check
-    - test-role
-    - system_reqs_check
+    - disk_space_check
     - satellite_version_check
     - organisations_check
     - firewall_and_proxy_check
@@ -17,21 +16,21 @@
     - registered_host_check
 
   tasks:
-    - name: Generate the Satellite Health Check Report in .txt format
-      ansible.builtin.template:
-        src: ./templates/satellite_hc_report.j2
-        dest: satellite_hc_report_{{ ansible_hostname }}.txt
+#    - name: Generate the Satellite Health Check Report in .txt format
+#      ansible.builtin.template:
+#        src: ./templates/satellite_hc_report.j2
+#        dest: satellite_hc_report_{{ ansible_hostname }}.txt
 
     - name: Generate the Satellite Health Check Report in .adoc format
       ansible.builtin.template:
         src: ./templates/satellite_hc_report.adoc
         dest: satellite_hc_report_{{ ansible_hostname }}.adoc
 
-    - name: Fetch the .txt Satellite report and copy it to the local machine
-      ansible.builtin.fetch:
-        src: satellite_hc_report_{{ ansible_hostname }}.txt
-        dest: ./
-        flat: yes
+#    - name: Fetch the .txt Satellite report and copy it to the local machine
+#      ansible.builtin.fetch:
+#        src: satellite_hc_report_{{ ansible_hostname }}.txt
+#        dest: ./
+#        flat: yes
 
     - name: Fetch the .adoc Satellite report and copy it to the local machine
       ansible.builtin.fetch:
@@ -39,4 +38,4 @@
         dest: ./
         flat: yes
 
-# note to self: make sure to use -u root then --ask-pass
+# Note to self: make sure to use -u root then --ask-pass .. unless to passwordless ssh access setup
