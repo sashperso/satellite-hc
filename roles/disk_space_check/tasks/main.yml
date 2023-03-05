@@ -1,3 +1,0 @@
-- name: Identify free disk space on all mounted filesystems
-  ansible.builtin.shell: df -x tmpfs -x devtmpfs -h
-  register: result_disk_space
