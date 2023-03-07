@@ -3,9 +3,9 @@
 include::vars/render-vars.adoc[]
 include::vars/document-vars.adoc[]
 
-= Satellite Health Check Report
+== Satellite Health Check Report
 
-This is a health check report for Satellite server *{{ ansible_fqdn }}* at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
+This is a health check report for Satellite server {{ ansible_fqdn }} at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
 
 == Analysis
 
@@ -45,7 +45,7 @@ Is there at least 20gb of disk space available in /var?
 
 {{ result_disk_space.stdout_lines | to_nice_yaml }}
 
-*Guidance:* #TODO#
+*Guidance:* #Consultant TO-DO#
 
 *Rationale:* There should be at least 20 gig of space available in /var directory to perform future synchronizations. Please note that if you are to download a major release (e.g. RHEL 6 Server), you will require a minimum of 20Gig per release.
 
@@ -53,8 +53,9 @@ Is there at least 20gb of disk space available in /var?
 === Satellite and Capsule Architecture
 |=======
 |*Investigation:*| List the names and urls of the Satellite and Capsule servers. List the organisations linked to the Satellite and Capsule servers.
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
+|*Rationale:*| The Red Hat Satellite Server enables you to plan and manage the content life cycle and the configuration of Capsule Servers and hosts through GUI, CLI, or API. 
+
+The Satellite Server also contains a fine-grained authentication system to provide Satellite operators with permissions to access precisely the parts of the infrastructure that lie in their area of responsibility. Capsule Servers mirror content from the Satellite Sevrer to establish content sources in various geographical locations. This enables host systems to pull content and configuration from the Capsule Servers in their location and not from the central Satellite Server. The recommended minimum number of Capsule Servers is therefore given by the number of geographic regions where the organization that uses Satellite operates.
 |=======
 *Observation:*
 
@@ -72,8 +73,10 @@ NOTE: For more information on a given organisation, run `hammer organization inf
 === Satellite Version 
 |======
 |*Investigation:*| What is the currently installed Satellite version on the Satellite server and the capsules? What was the initial installation version?
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
+|*Guidance:*| #Consultant TO-DO#
+|*Rationale:*| Red Hat provides a published product life cycle for the Red Hat Satellite server and its associated federation enablement component, the Red Hat Satellite Capsule Server, in order for customers and partners to effectively plan, deploy and support their management of Red Hat infrastructure. 
+
+The life cycle associated with Red Hat Satellite, which encompasses stated time periods for each major version, identifies the various levels of maintenance, split into production phases, from the initial release date - or General Availability (GA) to the End of Life (EOL). It is important to ensure your Satellite is upgraded within the product life cycle to ensure that your organisation can continue to receive patching, security updates, and maintain an effective Satellite server.
 |======
 
 *Observation:* 
@@ -89,7 +92,7 @@ Package satellite-capsule is not installed on the Capsule Server.
 === Firewalls and Proxy
 |=====
 |*Investigation:| Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
-|Guidance:| #TODO#
+|Guidance:| #Consultant TO-DO#
 |Rationale:
 a|
 Generally, the following 12 ports should be open on the firewall:
@@ -119,8 +122,11 @@ The ports that are currently open are:
 === Infrastructure Architecture
 |=====
 |*Investigation:*| List the organisations and locations associated with the Satellite server.
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
+|*Guidance:*| #Consultant TO-DO#
+|*Rationale:*| The Satellite Server organizes the life cycle management by using organizations as principal division units. Organizations isolate content for groups of hosts with specific requirements and administration tasks. For example, the OS build team can use a different organization than the web development team. 
+
+Locations divide organizations into logical groups based on geographical location. Each location is created and used by a single Red Hat customer account, although each account can manage multiple locations and organizations.
+ 
 |=====
 *Observation:*
 
@@ -136,8 +142,19 @@ The ports that are currently open are:
 === Network Requirements
 |=====
 |*Investigation:*| The network connectivey between Satellite and its capsules needs to be reliable. Can the Satellite connect to the CDN without issue? Do the FQDN, Domain, and Shortname connections resolve?
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
+|*Guidance:*| #Consultant TO-DO#
+|*Rationale:*
+a| 
+To maintain a networked base operating system for your Satellite, the following requirements apply: 
+
+- Full forward and reverse DNS resolution using a fully-qualified domain name
+- A system umask of 0022
+- Administrative user (root) access
+- A current Red Hat Satellite subscription
+- A unique host name, which can contain lower-case letters, numbers, dots (.) and hyphens (-)
+- A minimum of 20 GB RAM is required for Satellite Server to function. In addition, a minimum of 4 GB RAM of swap space is also recommended. Satellite running with less RAM than the minimum value might not operate correctly.
+- 4-core 2.0 GHz CPU at a minimum
+- The latest version of Red Hat Enterprise Linux 8 or Red Hat Enterprise Linux 7 Server
 |=====
 *Observation:*
 
@@ -154,21 +171,12 @@ The ports that are currently open are:
 {{ result_port_listen.stdout_lines | to_nice_yaml }}
 ----
 
-=== Custom Hierarchies
-|=====
-|*Investigation:*| #TODO#
-|*Observation:*| #TODO#
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
-|=====
-
 == Storage
 
 === Qpidd Storage
 |=====
 |*Investigation:*| Is the qpidd service available? How much space is available in the qpidd partition? is the qpidd parititon too large?
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
+|*Guidance:*| #Consultant TO-DO#
 |=====
 *Observation:*
 
@@ -190,7 +198,7 @@ The ports that are currently open are:
 |*Investigation:*| If the client is using snapshots, what are the backups listed in foreman-maintain backups? What kinds of backup procedures are in place for the Satellite? The consultant will likely have to ask the client for additional information on procedures and backup philosophy.
 |*Observation:*| #CONSULTANT TODO#
 |*Guidance:*| #CONSULTANT TODO#
-|*Rationale:*| #CONSULTANT TODO#
+|*Rationale:*| Backup and restore procedures help to ensure the continuity of your Red Hat Satellite deployment and associated data in the event of a disaster. If your deployment uses custom configurations you should take these into account when planning your backup and disaster recovery policy.
 |=====
 
 == Host Management
@@ -198,8 +206,8 @@ The ports that are currently open are:
 === Remote Execution
 |=====
 |*Investigation:*| Is remote execution set up on Satellite? Is cron used to execute these remote jobs?
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
+|*Guidance:*| #Consultant TO-DO#
+|*Rationale:*| Remote execution allows administrators to remotely run an arbitrary command on Satellite clients quickly and easily. This can help organisations easily standardise machine configurations, improve system-to-administrator ratios by automating patch and configuration management and provisioning, and reduce errors and inconsistencies.
 |=====
 *Observation:*
 ----
@@ -208,7 +216,7 @@ The ports that are currently open are:
 
 === Provisioning
 |=====
-|*Investigation:*| #TODO#
+|*Investigation:*| What methods are used for provisioning? How is provisioning handled?
 |*Observation:*| #CONSULTANT TODO#
 |*Guidance:*| #CONSULTANT TODO#
 |*Rationale:*| #CONSULTANT TODO#
@@ -217,7 +225,7 @@ The ports that are currently open are:
 === Errata
 |=====
 |*Investigation:*| Are errata used? How is Errata managed? What errata are installable on the registered hosts?
-|*Guidance:*| #TODO#
+|*Guidance:*| #Consultant TO-DO#
 |*Rationale:*| As a part of Red Hat’s quality control and release process, we provide customers with updates for each release of official Red Hat RPMs. Red Hat compiles groups of related package into an erratum along with an advisory that provides a description of the update. Security Advisory errata describe fixed security issues found in the package. Bug Fix Advisory errata describes bug fixes, and Product Enhancement Advisory describes enhancements and new features added to the package. 
 |=====
 *Observation:*
@@ -229,7 +237,7 @@ NOTE: The errata variable has been omitted in the report due to size of role. Re
 === Satellite Logging
 |=====
 |*Investigation:*| Are any errors logged in the foreman, foreman-proxy, or /var logs? Do any issues tie in with other issues identified in the report?
-|*Guidance:*| #TODO#
+|*Guidance:*| #Consultant TO-DO#
 |*Rationale:*| Any errors that appear in the logs should be investigated to ensure that Satellite is functioning effectively and correctly to avoid bugs and security vulnerabilities. 
 |=====
 *Observation:*
@@ -261,28 +269,28 @@ The messages log does not contain any errors.
 {% endif %}
 ----
 
-=== Patch Cycles
-|=====
-|*Investigation:*| #CONSULTANT TODO#
-|*Observation:*| #CONSULTANT TODO#
-|*Guidance:*| #CONSULTANT TODO#
-|*Rationale:*| #CONSULTANT TODO#
-|=====
-
 === Sync Plans
 |=====
-|*Investigation:*| #TODO#
+|*Investigation:*| Are synchronization plans being used by the organisation? How often are these sync plans run? Which repositories are being queried at each sync run?
 |*Observation:*| #TODO#
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
+|*Guidance:*| #Consultant TO-DO#
+|*Rationale:*| A synchronization plan checks and updates the content at a scheduled date and time. In Red Hat Satellite 6, you can create a synchronization plan and assign products to the plan, which will then sync updates from the Red Hat Satellite repository and the source repositories to the Satellite Server.
 |=====
 
 === Activation Keys
 |=====
-|*Investigation:*| #TODO#
+|*Investigation:*| Are activation keys used in the Satellite server? How are the activation keys used?
 |*Observation:*| #TODO#
-|*Guidance:*| #TODO#
-|*Rationale:*| #TODO#
+|*Guidance:*| #Consultant TO-DO#
+|*Rationale:*
+a| Activation keys provide a method to automate system registration and subscription attachment. You can create multiple keys and associate them with different environments and Content Views. 
+
+They can define the following properties for content hosts: 
+
+- Associated subscriptions and subscription attachment behaviour
+- Available products and repositories
+- A life cycle environment and a Content View
+- Host collection membership
 |=====
 
 === Registered hosts
@@ -293,5 +301,3 @@ The messages log does not contain any errors.
 ----
 {{ result_registered_hosts.stdout_lines | to_nice_yaml }}
 ----
-
-This is a test commit.
