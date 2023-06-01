@@ -3,7 +3,7 @@
 include::vars/render-vars.adoc[]
 include::vars/document-vars.adoc[]
 
-== Satellite Health Check Report
+= Satellite Health Check Report
 
 This is a health check report for Satellite server {{ ansible_fqdn }} at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
 
