@@ -1,4 +1,4 @@
----
+  #---
 - name: Initialise the Satellite Health Check
   hosts: satellite
   roles:
@@ -15,6 +15,8 @@
     - remote_execution_check
 #    - errata_check
     - registered_host_check
+    - compute_resources_check
+
   vars: 
     - satellite_server: <insert_satellite_url_here>
 
