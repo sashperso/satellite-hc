@@ -1,7 +1,7 @@
-compute_resourcess_check
+auth_sourcess_check
 =========
 
-This role conducts an compute_resources check. It does this by checking for and listing all capsule names and URLs, and lists all compute_resourcess on the master server.
+This role conducts an auth_sources check. It does this by checking for and listing all capsule names andauth_sources_check URLs, and lists all auth_sourcess on the master server.
 
 Requirements
 ------------
@@ -25,7 +25,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - compute_resources_check
+         - auth_sources_check
 
 License
 -------

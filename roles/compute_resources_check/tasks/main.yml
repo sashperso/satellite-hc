@@ -1,7 +1,7 @@
 ---
 # tasks file for compute_resources_check
 
-- name: Show any jobs scheduled for remote execution
+- name: Show any compute resources
   ansible.builtin.command: hammer compute-resource list
   register: result_compute_resource
   ignore_errors: true

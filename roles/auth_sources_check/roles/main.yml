@@ -1,0 +1,8 @@
+---
+# tasks file for auth_sources_check
+
+- name: Show any ldap sources for Satellite user accounts
+  ansible.builtin.command: hammer auth-sources ldap list
+  register: result_auth_sources
+  ignore_errors: true
+  
