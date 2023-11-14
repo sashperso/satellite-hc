@@ -1,7 +1,7 @@
 compute_resourcess_check
 =========
 
-This role conducts an compute_resources check. It does this by checking for and listing all capsule names and URLs, and lists all compute_resourcess on the master server.
+This role conducts an compute_resources check. It does this by checking for and listing all compute resources intergrated into Satellite.
 
 Requirements
 ------------

@@ -1,0 +1,17 @@
+---
+# tasks file for network_resources_check
+
+- name: Show any subnets for Satellite user accounts
+  ansible.builtin.command: hammer subnet list
+  register: result_subnets
+  ignore_errors: true
+
+- name: Show any domains added to Satellite as a resource
+  ansible.builtin.command: hammer domain list
+  register: result_domains
+  ignore_errors: true
+
+- name: Show any reams added to Satellite as a resource
+  ansible.builtin.command: hammer realm list
+  register: result_realms
+  ignore_errors: true

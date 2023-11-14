@@ -1,7 +1,7 @@
-auth_sourcess_check
+network_resourcess_check
 =========
 
-This role conducts an auth sources check. It does this by checking for and listing any LDAP sources used for user authenticaiton
+This role conducts an network resources check. It does this by checking for and listing all Network resources added to Satellite. This includes subnets, DNS domains and LDAP realms.
 
 Requirements
 ------------
@@ -25,7 +25,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - auth_sources_check
+         - network_resources_check
 
 License
 -------
