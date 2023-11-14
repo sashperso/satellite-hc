@@ -16,6 +16,8 @@
 #    - errata_check
     - registered_host_check
     - compute_resources_check
+    - network_resources_check
+    - auth_sources_check
 
   vars: 
     - satellite_server: <insert_satellite_url_here>
