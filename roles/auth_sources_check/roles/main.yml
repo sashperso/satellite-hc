@@ -6,7 +6,10 @@
   register: result_auth_sources
   ignore_errors: true
 
-- name: Show any reams added to Satellite as a resource
-  ansible.builtin.command: hammer realm list
-  register: result_realms
-  ignore_errors: true
+- name: Ensure that the existing certificate has a certain domain in its subjectAltName
+  community.crypto.x509_certificate:
+    path: "{{ certificate_path | default('/etc/pki/katello/certs/katello-apache.crt') }}"
+    provider: assertonly
+    issuer:
+      O: "{{ certificate_authority }}"
+    has_expired: False
