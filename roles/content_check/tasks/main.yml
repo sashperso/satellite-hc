@@ -1,0 +1,13 @@
+---
+# tasks file for content_check
+
+- name: lifecycle environments
+  ansible.builtin.command: hammer lifecycle-environment list
+  register: result_lifecycles
+  ignore_errors: true
+
+- name: Show existing content views
+  ansible.builtin.command: hammer content-view list
+  register: result_content_views
+  ignore_errors: true
+
