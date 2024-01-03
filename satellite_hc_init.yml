@@ -1,4 +1,4 @@
----
+  #---
 - name: Initialise the Satellite Health Check
   hosts: satellite
   roles:
@@ -15,6 +15,15 @@
     - remote_execution_check
 #    - errata_check
     - registered_host_check
+    - compute_resources_check
+    - network_resources_check
+    - auth_sources_check
+
+  vars: 
+    - satellite_server: <insert_satellite_url_here>
+
+# NOTE TO SELF: MAYBE DO PACKAGE CHECK?
+#  - i.e. sysstat
 
   tasks:
 #    - name: Generate the Satellite Health Check Report in .txt format

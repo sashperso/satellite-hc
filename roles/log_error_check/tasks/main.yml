@@ -1,0 +1,26 @@
+---
+- name: Check Satellite Server Log for errors
+  command: tail -n 200 /var/log/foreman/production.log | grep error
+  register: satellite_server_rc
+  changed_when: false
+
+- name: Check Pulp Logs for errors
+  command: tail -n 200 /var/log/pulp/pulp.log | grep error
+  register: pulp_log
+  changed_when: false
+
+- name: Check Candlepin Logs
+  command: tail -n 200 /var/log/candlepin/candlepin.log | grep error
+  register: candlepin_log
+  changed_when: false
+
+- name: Check Katello Logs for Errors
+  command: tail -n 200 /var/log/katello/katello.log | grep error
+  register: katello_log
+  changed_when: false
+
+- name: Notify Admin for errors
+  debug:
+    var: ansible_failed_task
+  when: satellite_server_log.rc > 0 or pulp_log.rc > 0 or candlepin_log > 0 or katello_log.rc > 0
+  register: log_error_identified

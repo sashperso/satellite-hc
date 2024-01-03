@@ -1,0 +1,15 @@
+---
+# tasks file for auth_sources_check
+
+- name: Show any ldap sources for Satellite user accounts
+  ansible.builtin.command: hammer auth-sources ldap list
+  register: result_auth_sources
+  ignore_errors: true
+
+- name: Ensure that the existing certificate has a certain domain in its subjectAltName
+  community.crypto.x509_certificate:
+    path: "{{ certificate_path | default('/etc/pki/katello/certs/katello-apache.crt') }}"
+    provider: assertonly
+    issuer:
+      O: "{{ certificate_authority }}"
+    has_expired: False

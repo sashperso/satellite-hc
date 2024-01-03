@@ -1,0 +1,36 @@
+---
+# tasks file for content_check
+- name: Show manifests on Satellite
+  ansible.builtin.command: "hammer subscription list --organization {{ item }} " 
+  register: result_manifests
+  ignore_errors: true
+ 
+- name: Check if Simple Content Access is enabled
+  ansible.builtin.command: "hammer simple-content-access status --organization {{ item }} "
+  register: result_sca_enabled
+  ignore_errors: true
+
+- name: Show enabled repositories
+  ansible.builtin.command: "hammer repository list --organization {{ item }} "
+  register: result_repositories
+  ignore_errors: true  
+
+- name: Show sync plans
+  ansible.builtin.command: "hammer sync-plan list --organization {{ item }} "
+  register: result_sync_plans
+  ignore_errors: true
+
+- name: lifecycle environments
+  ansible.builtin.command: "hammer lifecycle-environment list --organization {{ item }} "
+  register: result_lifecycles
+  ignore_errors: true
+
+- name: Show existing content views
+  ansible.builtin.command: "hammer content-view list list --organization {{ item }} "
+  register: result_content_views
+  ignore_errors: true
+
+- name: Show existing activation keys
+  ansible.builtin.command: "hammer activation-key list --organization {{ item }} "
+  register: result_activation_keys
+  ignore_errors: true
