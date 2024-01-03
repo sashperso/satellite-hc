@@ -1,0 +1,641 @@
+:pdf-theme: ./styles/pdf/redhat-theme.yml
+:pdf-fontsdir: ./fonts
+include::vars/render-vars.adoc[]
+include::vars/document-vars.adoc[]
+
+= Satellite Health Check Report
+
+This is a health check report for Satellite server sat-1.gpslab.cbr.redhat.com at 15:04:01 on 2024-01-03.
+
+== Analysis
+
+=== Health Check Overview:
+----
+Running ForemanMaintain::Scenario::FilteredScenario
+================================================================================
+Clean old Kernel and initramfs files from tftp-boot:                  [OK]
+--------------------------------------------------------------------------------
+Check number of fact names in database:                               [OK]
+--------------------------------------------------------------------------------
+Check whether all services are running:                               [OK]
+--------------------------------------------------------------------------------
+Check whether all services are running using the ping call:           [OK]
+--------------------------------------------------------------------------------
+Check for paused tasks:                                               [OK]
+--------------------------------------------------------------------------------
+Check to verify no empty CA cert requests exist:                      [OK]
+--------------------------------------------------------------------------------
+Check whether system is self-registered or not:                       [OK]
+--------------------------------------------------------------------------------
+----
+
+=== Satellite Service Status:
+----
+Running Service List
+================================================================================
+List applicable services: 
+dynflow-sidekiq@.service                   indirect
+foreman-proxy.service                      enabled 
+foreman.service                            enabled 
+httpd.service                              enabled 
+postgresql.service                         enabled 
+pulpcore-api.service                       enabled 
+pulpcore-content.service                   enabled 
+pulpcore-worker@.service                   indirect
+puppetserver.service                       enabled 
+redis.service                              enabled 
+tomcat.service                             enabled
+
+All services listed                                                   [32m[1m[OK][0m
+--------------------------------------------------------------------------------
+----
+
+== Satellite Configuration
+
+=== Base Operating System Details
+
+*Investigation:* What version of RHEL is the Satellite server running on? What is the architecture? Is the CPU suitable to the Satellite server? is the hostname unique?
+
+*Observation:*
+----
+- Hostname: '   Static hostname: sat-1.gpslab.cbr.redhat.com'
+
+- Operating System: '  Operating System: Red Hat Enterprise Linux 8.9 (Ootpa)'
+
+- IP Address: 10.76.23.10/24
+
+- Kernel Version: 4.18.0-513.9.1.el8_9.x86_64
+
+- Uptime: 22 days
+
+- Last Reboot Time: 2023-12-11 18:36
+
+- Red Hat Release: Red Hat Enterprise Linux release 8.9 (Ootpa)
+
+----
+
+The CPU details are as follows:
+----
+- 'Architecture:        x86_64'
+- 'CPU op-mode(s):      32-bit, 64-bit'
+- 'Byte Order:          Little Endian'
+- 'CPU(s):              8'
+- 'On-line CPU(s) list: 0-7'
+- 'Thread(s) per core:  1'
+- 'Core(s) per socket:  1'
+- 'Socket(s):           8'
+- 'NUMA node(s):        1'
+- 'Vendor ID:           GenuineIntel'
+- 'BIOS Vendor ID:      Red Hat'
+- 'CPU family:          6'
+- 'Model:               85'
+- 'Model name:          Intel Xeon Processor (Skylake, IBRS)'
+- 'BIOS Model name:     RHEL-8.2.0 PC (Q35 + ICH9, 2009)'
+- 'Stepping:            4'
+- 'CPU MHz:             2099.998'
+- 'BogoMIPS:            4199.99'
+- 'Virtualization:      VT-x'
+- 'Hypervisor vendor:   KVM'
+- 'Virtualization type: full'
+- 'L1d cache:           32K'
+- 'L1i cache:           32K'
+- 'L2 cache:            4096K'
+- 'L3 cache:            16384K'
+- 'NUMA node0 CPU(s):   0-7'
+
+----
+
+Is there at least 20gb of disk space available in /var?
+
+- 17945176 Kilobytes is insufficient for a channel download
+
+
+*Guidance:* The minimum requirements for a Satellite server are as follows:
+
+- x86_64 architecture
+- The latest version of Red Hat Enterprise Linux 8 Server
+- 4-core 2.0 GHz CPU at a minimum
+- A minimum of 20 GB RAM is required for Satellite Server to function.
+
+In addition, a minimum of 4GB RAM of swap space is also recommended. Satellite running with less RAM than the minimum value might not operate correctly.
+
+For further information, please refer to the Satellite installation https://access.redhat.com/documentation/en-us/red_hat_satellite/6.13[documentation].
+
+*Rationale:* There should be at least 20GB of space available in /var directory to perform future synchronizations. Please note that if you are to download a major release (e.g. RHEL 7 Server), you will require a minimum of 20GB per release.
+
+It is also important to note that Red Hat Satellite's performance improves when more resources are allocated to the server. Enhanced computational power and increased memory allow for more efficient processing of tasks and data management. Higher-quality resources reduce system latency and increase throughput, making the software more responsive and capable of handling larger workloads effectively. 
+
+
+=== Satellite and Capsule Architecture
+|=======
+|*Investigation:*| List the names and urls of the Satellite and Capsule servers. List the organisations linked to the Satellite and Capsule servers.
+|*Rationale:*| The Red Hat Satellite Server enables you to plan and manage the content life cycle and the configuration of Capsule Servers and hosts through GUI, CLI, or API. 
+
+The Satellite Server also contains a fine-grained authentication system to provide Satellite operators with permissions to access precisely the parts of the infrastructure that lie in their area of responsibility. Capsule Servers mirror content from the Satellite Sevrer to establish content sources in various geographical locations. This enables host systems to pull content and configuration from the Capsule Servers in their location and not from the central Satellite Server. The recommended minimum number of Capsule Servers is therefore given by the number of geographic regions where the organization that uses Satellite operates.
+|=======
+*Observation:*
+
+.Satellites/Capsules:
+----
+---|-------------------------------------|--------------------------------------------------|---------------------------------------------------------------------------------
+ID | NAME                                | URL                                              | FEATURES                                                                        
+---|-------------------------------------|--------------------------------------------------|---------------------------------------------------------------------------------
+2  | lab-capsule-1.gpslab.cbr.redhat.com | https://lab-capsule-1.gpslab.cbr.redhat.com:9090 | Container_Gateway, Script, Templates, Logs, Registration, Discovery, Dynflow,...
+1  | sat-1.gpslab.cbr.redhat.com         | https://sat-1.gpslab.cbr.redhat.com:9090         | Discovery, Ansible, Openscap, TFTP, Puppet CA, Puppet, Logs, Pulpcore, Dynflo...
+---|-------------------------------------|--------------------------------------------------|---------------------------------------------------------------------------------
+----
+.Organisations:
+----
+---|-----------|-----------|-------------|----------
+ID | TITLE     | NAME      | DESCRIPTION | LABEL    
+---|-----------|-----------|-------------|----------
+7  | Funkytown | Funkytown |             | Funkytown
+---|-----------|-----------|-------------|---------- 
+----
+
+NOTE: For more information on a given organisation, run `hammer organization info --id <id_number>`
+
+=== Satellite Version 
+|======
+|*Investigation:*| What is the currently installed Satellite version on the Satellite server and the capsules? What was the initial installation version?
+|*Guidance:*| Red Hat provides a published product life cycle for the Red Hat Satellite server and its associated federation enablement component, the Red Hat Satellite Capsule Server, in order for customers and partners to effectively plan, deploy and support their management of Red Hat infrastructure. 
+
+The life cycle associated with Red Hat Satellite, which encompasses stated time periods for each major version, identifies the various levels of maintenance, split into production phases, from the initial release date - or General Availability (GA) to the End of Life (EOL). It is important to ensure your Satellite is upgraded within the product life cycle to ensure that your organisation can continue to receive patching, security updates, and maintain an effective Satellite server.
+|*Rationale:*| Keeping the Red Hat Satellite version up to date is crucial as it ensures that you have the latest security updates and patches released by Red Hat to keep your systems secure. Moreover, newer versions of Satellite are packaged with performance improvements and new features that can enhance the efficiency and capabilities of your Linux fleet  management.
+|====== 
+
+*Observation:* 
+
+satellite-6.13.6-1.el8sat.noarch
+ is installed on the Satellite server.
+
+Package satellite-capsule is not installed on the Capsule Server.
+
+=== Firewalls and Proxy
+|=====
+|*Investigation:| Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
+|Guidance:
+a|
+Generally, the following 12 ports should be open on the firewall:
+
+- 80/tcp
+- 443/tcp
+- 5647/tcp
+- 8000/tcp
+- 8140/tcp 
+- 8443/tcp
+- 9090/tcp
+- 53/tcp
+- 53/udp
+- 67/udp
+- 69/udp
+- 5000/tcp
+|Rationale:| A Satellite system runs many services, many of which should be protected from external access. Correct configuration of firewall rules limits network traffic to only that which is necessary, improving the security of the Satellite system.
+|=====
+*Observation:* 
+The ports that are currently open are:
+---- 
+'  ports: 53/udp 53/tcp 67/udp 69/udp 80/tcp 443/tcp 5647/tcp 8000/tcp 9090/tcp 8140/tcp'
+
+----
+
+
+== Infrastructure
+
+=== Infrastructure Architecture
+|=====
+|*Investigation:*| List the organisations and locations associated with the Satellite server.
+|*Guidance:*| Satellite should be configured with the minimum number of organisations and locations to support the required operations and configurations, without adding unhelpful and time consuming complexity.
+|*Rationale:*| The Satellite Server organizes the life cycle management by using organizations as principal division units. Organizations isolate content for groups of hosts with specific requirements and administration tasks. For example, the OS build team can use a different organization than the web development team. 
+
+Locations divide organizations into logical groups based on geographical location. Each location is created and used by a single Red Hat customer account, although each account can manage multiple locations and organizations.
+ 
+|=====
+*Observation:*
+
+.Organisations:
+----
+---|-----------|-----------|-------------|----------
+ID | TITLE     | NAME      | DESCRIPTION | LABEL    
+---|-----------|-----------|-------------|----------
+7  | Funkytown | Funkytown |             | Funkytown
+---|-----------|-----------|-------------|----------
+----
+.Locations:
+----
+---|------------------|------------------|------------
+ID | TITLE            | NAME             | DESCRIPTION
+---|------------------|------------------|------------
+2  | Default Location | Default Location |            
+---|------------------|------------------|------------
+----
+
+=== Network Requirements
+|=====
+|*Investigation:*| The network connectivity between Satellite and its capsules needs to be reliable. Can the Satellite connect to the CDN without issue? Do the FQDN, Domain, and Shortname connections resolve?
+|*Guidance:*
+a| 
+To maintain a networked base operating system for your Satellite, the following requirements apply: 
+
+- Full forward and reverse DNS resolution using a fully-qualified domain name
+- A system umask of 0022
+- Administrative user (root) access
+- A current Red Hat Satellite subscription
+- A unique host name, which can contain lower-case letters, numbers, dots (.) and hyphens (-)
+- A minimum of 20 GB RAM is required for Satellite Server to function. In addition, a minimum of 4 GB RAM of swap space is also recommended. Satellite running with less RAM than the minimum value might not operate correctly.
+- 4-core 2.0 GHz CPU at a minimum
+- The latest version of Red Hat Enterprise Linux 8 or Red Hat Enterprise Linux 7 Server
+|*Rationale:*| Proper DNS resolution is crucial for network stability and for services to locate and connect to the Satellite server using its domain name. A clear, unique hostname helps in easy identifcation and minimises confusion in network communication, crucial for the Satellite's interaction with its capsules and external networks. 
+
+Using the latest RHEL version guarantees compatibility with the latest Satellite updates, security patches, and features, ensuring a stable and secure operating environment. Likewise, maintaining a curent Red Hat Satellite subscription ensures access to the latest features, features, updates, patches, and support by maintaining system reliability and performance.
+|=====
+*Observation:*
+
+.Ping results:
+----
+- PING sat-1.gpslab.cbr.redhat.com (10.76.23.10) 56(84) bytes of data.
+- '64 bytes from sat-1.gpslab.cbr.redhat.com (10.76.23.10): icmp_seq=1 ttl=64 time=0.100
+    ms'
+- ''
+- '--- sat-1.gpslab.cbr.redhat.com ping statistics ---'
+- 1 packets transmitted, 1 received, 0% packet loss, time 0ms
+- rtt min/avg/max/mdev = 0.100/0.100/0.100/0.000 ms
+- PING sat-1.gpslab.cbr.redhat.com (10.76.23.10) 56(84) bytes of data.
+- '64 bytes from sat-1.gpslab.cbr.redhat.com (10.76.23.10): icmp_seq=1 ttl=64 time=0.089
+    ms'
+- ''
+- '--- sat-1.gpslab.cbr.redhat.com ping statistics ---'
+- 1 packets transmitted, 1 received, 0% packet loss, time 0ms
+- rtt min/avg/max/mdev = 0.089/0.089/0.089/0.000 ms
+
+----
+.CDN Connection:
+----
+- PING e4177.cd.akamaiedge.net (173.222.144.251) 56(84) bytes of data.
+- '64 bytes from a173-222-144-251.deploy.static.akamaitechnologies.com (173.222.144.251):
+    icmp_seq=1 ttl=51 time=103 ms'
+- ''
+- '--- e4177.cd.akamaiedge.net ping statistics ---'
+- 1 packets transmitted, 1 received, 0% packet loss, time 0ms
+- rtt min/avg/max/mdev = 102.895/102.895/102.895/0.000 ms
+
+----
+.Are the required ports listening?
+----
+- 'LISTEN 0      128               0.0.0.0:9090       0.0.0.0:*          '
+- 'LISTEN 0      511                     *:443              *:*          '
+- 'LISTEN 0      128                  [::]:9090          [::]:*          '
+- 'LISTEN 0      50                      *:8140             *:*          '
+- 'LISTEN 0      511                     *:80               *:*          '
+
+----
+
+== Storage
+
+=== Qpidd Storage
+|=====
+|*Investigation:*| Is the qpidd service available? How much space is available in the qpidd partition? is the qpidd parititon too large?
+|*Rationale:*| It's recommended to ensure QPIDD is properly configured with sufficient resources and tuned for the network and system environment. Regular monitoring and maintenance of the QPIDD service are essential to promptly identify and resolve any performance or connectivity issues, and to ensure it's securely configured to prevent unauthorized access.
+|=====
+*Observation:*
+
+NOTE: qpidd was removed from Satellite systems with the introduction of Pulp3. No analysis will be conducted for this check if Pulp3 is present on the Satellite server.
+ 
+Pulp3 is installed on this Satellite Server.
+
+=== Backup/Restore Procedures
+|=====
+|*Investigation:*| If the client is using snapshots, what are the backups listed in foreman-maintain backups? What kinds of backup procedures are in place for the Satellite? 
+|*Observation:*| The consultant will likely have to ask the client for additional information on procedures and backup philosophy.
+|*Guidance:*
+a| 
+The frequency of backing up your Red Hat Satellite 6 instance should be determined based on a few key factors:
+
+- *Change Frequency*: How often changes are made in your Satellite environment, such as adding new hosts, updating content, or modifying configurations. If changes are frequent, consider more frequent backups to minimize data loss.
+- *Data Criticality*: The importance of the data managed by Satellite. If the data is critical for your operations, backing up regularly is essential to ensure a quick recovery in case of failure.
+- *System Usage and Load*: In a highly active Satellite environment, you might need more frequent backups compared to a less active one.
+- *Recovery Objectives*: Your Recovery Point Objective (RPO) and Recovery Time Objective (RTO). Determine how much data loss is acceptable and how quickly you need to be able to restore operations.
+- *Resource Availability*: The resources available for backup processes, including storage space and network bandwidth. More frequent backups require more storage and can impact network performance.
+|*Rationale:*| Backup and restore procedures help to ensure the continuity of your Red Hat Satellite deployment and associated data in the event of a disaster. If your deployment uses custom configurations you should take these into account when planning your backup and disaster recovery policy.
+|=====
+
+== Host Management
+
+=== Remote Execution
+|=====
+|*Investigation:*| Is remote execution set up on Satellite? Is cron used to execute these remote jobs?
+|*Rationale:*| Remote execution allows administrators to remotely run an arbitrary command on Satellite clients quickly and easily. This can help organisations easily standardise machine configurations, improve system-to-administrator ratios by automating patch and configuration management and provisioning, and reduce errors and inconsistencies.
+|=====
+*Observation:*
+----
+- '----|-----------------------------------------------------------|----------------------------|----------|-------------'
+- 'ID  | NAME                                                      | JOB CATEGORY               |
+    PROVIDER | TYPE        '
+- '----|-----------------------------------------------------------|----------------------------|----------|-------------'
+- 178 | Ansible Collection - Install from Galaxy                  | Ansible Galaxy             |
+    Ansible  | job_template
+- 179 | Ansible Roles - Ansible Default                           | Ansible Playbook           |
+    Ansible  | job_template
+- 180 | Ansible Roles - Install from Galaxy                       | Ansible Galaxy             |
+    Ansible  | job_template
+- 181 | Ansible Roles - Install from git                          | Ansible Roles
+    Installation | Ansible  | job_template
+- 185 | Ansible - Run insights maintenance plan                   | Ansible Playbook           |
+    Ansible  | job_template
+- 191 | Ansible - Run playbook                                    | Ansible Playbook           |
+    Ansible  | job_template
+- 232 | Capsule Upgrade Playbook                                  | Maintenance Operations     |
+    Ansible  | job_template
+- 206 | Change content source                                     | Katello                    |
+    script   | job_template
+- '211 | Check Leapp                                               | Leapp                      |
+    SSH      | snippet     '
+- 149 | Check Update - Script Default                             | Packages                   |
+    script   | job_template
+- 183 | Configure Cloud Connector                                 | Maintenance Operations     |
+    Ansible  | job_template
+- 184 | Convert to RHEL                                           | Convert 2 RHEL             |
+    Ansible  | job_template
+- 207 | Install errata by search query - Katello Script Default   | Katello                    |
+    script   | job_template
+- 161 | Install Errata - Katello Ansible Default                  | Katello via Ansible        |
+    Ansible  | job_template
+- 160 | Install Errata - Katello Script Default                   | Katello                    |
+    script   | job_template
+- 163 | Install Group - Katello Ansible Default                   | Katello via Ansible        |
+    Ansible  | job_template
+- 162 | Install Group - Katello Script Default                    | Katello                    |
+    script   | job_template
+- 165 | Install Package - Katello Ansible Default                 | Katello via Ansible        |
+    Ansible  | job_template
+- 164 | Install Package - Katello Script Default                  | Katello                    |
+    script   | job_template
+- 225 | Install packages by search query - Katello Script Default | Katello                    |
+    script   | job_template
+- 228 | Manage Windows Updates - Ansible Default                  | Ansible Playbook           |
+    Ansible  | job_template
+- 186 | Module Action - Ansible Default                           | Ansible Modules            |
+    Ansible  | job_template
+- 150 | Module Action - Script Default                            | Modules                    |
+    script   | job_template
+- 187 | Package Action - Ansible Default                          | Ansible Packages           |
+    Ansible  | job_template
+- 151 | Package Action - Script Default                           | Packages                   |
+    script   | job_template
+- 231 | Populate the OpenSCAP cache                               | Miscellaneous              |
+    script   | job_template
+- 188 | Power Action - Ansible Default                            | Ansible Power              |
+    Ansible  | job_template
+- 152 | Power Action - Script Default                             | Power                      |
+    script   | job_template
+- 153 | Puppet Agent Disable - Script Default                     | Puppet                     |
+    script   | job_template
+- 154 | Puppet Agent Enable - Script Default                      | Puppet                     |
+    script   | job_template
+- 155 | Puppet Module - Install from forge - Script Default       | Puppet                     |
+    script   | job_template
+- 156 | Puppet Module - Install from git - Script Default         | Puppet                     |
+    script   | job_template
+- 189 | Puppet Run Once - Ansible Default                         | Ansible Puppet             |
+    Ansible  | job_template
+- 157 | Puppet Run Once - Script Default                          | Puppet                     |
+    script   | job_template
+- 167 | Remove Group - Katello Ansible Default                    | Katello via Ansible        |
+    Ansible  | job_template
+- 166 | Remove Group - Katello Script Default                     | Katello                    |
+    script   | job_template
+- 169 | Remove Package - Katello Ansible Default                  | Katello via Ansible        |
+    Ansible  | job_template
+- 168 | Remove Package - Katello Script Default                   | Katello                    |
+    script   | job_template
+- 226 | Remove Packages by search query - Katello Script Default  | Katello                    |
+    script   | job_template
+- 209 | Resolve Traces - Katello Ansible Default                  | Katello via Ansible        |
+    Ansible  | job_template
+- 208 | Resolve Traces - Katello Script Default                   | Katello                    |
+    script   | job_template
+- 171 | Restart Services - Katello Ansible Default                | Katello via Ansible        |
+    Ansible  | job_template
+- 170 | Restart Services - Katello Script Default                 | Katello                    |
+    script   | job_template
+- 205 | Run a playbook downloaded from RH cloud                   | Red Hat Insights           |
+    Ansible  | job_template
+- 190 | Run Command - Ansible Default                             | Ansible Commands           |
+    Ansible  | job_template
+- 158 | Run Command - Script Default                              | Commands                   |
+    script   | job_template
+- 176 | Run OpenSCAP scans                                        | OpenSCAP                   |
+    SSH      | job_template
+- 210 | Run OpenSCAP scans - Ansible Default                      | OpenSCAP Ansible
+    Commands  | Ansible  | job_template
+- 177 | Run OVAL scans                                            | OpenSCAP                   |
+    SSH      | job_template
+- 212 | Run preupgrade via Leapp                                  | Leapp - Preupgrade         |
+    SSH      | job_template
+- 213 | Run remediation plan via Leapp                            | Other                      |
+    SSH      | job_template
+- 148 | Run remediations based on Insights recommendations        | Red Hat Insights           |
+    Ansible  | job_template
+- 214 | Run upgrade via Leapp                                     | Leapp - Upgrade            |
+    Ansible  | job_template
+- 192 | Service Action - Ansible Default                          | Ansible Services           |
+    Ansible  | job_template
+- 193 | Service Action - Enable Web Console                       | Ansible Services           |
+    Ansible  | job_template
+- 159 | Service Action - Script Default                           | Services                   |
+    script   | job_template
+- 182 | Smart Proxy Upgrade Playbook                              | Maintenance Operations     |
+    Ansible  | job_template
+- 173 | Update Group - Katello Ansible Default                    | Katello via Ansible        |
+    Ansible  | job_template
+- 172 | Update Group - Katello Script Default                     | Katello                    |
+    script   | job_template
+- 175 | Update Package - Katello Ansible Default                  | Katello via Ansible        |
+    Ansible  | job_template
+- 174 | Update Package - Katello Script Default                   | Katello                    |
+    script   | job_template
+- 227 | Update Packages by search query - Katello Script Default  | Katello                    |
+    script   | job_template
+- '----|-----------------------------------------------------------|----------------------------|----------|-------------'
+
+----
+
+=== Errata
+|=====
+|*Investigation:*| Are errata used? How is Errata managed? What errata are installable on the registered hosts?
+|*Guidance:*| Administrators should regularly review and apply errata to ensure systems are protected against known vulnerabilities and are running the latest software versions. The process can be streamlined by setting up auto-apply policies for critical updates and using Satellite's filtering tools to target specific systems or environments, thereby maintaining a high standard of security and reliability across the network.
+|*Rationale:*| As a part of Red Hat’s quality control and release process, we provide customers with updates for each release of official Red Hat RPMs. Red Hat compiles groups of related package into an erratum along with an advisory that provides a description of the update. Security Advisory errata describe fixed security issues found in the package. Bug Fix Advisory errata describes bug fixes, and Product Enhancement Advisory describes enhancements and new features added to the package. 
+|=====
+*Observation:*
+
+NOTE: The errata variable has been omitted in the report due to size of role. Replace the variable here if you choose to include the role.
+
+// UNCOMMENT ME AND ADD IN THE VARIABLE! 
+
+== Satellite Management
+
+=== Satellite Logging
+|=====
+|*Investigation:*| Are any errors logged in the foreman, foreman-proxy, or /var logs? Do any issues tie in with other issues identified in the report?
+|*Guidance:*| Any errors that appear in the logs should be investigated to ensure that Satellite is functioning effectively and correctly to avoid bugs and security vulnerabilities. 
+|*Rationale:*| Logs are essential for an effective and efficient Red Hat Satellite deployment as they provide detailed records of system operations, errors, and security events. This information is crucial for troubleshooting issues, monitoring system performance, and ensuring compliance with security and operational policies. 
+
+By analyzing these logs, administrators can proactively address potential problems, optimize system configurations, and maintain a high level of operational efficiency and reliability in their Satellite environment.
+|=====
+*Observation:*
+
++ /var/log/foreman/production.log returns:
+----
+The production.log does not contain any errors.
+----
+
++ /var/log/foreman-proxy/proxy.log returns:
+----
+The proxy.log does not contain any errors.
+----
+
++ /var/log/messages returns:
+----
+- 'Jan  3 08:43:33 sat-1 server[172237]: SEVERE: The web application [candlepin] created
+    a ThreadLocal with key of type [java.lang.ThreadLocal] (value [java.lang.ThreadLocal@e81c1bd])
+    and a value of type [org.apache.activemq.artemis.core.persistence.impl.journal.OperationContextImpl]
+    (value [OperationContextImpl [700095668] [minimalStore=9223372036854775807, storeLineUp=1,
+    stored=1, minimalReplicated=9223372036854775807, replicationLineUp=0, replicated=0,
+    paged=0, minimalPage=9223372036854775807, pageLineUp=0, errorCode=-1, errorMessage=null,
+    executorsPending=0]]) but failed to remove it when the web application was stopped.
+    Threads are going to be renewed over time to try and avoid a probable memory leak.'
+- 'Jan  3 12:38:19 sat-1 server[493691]: SEVERE: The web application [candlepin] created
+    a ThreadLocal with key of type [java.lang.ThreadLocal] (value [java.lang.ThreadLocal@2eb646cd])
+    and a value of type [org.apache.activemq.artemis.core.persistence.impl.journal.OperationContextImpl]
+    (value [OperationContextImpl [65541774] [minimalStore=9223372036854775807, storeLineUp=1,
+    stored=1, minimalReplicated=9223372036854775807, replicationLineUp=0, replicated=0,
+    paged=0, minimalPage=9223372036854775807, pageLineUp=0, errorCode=-1, errorMessage=null,
+    executorsPending=0]]) but failed to remove it when the web application was stopped.
+    Threads are going to be renewed over time to try and avoid a probable memory leak.'
+- 'Jan  3 14:55:24 sat-1 platform-python[533457]: ansible-ansible.legacy.command Invoked
+    with _raw_params=cat /var/log/foreman/production.log | grep error | grep failed
+    _uses_shell=True stdin_add_newline=True strip_empty_ends=True argv=None chdir=None
+    executable=None creates=None removes=None stdin=None'
+- 'Jan  3 14:55:25 sat-1 platform-python[533579]: ansible-ansible.legacy.command Invoked
+    with _raw_params=cat /var/log/foreman-proxy/proxy.log | grep error | grep failed
+    _uses_shell=True stdin_add_newline=True strip_empty_ends=True argv=None chdir=None
+    executable=None creates=None removes=None stdin=None'
+- 'Jan  3 14:55:27 sat-1 platform-python[533701]: ansible-ansible.legacy.command Invoked
+    with _raw_params=cat /var/log/messages | grep error | grep failed _uses_shell=True
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan  3 15:01:07 sat-1 platform-python[538661]: ansible-ansible.legacy.command Invoked
+    with _raw_params=cat /var/log/foreman/production.log | grep error | grep failed
+    _uses_shell=True stdin_add_newline=True strip_empty_ends=True argv=None chdir=None
+    executable=None creates=None removes=None stdin=None'
+- 'Jan  3 15:01:08 sat-1 platform-python[538783]: ansible-ansible.legacy.command Invoked
+    with _raw_params=cat /var/log/foreman-proxy/proxy.log | grep error | grep failed
+    _uses_shell=True stdin_add_newline=True strip_empty_ends=True argv=None chdir=None
+    executable=None creates=None removes=None stdin=None'
+- 'Jan  3 15:01:10 sat-1 platform-python[538905]: ansible-ansible.legacy.command Invoked
+    with _raw_params=cat /var/log/messages | grep error | grep failed _uses_shell=True
+    stdin_add_newline=True strip_empty_ends=True argv=None chdir=None executable=None
+    creates=None removes=None stdin=None'
+- 'Jan  3 15:04:59 sat-1 platform-python[543795]: ansible-ansible.legacy.command Invoked
+    with _raw_params=cat /var/log/foreman/production.log | grep error | grep failed
+    _uses_shell=True stdin_add_newline=True strip_empty_ends=True argv=None chdir=None
+    executable=None creates=None removes=None stdin=None'
+- 'Jan  3 15:05:01 sat-1 platform-python[543917]: ansible-ansible.legacy.command Invoked
+    with _raw_params=cat /var/log/foreman-proxy/proxy.log | grep error | grep failed
+    _uses_shell=True stdin_add_newline=True strip_empty_ends=True argv=None chdir=None
+    executable=None creates=None removes=None stdin=None'
+
+----
+
+=== Sync Plans
+|=====
+|*Investigation:*| Are synchronization plans being used by the organisation? How often are these sync plans run? Which repositories are being queried at each sync run?
+|*Guidance:*| A synchronization plan checks and updates the content at a scheduled date and time. In Red Hat Satellite 6, you can create a synchronization plan and assign products to the plan, which will then sync updates from the Red Hat Satellite repository and the source repositories to the Satellite Server.
+|*Rationale:*| Sync plans in Red Hat Satellite are crucial for managing and automating the regular update of software repositories, ensuring that systems under management have access to the latest security patches, bug fixes, and features. 
+
+By scheduling and controlling these updates, sync plans help maintain system stability, security, and compliance, while also allowing administrators to plan for bandwidth and system load during updates, minimizing disruption in the network. This organized approach to content management significantly enhances the efficiency and reliability of the IT infrastructure.
+|=====
+
+*Observation:*
+
+- 'Sync Plans for Organization: Funkytown,Funkytown,"",Funkytown (ID: 7)'
+- '---|--------|---------------------|----------|---------|-----------------|-------------------'
+- ID | NAME   | START DATE          | INTERVAL | ENABLED | CRON EXPRESSION | RECURRING
+    LOGIC ID
+- '---|--------|---------------------|----------|---------|-----------------|-------------------'
+- '1  | Weekly | 2022/06/25 15:00:00 | weekly   | yes     |                 | 4                 '
+- '---|--------|---------------------|----------|---------|-----------------|-------------------'
+
+
+=== Activation Keys
+|=====
+|*Investigation:*| Are activation keys used in the Satellite server? How are the activation keys used?
+|*Guidance:*| For effective activation key management, ensure that the keys are organised logically and aligned with the correct lifecycle environments and content views to ensure that systems are registered correctly for streamlined updates and maintenance. It is also recommended that you use a naming convention that clearly indicates their purpose, associated lifecycle stage, or organizational unit.
+
+Likewise, limit the number of activation keys to avoid complexity and confusion.Revoke or update keys that are no longer in use to maintain security and efficiency in your system management.
+|*Rationale:*
+a| Activation keys provide a method to automate system registration and subscription attachment. You can create multiple keys and associate them with different environments and Content Views. 
+
+They can define the following properties for content hosts: 
+
+- Associated subscriptions and subscription attachment behaviour
+- Available products and repositories
+- A life cycle environment and a Content View
+- Host collection membership
+|=====
+
+*Observation:*
+
+- 'Activation keys for Organization: Funkytown,Funkytown,"",Funkytown (ID: 7)'
+- '---|--------------------|-----------------|-----------------------|-------------------'
+- 'ID | NAME               | HOST LIMIT      | LIFECYCLE ENVIRONMENT | CONTENT VIEW      '
+- '---|--------------------|-----------------|-----------------------|-------------------'
+- '16 | LEAPP-AK           | 1 of Unlimited  | Production            | LEAPP-CV          '
+- 2  | OSP-16.2-latest-AK | 7 of Unlimited  | Production            | OSP-16.2-latest-CV
+- '3  | RHEL8-AK           | 10 of Unlimited | Production            | RHEL8-CV          '
+- '12 | RHEL9-AK           | 14 of Unlimited | Production            | RHEL9-CV          '
+- '---|--------------------|-----------------|-----------------------|-------------------'
+
+
+=== Registered hosts
+
+*Investigation:* How many registered hosts are connected to the Satellite? 
+
+*Observation:*
+----
+- aap-ctlr-1.gpslab.cbr.redhat.com      10.76.23.16
+- aap-ctrl-2.gpslab.cbr.redhat.com      10.76.23.21
+- aap-db-1.gpslab.cbr.redhat.com        10.76.23.18
+- aap-db-2.gpslab.cbr.redhat.com        10.76.23.23
+- aap-ee-2.gpslab.cbr.redhat.com        10.76.23.24
+- aap-ee-4.gpslab.cbr.redhat.com        10.76.23.25
+- aap-hub-1.gpslab.cbr.redhat.com       10.76.23.17
+- aap-hub-2.gpslab.cbr.redhat.com       10.76.23.22
+- image-builder.gpslab.cbr.redhat.com   10.76.23.15
+- ipa1.gpslab.cbr.redhat.com            10.76.23.245
+- ipa2.gpslab.cbr.redhat.com            10.76.23.244
+- ipa3.gpslab.cbr.redhat.com            10.76.23.243
+- jumpbox.gpslab.cbr.redhat.com         10.76.23.11
+- lab-capsule-1.gpslab.cbr.redhat.com   10.76.23.12
+- lab-capsule-2.gpslab.cbr.redhat.com   10.76.23.13
+- lab-ceph-1.gpslab.cbr.redhat.com      10.76.23.60
+- lab-ceph-2.gpslab.cbr.redhat.com      10.76.23.61
+- lab-ceph-3.gpslab.cbr.redhat.com      10.76.23.62
+- lab-ceph-4.gpslab.cbr.redhat.com      10.76.23.63
+- lab-ceph-5.gpslab.cbr.redhat.com      10.76.23.64
+- lab-ceph-admin.gpslab.cbr.redhat.com  192.168.22.59
+- lab-compute-1.gpslab.cbr.redhat.com   192.168.14.8
+- lab-compute-2.gpslab.cbr.redhat.com   10.76.23.81
+- lab-compute-3.gpslab.cbr.redhat.com   192.168.22.10
+- lab-ctlr-1.gpslab.cbr.redhat.com      192.168.14.5
+- lab-ctlr-2.gpslab.cbr.redhat.com      192.168.11.92
+- lab-ctlr-3.gpslab.cbr.redhat.com      10.76.23.7
+- lab-kvm-1.gpslab.cbr.redhat.com       192.168.10.43
+- lab-kvm-2.gpslab.cbr.redhat.com       192.168.10.9
+- lab-ospd-1.gpslab.cbr.redhat.com      10.76.23.4
+- lab-storage-1.gpslab.cbr.redhat.com   10.76.23.40
+- nfs.gpslab.cbr.redhat.com             10.76.23.40
+- quay.gpslab.cbr.redhat.com            10.76.23.14
+- test-host-2.gpslab.cbr.redhat.com     192.168.100.243
+
+----
