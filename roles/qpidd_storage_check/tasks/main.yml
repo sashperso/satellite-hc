@@ -8,17 +8,17 @@
 
 - name: Set the Pulp3 existence fact
   ansible.builtin.set_fact:
-    pulp3_absent: true
-  when: 'pulp3' not in pulp_check.stdout
+    pulp3_present: true
+  when: 'pulp3' in pulp_check.stdout
 
 - name: Verify qpidd status
   ansible.builtin.shell: systemctl status qpidd
   register: result_qpidd_status
   ignore_errors: true
-  when: pulp3_absent is defined and pulp3_absent
+  when: pulp3_present == false
  
 - name: Check qpidd disk usage.
   ansible.builtin.shell: du -h /var/lib/qpidd
   register: result_qpidd_storage
   ignore_errors: true
-  when: pulp3_absent is defined and pulp3_absent
+  when: pulp3_present == false
