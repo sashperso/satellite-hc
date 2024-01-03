@@ -11,8 +11,8 @@
     - firewall_and_proxy_check
     - high_level_check
     - infrastructure_design_check
-    - log_error_check
-#    - logging_check --> add conditionals to stop from breaking
+#    - log_error_check --> add conditionals to stop from breaking
+    - logging_check
     - network_connectivity_check
     - network_resources_check
     - organisations_check
