@@ -249,7 +249,7 @@ The frequency of backing up your Red Hat Satellite 6 instance should be determin
 
 NOTE: The errata variable has been omitted in the report due to size of role. Replace the variable here if you choose to include the role.
 
-// UNCOMMENT ME! {{ result_errata.stdout_lines | to_nice_yaml }}
+// UNCOMMENT ME AND ADD IN THE VARIABLE! 
 
 == Satellite Management
 
