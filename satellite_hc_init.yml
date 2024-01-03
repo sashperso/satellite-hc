@@ -2,25 +2,29 @@
 - name: Initialise the Satellite Health Check
   hosts: satellite
   roles:
-    - high_level_check
-    - disk_space_check
-    - system_reqs_check
-    - satellite_version_check
-    - organisations_check
-    - firewall_and_proxy_check
-    - infrastructure_design_check
-    - network_connectivity_check
-    - qpidd_storage_check
-    - logging_check
-    - remote_execution_check
-#    - errata_check
-    - registered_host_check
-    - compute_resources_check
-    - network_resources_check
+    - activation_keys_check
     - auth_sources_check
+    - compute_resources_check
+    - content_check
+    - disk_space_check
+#    - errata_check
+    - firewall_and_proxy_check
+    - high_level_check
+    - infrastructure_design_check
+    - log_error_check
+    - logging_check
+    - network_connectivity_check
+    - network_resources_check
+    - organisations_check
+    - qpidd_storage_check
+    - registered_host_check
+    - remote_execution_check
+    - satellite_version_check
+    - sync_plan_check
+    - system_reqs_check
 
   vars: 
-    - satellite_server: <insert_satellite_url_here>
+    - satellite_server: 
 
 # NOTE TO SELF: MAYBE DO PACKAGE CHECK?
 #  - i.e. sysstat

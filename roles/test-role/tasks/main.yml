@@ -1,6 +1,0 @@
----
-# tasks file for test-role
-
-- name: Test that the host is reached by the role
-  ansible.builtin.command: echo "The test was successful"
-  register: test_result
