@@ -5,14 +5,14 @@
     - activation_keys_check
     - auth_sources_check
     - compute_resources_check
-    - content_check
+#    - content_check --> need to fix item loops. Might be redundant
     - disk_space_check
 #    - errata_check
     - firewall_and_proxy_check
     - high_level_check
     - infrastructure_design_check
     - log_error_check
-    - logging_check
+#    - logging_check --> add conditionals to stop from breaking
     - network_connectivity_check
     - network_resources_check
     - organisations_check
