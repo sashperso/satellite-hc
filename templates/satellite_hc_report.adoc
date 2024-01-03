@@ -195,7 +195,7 @@ Using the latest RHEL version guarantees compatibility with the latest Satellite
 
 NOTE: qpidd was removed from Satellite systems with the introduction of Pulp3. No analysis will be conducted for this check if Pulp3 is present on the Satellite server.
  
-Pulp3 is {% if pulp3_present == true %}installed on this Satellite Server.{% else %}absent from this Satellite Server.
+Pulp3 is {% if pulp3_present == true %}installed on this Satellite Server.{% else %}absent from this Satellite Server.{% endif %}
 
 {% if pulp3_present == false %}
 {% if result_qpidd_status.failed == false %}
