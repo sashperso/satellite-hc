@@ -1,5 +1,5 @@
-----
-- name: Find and list the activation keys registered on the Satellite *NOTE - THIS MIGHT TAKE SOME TIME!*
+---
+- name: Find and list the activation keys registered on the Satellite (NOTE - THIS MIGHT TAKE SOME TIME)
   ansible.builtin.shell: |
     orgs=$(hammer --csv organization list | tail -n +2)
     echo "$orgs" | while IFS=, read -r id name

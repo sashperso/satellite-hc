@@ -1,6 +1,6 @@
   #---
 - name: Initialise the Satellite Health Check
-  hosts: satellite
+  hosts: 10.76.23.10
   roles:
     - activation_keys_check
     - auth_sources_check
@@ -24,7 +24,7 @@
     - system_reqs_check
 
   vars: 
-    - satellite_server: 
+    - satellite_server: http://10.76.23.10
 
 # NOTE TO SELF: MAYBE DO PACKAGE CHECK?
 #  - i.e. sysstat
