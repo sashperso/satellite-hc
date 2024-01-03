@@ -1,0 +1,11 @@
+----
+- name: Find and list the sync plans on the Satellite *NOTE - THIS MIGHT TAKE SOME TIME!*
+  ansible.builtin.shell: |
+    orgs=$(hammer --csv organization list | tail -n +2)
+    echo "$orgs" | while IFS=, read -r id name
+    do
+      echo "Sync Plans for Organization: $name (ID: $id)"
+      hammer sync-plan list --organization-id "$id"
+      echo
+    done
+  register: result_sync_plan

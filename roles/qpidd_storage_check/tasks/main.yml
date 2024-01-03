@@ -1,12 +1,24 @@
 ---
 # tasks file for ./roles/qpidd_storage_check
 
+- name: Check for Pulp3 presence on the server
+  ansible.builtin.command: pulp --version
+  register: pulp_check
+  ignore_errors: yes
+
+- name: Set the Pulp3 existence fact
+  ansible.builtin.set_fact:
+    pulp3_absent: true
+  when: 'pulp3' not in pulp_check.stdout
+
 - name: Verify qpidd status
   ansible.builtin.shell: systemctl status qpidd
   register: result_qpidd_status
   ignore_errors: true
-
+  when: pulp3_absent is defined and pulp3_absent
+ 
 - name: Check qpidd disk usage.
   ansible.builtin.shell: du -h /var/lib/qpidd
   register: result_qpidd_storage
   ignore_errors: true
+  when: pulp3_absent is defined and pulp3_absent
