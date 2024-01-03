@@ -9,7 +9,7 @@
 - name: Set the Pulp3 existence fact
   ansible.builtin.set_fact:
     pulp3_present: true
-  when: 'pulp3' in pulp_check.stdout
+  when: "pulp3" in pulp_check.stdout
 
 - name: Verify qpidd status
   ansible.builtin.shell: systemctl status qpidd
