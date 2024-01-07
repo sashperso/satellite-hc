@@ -102,8 +102,8 @@ Package satellite-capsule is not installed on the Capsule Server.
 
 === Firewalls and Proxy
 |=====
-|*Investigation:| Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
-|Guidance:
+|*Investigation:*| Is firewalling appropriately configured for the Satellite and Capsule servers? Is the proxy server able to access cdn.redhat.com and subscription.rhsm.redhat.com directly without SSL termination? Are the required ports open? Are any optional ports opened?
+|*Guidance:*
 a|
 Generally, the following 12 ports should be open on the firewall:
 
@@ -119,7 +119,7 @@ Generally, the following 12 ports should be open on the firewall:
 - 67/udp
 - 69/udp
 - 5000/tcp
-|Rationale:| A Satellite system runs many services, many of which should be protected from external access. Correct configuration of firewall rules limits network traffic to only that which is necessary, improving the security of the Satellite system.
+|*Rationale:*| A Satellite system runs many services, many of which should be protected from external access. Correct configuration of firewall rules limits network traffic to only that which is necessary, improving the security of the Satellite system.
 |=====
 *Observation:* 
 The ports that are currently open are:
@@ -195,7 +195,7 @@ Using the latest RHEL version guarantees compatibility with the latest Satellite
 
 NOTE: qpidd was removed from Satellite systems with the introduction of Pulp3. No analysis will be conducted for this check if Pulp3 is present on the Satellite server.
  
-Pulp3 is {% if pulp3_present == true %}installed on this Satellite Server.{% else %}absent from this Satellite Server.
+Pulp3 is {% if pulp3_present == true %}installed on this Satellite Server.{% else %}absent from this Satellite Server.{% endif %}
 
 {% if pulp3_present == false %}
 {% if result_qpidd_status.failed == false %}
@@ -249,7 +249,7 @@ The frequency of backing up your Red Hat Satellite 6 instance should be determin
 
 NOTE: The errata variable has been omitted in the report due to size of role. Replace the variable here if you choose to include the role.
 
-// UNCOMMENT ME! {{ result_errata.stdout_lines | to_nice_yaml }}
+// UNCOMMENT ME AND ADD IN THE VARIABLE! 
 
 == Satellite Management
 
@@ -300,8 +300,9 @@ By scheduling and controlling these updates, sync plans help maintain system sta
 |=====
 
 *Observation:*
-
-{{ result_sync_plan.stdout_lines | to_nice_yaml }}
+----
+{{ result_sync_plan.stdout | to_nice_yaml }}
+----
 
 === Activation Keys
 |=====
@@ -322,7 +323,9 @@ They can define the following properties for content hosts:
 
 *Observation:*
 
-{{ result_activation_key.stdout_lines | to_nice_yaml }}
+----
+{{ result_activation_key.stdout | to_nice_yaml }}
+----
 
 === Registered hosts
 
