@@ -22,7 +22,11 @@ git branch -M main
 ```
 More information on contributing and GitOps can be found in the CONTRIBUTING.md file.
 
-# Using this playbook
+## Usage
+
+For more information, refer to the [User Guide](https://gitlab.consulting.redhat.com/anz-consulting/satellite/automated_satellite_health_check/-/blob/main/user_guide.md?ref_type=heads)
+
+## About this playbook
 Running this playbook enables a consultant to generate both .txt and .adoc reports. The .txt report may be useful for a technical audience or can serve as a low-storage artifact left behind on a system for reference by sysadmins or other techincal staff at the client site. The .adoc report enables the generation of a PDF report which is easy to read and can be suited for a wide range of audiences. This report is also formatted in line with Red Hat style conventions and can thus be used as a business tool. 
 
 ```mermaid
@@ -33,77 +37,8 @@ graph TD
     D[Generate pdf] --> E[Artifact generated for client]
     C[Create .txt report] --> E[Artifact generated for client]
 ```
-The following instructions allow the user to conduct a Satellite health check on their local machine. **Please note that to use this playbook, you will have to insert the IP address(es) of the Satellite(s) being checked in both the inventory file and the ansible_hc_init.yml file prior to running the playbook.**
 
-```
-$ git clone <url>
-$ cd ~/automated_satellite_health_check
-$ ansible-playbook satellite_hc_init.yml -u <root_user> --ask-pass
->Enter root password
-$ cat ./satellite_hc_report_<satellite_hostname>
-
-```
-
-## Generating the reports (.txt and .adoc)
-
-To generate the PDF report, certain elements should be tweaked by the consultant prior to running the script. Instructions for this step are explained below.
-
-### PDF Report Generation Procedure
-
-**IMPORTANT PREREQUISITES**
-
-1. Please ensure that the podman utility is downloaded on your local machine/the machine that you'd like to generate the pdf machine on. You can download this by using:
-
-```
-$ sudo yum -y install podman
-```
-You *may* encounter asciidoc-doctor related errors on the command line that will require you to install newer versions of the asciidoctor utilities. In this case, please refer to the [asciidoctor-pdf](https://github.com/asciidoctor/asciidoctor-pdf) and [asciidoctor-diagram](https://docs.asciidoctor.org/diagram-extension/latest/) documentation for further instructions.
-
-
-2. Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing the PDF Generation.
-
-**Variables explained:**
-- /vars/customer-vars.adoc --> These variables are where the customer name, customer, and the customer short name are inserted. You can use these to further customise the report content. The variables outlined here are the ones that help name the PDF report, so please take care to fill this out.
-- /vars/document-vars.adoc --> This document-vars.adoc file contains mainly static/routine variables for the CER. It should not contain customer specific variables related to the customer name and related information. You should not need to change these to run the PDF generation script.
-- /vars/redhat-vars.adoc --> This contains short names for products. Now, you can for instance write {rhel} in the CER which will render to the full product name. 
-- /vars/render-vars.adoc --> This describes how the file is created. Might be put into the styles/pdf later. This probably won't need to be changed for the report either.
-
-**Generating the PDF report:**
-```
-$ cd ~/automated_satellite_health_check
-$ sh generate-pdf -f 'satellite_hc_report"<satellite_hostname>".doc'
-```
-This will produce a ready-to-use report. If you wish to add any additional sections, topics, or discussion (such as filling out the tables within the document), you will have to edit the .adoc file that is autopopulated by the ansible playbooks. Otherwise, if you think there is an important section missing, feel free to reach out and we can add the feature in.
-
-[NOTE] Use sh generate-pdf -h to learn more about the PDF generation options available to you.
-
-*******
-
-# Project Rationale
-### Strengths
-- Ansible is agentless, so as long as the controller has an ssh connection (or is local), then it is possible to run an Ansible automated health check across a large fleet.
-- Ansible is declarative code, therefore it is easier to read because developers state what they want the program to do, rather than describe how to do it.
-
-### Weaknesses
-- The customer will need to install Ansible on their system, in order to use this automated health check.
-- There is a dependency on python packages, so their version needs to match what the Ansible interpreter requires.
-- The custom and unique nature of Satellite deployments means that this Ansible playbook may need to be amended to ensure all contents of the Satellite deployment are captured.
-- This playbook does not autopopulate the CER template. This is an opportunity that can be investigated.
-
-### Opportunities
-- More time for the consultant to add value - perform analysis and recommendations, rather than gather information.
-- Standardise Satellite health check engagements at a high level.
-- The ability to autopopulate a CER report with the playbook, or covert the findings into a presentation would be a great feature in the future. NOTE: A team in the US has automated CER autopopulation for an OCP health check. The mechanics of the health check are different to the mechanics used in this project, but this may be of use in the future:
-https://search-portfolio-hub.6923.rh-us-east-1.openshiftapps.com/serviceskit/openshift_health_check
-
-### Threats
-- Lack of adoption due to consultant not being familiar with the tool.
-- Will the tool output recommendations? Who owns and takes responsibility for recommendations?
-- Product ownership - who will own and maintain this tool?
-- Difficulty of advanced features such as CER autopopulation, may require the input of consultants or knowledge-holders with advanced Satellite, CER, Ansible or asciidoc skills.
-
-
-*******
+*****
 # Admin Section
 
 ## Support
@@ -131,7 +66,14 @@ Milestone 5: Added RH styling conventions and finalised project structure.
 We are open to contributions. 
 We need designers who can identify problems, suggest improvements or features, and co-create solutions with engineers. Please reach out to any of the contributors if you're interested in helping out! :-)
 
-
 ## Contributors
-Project Owner - Sasha Personeni spersone@redhat.com
-Maintainer - Elise Elkerton eelkerto@redhat.com
+Authors:
+- Sasha Personeni
+- Maurice Burrows
+- Dane Butler
+- Andrew Spurrier
+- Elise Elkerton
+
+Project Owner: Sasha Personeni spersone@redhat.com
+
+Maintainer: Elise Elkerton eelkerto@redhat.com
