@@ -88,19 +88,15 @@ This will produce a ready-to-use report. If you wish to add any additional secti
 - The customer will need to install Ansible on their system, in order to use this automated health check.
 - There is a dependency on python packages, so their version needs to match what the Ansible interpreter requires.
 - The custom and unique nature of Satellite deployments means that this Ansible playbook may need to be amended to ensure all contents of the Satellite deployment are captured.
-- This playbook does not autopopulate the CER template. This is an opportunity that can be investigated.
 
 ### Opportunities
 - More time for the consultant to add value - perform analysis and recommendations, rather than gather information.
 - Standardise Satellite health check engagements at a high level.
-- The ability to autopopulate a CER report with the playbook, or covert the findings into a presentation would be a great feature in the future. NOTE: A team in the US has automated CER autopopulation for an OCP health check. The mechanics of the health check are different to the mechanics used in this project, but this may be of use in the future:
-https://search-portfolio-hub.6923.rh-us-east-1.openshiftapps.com/serviceskit/openshift_health_check
 
 ### Threats
 - Lack of adoption due to consultant not being familiar with the tool.
 - Will the tool output recommendations? Who owns and takes responsibility for recommendations?
 - Product ownership - who will own and maintain this tool?
-- Difficulty of advanced features such as CER autopopulation, may require the input of consultants or knowledge-holders with advanced Satellite, CER, Ansible or asciidoc skills.
 
 
 *******
@@ -130,8 +126,10 @@ Milestone 5: Added RH styling conventions and finalised project structure.
 ## Contributing
 We are open to contributions. 
 We need designers who can identify problems, suggest improvements or features, and co-create solutions with engineers. Please reach out to any of the contributors if you're interested in helping out! :-)
+- The [Miro board is located here](https://miro.com/app/board/uXjVNFNa3RM=/)
+- The Issues board is associated with this Git Repo
 
 
 ## Contributors
-Project Owner - Sasha Personeni spersone@redhat.com
-Maintainer - Elise Elkerton eelkerto@redhat.com
+- Project Owner - Sasha Personeni spersone@redhat.com
+- Maintainer - Elise Elkerton eelkerto@redhat.com
