@@ -22,28 +22,12 @@
     - satellite_version_check
     - sync_plan_check
     - system_reqs_check
-  # vars: 
-  #   - satellite_server: http://10.76.23.10
-
-# NOTE TO SELF: MAYBE DO PACKAGE CHECK?
-#  - i.e. sysstat
 
   tasks:
-#    - name: Generate the Satellite Health Check Report in .txt format
-#      ansible.builtin.template:
-#        src: ./templates/satellite_hc_report.j2
-#        dest: satellite_hc_report_{{ ansible_hostname }}.txt
-
     - name: Generate the Satellite Health Check Report in .adoc format
       ansible.builtin.template:
         src: ./templates/satellite_hc_report.adoc
         dest: satellite_hc_report_{{ ansible_hostname }}.adoc
-
-#    - name: Fetch the .txt Satellite report and copy it to the local machine
-#      ansible.builtin.fetch:
-#        src: satellite_hc_report_{{ ansible_hostname }}.txt
-#        dest: ./
-#        flat: yes
 
     - name: Fetch the .adoc Satellite report and copy it to the local machine
       ansible.builtin.fetch:

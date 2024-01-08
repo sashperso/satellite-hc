@@ -1,6 +1,6 @@
 // --------------------------------
 // Document/Brand Configuration
-// Do Not Change
+// DON'T CHANGE THESE!
 // --------------------------------
 :doctype: book
 :listing-caption: Listing

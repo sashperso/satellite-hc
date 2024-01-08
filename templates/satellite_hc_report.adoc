@@ -1,20 +1,31 @@
 :pdf-theme: ./styles/pdf/redhat-theme.yml
 :pdf-fontsdir: ./fonts
-include::vars/render-vars.adoc[]
-include::vars/document-vars.adoc[]
+include::../configs/document-vars.adoc[]
+include::../configs/render-vars.adoc[]
+:subject: Automated Satellite Health Check Report
 
-= Satellite Health Check Report
+:toc:
+
+= Red Hat Satellite Health Check Report
 
 This is a health check report for Satellite server {{ ansible_fqdn }} at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
 
-== Analysis
+:sectnums:
+== Disclaimer
 
-=== Health Check Overview:
+_This health check provides a best effort evaluation of the targeted Red Hat Satellite(s). The results from the
+report do not in any way provide a guarantee or warranty for the health and performance of the targeted
+Satellite(s). The health check aims to provide an indication of overall health and provide consultant
+recommendations on a best effort basis._
+
+This health check has been conducted by {{ authorname }} for {{ customer }}.
+
+== Health Check Overview:
 ----
 {{ result_health_check.stdout }}
 ----
 
-=== Satellite Service Status:
+== Satellite Service Status:
 ----
 {{ result_running_services.stdout }}
 ----
