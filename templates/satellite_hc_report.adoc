@@ -71,6 +71,7 @@ For further information, please refer to the Satellite installation https://acce
 
 It is also important to note that Red Hat Satellite's performance improves when more resources are allocated to the server. Enhanced computational power and increased memory allow for more efficient processing of tasks and data management. Higher-quality resources reduce system latency and increase throughput, making the software more responsive and capable of handling larger workloads effectively. 
 
+{{ BASE_OS_RECOMMENDATION }}
 
 === Satellite and Capsule Architecture
 |=======
@@ -91,6 +92,8 @@ The Satellite Server also contains a fine-grained authentication system to provi
 ----
 
 NOTE: For more information on a given organisation, run `hammer organization info --id <id_number>`
+
+{{ ARCHITECTURES_RECOMMENDATION }}
 
 === Satellite Version 
 |======
@@ -138,6 +141,7 @@ The ports that are currently open are:
 {{ result_firewall_ports.stdout | to_nice_yaml }}
 ----
 
+{{ FIREWALLS_RECOMMENDATION }}
 
 == Infrastructure
 
@@ -160,6 +164,8 @@ Locations divide organizations into logical groups based on geographical locatio
 ----
 {{ result_hammer_location.stdout }}
 ----
+
+{{ INFRASTRUCTURE_RECOMMENDATION }}
 
 === Network Requirements
 |=====
@@ -195,6 +201,8 @@ Using the latest RHEL version guarantees compatibility with the latest Satellite
 {{ result_port_listen.stdout_lines | to_nice_yaml }}
 ----
 
+{{ NETWORK_RECOMMENDATION }}
+
 == Storage
 
 === Qpidd Storage
@@ -222,6 +230,8 @@ Pulp3 is {% if pulp3_present == true %}installed on this Satellite Server.{% els
 {% endif %}
 {% endif %}
 
+{{ QPIDD_RECOMMENDATION }}
+
 === Backup/Restore Procedures
 |=====
 |*Investigation:*| If the client is using snapshots, what are the backups listed in foreman-maintain backups? What kinds of backup procedures are in place for the Satellite? 
@@ -238,6 +248,8 @@ The frequency of backing up your Red Hat Satellite 6 instance should be determin
 |*Rationale:*| Backup and restore procedures help to ensure the continuity of your Red Hat Satellite deployment and associated data in the event of a disaster. If your deployment uses custom configurations you should take these into account when planning your backup and disaster recovery policy.
 |=====
 
+{{ BACKUP_RECOMMENDATION }}
+
 == Host Management
 
 === Remote Execution
@@ -250,6 +262,8 @@ The frequency of backing up your Red Hat Satellite 6 instance should be determin
 {{ result_remote_execution.stdout_lines | to_nice_yaml }}
 ----
 
+{{ REMOTE_EXECUTION_RECOMMENDATION }}
+
 === Errata
 |=====
 |*Investigation:*| Are errata used? How is Errata managed? What errata are installable on the registered hosts?
@@ -260,7 +274,9 @@ The frequency of backing up your Red Hat Satellite 6 instance should be determin
 
 NOTE: The errata variable has been omitted in the report due to size of role. Replace the variable here if you choose to include the role.
 
-// UNCOMMENT ME AND ADD IN THE VARIABLE! 
+// UNCOMMENT ME AND ADD IN THE RESULT VARIABLE! 
+
+{{ ERRATA_RECOMMENDATION }}
 
 == Satellite Management
 
@@ -301,6 +317,8 @@ The messages log does not contain any errors.
 {% endif %}
 ----
 
+{{ LOGGING_RECOMMENDATION }}
+
 === Sync Plans
 |=====
 |*Investigation:*| Are synchronization plans being used by the organisation? How often are these sync plans run? Which repositories are being queried at each sync run?
@@ -314,6 +332,8 @@ By scheduling and controlling these updates, sync plans help maintain system sta
 ----
 {{ result_sync_plan.stdout | to_nice_yaml }}
 ----
+
+{{ SYNC_PLANS_RECOMMENDATION }}
 
 === Activation Keys
 |=====
@@ -338,6 +358,8 @@ They can define the following properties for content hosts:
 {{ result_activation_key.stdout | to_nice_yaml }}
 ----
 
+{{ KEYS_RECOMMENDATION }}
+
 === Registered hosts
 
 *Investigation:* How many registered hosts are connected to the Satellite? 
@@ -346,3 +368,5 @@ They can define the following properties for content hosts:
 ----
 {{ result_registered_hosts.stdout_lines | to_nice_yaml }}
 ----
+
+{{ HOSTS_RECOMMENDATION }}

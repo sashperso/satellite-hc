@@ -1,0 +1,46 @@
+####
+## Customised recommendations for the Satellite Heath Check.  
+## If you have any additional comments to make on a section, add them here.
+####
+
+### 4.1 Base Operating System Details ###
+BASE_OS_RECOMMENDATION: ""
+
+### 4.2 Satellite and Capsule Architecture ###
+ARCHITECTURES_RECOMMENDATION: ""
+
+### 4.3 Satellite Version ###
+VERSION_RECOMMENDATION: ""
+
+### 4.4 Firewalls and Proxy ###
+FIREWALLS_RECOMMENDATION: ""
+
+### 5.1 Infrastructure Architecture ####
+INFRASTRUCTURE_RECOMMENDATION: ""
+
+### 5.2 Network Requirements ###
+NETWORK_RECOMMENDATION: ""
+
+### 6.1 Qpidd Storage ###
+QPIDD_RECOMMENDATION: ""
+
+### 6.2 Backup/Restore Procedures ###
+BACKUP_RECOMMENDATION: ""
+
+### 7.1 Remote Execution ###
+REMOTE_EXECUTION_RECOMMENDATION: ""
+
+### 7.2 Errata ###
+ERRATA_RECOMMENDATION: ""
+
+### 8.1 Satellite Logging ###
+LOGGING_RECOMMENDATION: ""
+
+### 8.2 Sync Plans ###
+SYNC_PLANS_RECOMMENDATION: ""
+
+### 8.3 Activation Keys ###
+KEYS_RECOMMENDATION: ""
+
+### 8.4 Registered Hosts ###
+HOSTS_RECOMMENDATION: ""
