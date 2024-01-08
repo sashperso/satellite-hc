@@ -38,7 +38,75 @@ graph TD
     C[Create .txt report] --> E[Artifact generated for client]
 ```
 
+<<<<<<< HEAD
 *****
+=======
+```
+$ git clone <url>
+$ cd ~/automated_satellite_health_check
+$ ansible-playbook satellite_hc_init.yml -u <root_user> --ask-pass
+>Enter root password
+$ cat ./satellite_hc_report_<satellite_hostname>
+
+```
+
+## Generating the reports (.txt and .adoc)
+
+To generate the PDF report, certain elements should be tweaked by the consultant prior to running the script. Instructions for this step are explained below.
+
+### PDF Report Generation Procedure
+
+**IMPORTANT PREREQUISITES**
+
+1. Please ensure that the podman utility is downloaded on your local machine/the machine that you'd like to generate the pdf machine on. You can download this by using:
+
+```
+$ sudo yum -y install podman
+```
+You *may* encounter asciidoc-doctor related errors on the command line that will require you to install newer versions of the asciidoctor utilities. In this case, please refer to the [asciidoctor-pdf](https://github.com/asciidoctor/asciidoctor-pdf) and [asciidoctor-diagram](https://docs.asciidoctor.org/diagram-extension/latest/) documentation for further instructions.
+
+
+2. Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing the PDF Generation.
+
+**Variables explained:**
+- /vars/customer-vars.adoc --> These variables are where the customer name, customer, and the customer short name are inserted. You can use these to further customise the report content. The variables outlined here are the ones that help name the PDF report, so please take care to fill this out.
+- /vars/document-vars.adoc --> This document-vars.adoc file contains mainly static/routine variables for the CER. It should not contain customer specific variables related to the customer name and related information. You should not need to change these to run the PDF generation script.
+- /vars/redhat-vars.adoc --> This contains short names for products. Now, you can for instance write {rhel} in the CER which will render to the full product name. 
+- /vars/render-vars.adoc --> This describes how the file is created. Might be put into the styles/pdf later. This probably won't need to be changed for the report either.
+
+**Generating the PDF report:**
+```
+$ cd ~/automated_satellite_health_check
+$ sh generate-pdf -f 'satellite_hc_report"<satellite_hostname>".doc'
+```
+This will produce a ready-to-use report. If you wish to add any additional sections, topics, or discussion (such as filling out the tables within the document), you will have to edit the .adoc file that is autopopulated by the ansible playbooks. Otherwise, if you think there is an important section missing, feel free to reach out and we can add the feature in.
+
+[NOTE] Use sh generate-pdf -h to learn more about the PDF generation options available to you.
+
+*******
+
+# Project Rationale
+### Strengths
+- Ansible is agentless, so as long as the controller has an ssh connection (or is local), then it is possible to run an Ansible automated health check across a large fleet.
+- Ansible is declarative code, therefore it is easier to read because developers state what they want the program to do, rather than describe how to do it.
+
+### Weaknesses
+- The customer will need to install Ansible on their system, in order to use this automated health check.
+- There is a dependency on python packages, so their version needs to match what the Ansible interpreter requires.
+- The custom and unique nature of Satellite deployments means that this Ansible playbook may need to be amended to ensure all contents of the Satellite deployment are captured.
+
+### Opportunities
+- More time for the consultant to add value - perform analysis and recommendations, rather than gather information.
+- Standardise Satellite health check engagements at a high level.
+
+### Threats
+- Lack of adoption due to consultant not being familiar with the tool.
+- Will the tool output recommendations? Who owns and takes responsibility for recommendations?
+- Product ownership - who will own and maintain this tool?
+
+
+*******
+>>>>>>> 9093b464ecafec71bc110d06da03821649196f46
 # Admin Section
 
 ## Support
@@ -65,8 +133,11 @@ Milestone 5: Added RH styling conventions and finalised project structure.
 ## Contributing
 We are open to contributions. 
 We need designers who can identify problems, suggest improvements or features, and co-create solutions with engineers. Please reach out to any of the contributors if you're interested in helping out! :-)
+- The [Miro board is located here](https://miro.com/app/board/uXjVNFNa3RM=/)
+- The Issues board is associated with this Git Repo
 
 ## Contributors
+<<<<<<< HEAD
 Authors:
 - Sasha Personeni
 - Maurice Burrows
@@ -77,3 +148,7 @@ Authors:
 Project Owner: Sasha Personeni spersone@redhat.com
 
 Maintainer: Elise Elkerton eelkerto@redhat.com
+=======
+- Project Owner - Sasha Personeni spersone@redhat.com
+- Maintainer - Elise Elkerton eelkerto@redhat.com
+>>>>>>> 9093b464ecafec71bc110d06da03821649196f46
