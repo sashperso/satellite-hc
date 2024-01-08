@@ -34,14 +34,12 @@ $ sudo yum -y install podman
 
 You *may* encounter asciidoc-doctor related errors on the command line that will require you to install newer versions of the asciidoctor utilities. In this case, please refer to the [asciidoctor-pdf](https://github.com/asciidoctor/asciidoctor-pdf) and [asciidoctor-diagram](https://docs.asciidoctor.org/diagram-extension/latest/) documentation for further instructions.
 
-2. Ensure you have changed the customer variables listed in vars/customer-vars.adoc prior to commencing the PDF Generation.
+2. Ensure you have changed the customer variables listed in configs/render-vars.adoc prior to commencing the PDF Generation. Likewise, make sure any additional recommendations are placed in the `configs/recommendations.yml` file.
 
-**Variables explained:**
-- */vars/customer-vars.adoc* --> These variables are where the customer name, customer, and the customer short name are inserted. You can use these to further customise the report content. The variables outlined here are the ones that help name the PDF report, so please take care to fill this out.
-- */vars/document-vars.adoc* --> This document-vars.adoc file contains mainly static/routine variables for the CER. It should not contain customer specific variables related to the customer name and related information. You should not need to change these to run the PDF generation script.
-- */vars/redhat-vars.adoc* --> This contains short names for products. Now, you can for instance write {rhel} in the CER which will render to the full product name. 
-- */vars/render-vars.adoc* --> This describes how the file is created. Might be put into the styles/pdf later. This probably won't need to be changed for the report either.
-
+**Config files explained:**
+- */configs/document-vars.adoc* --> The document-vars.adoc file contains mainly static/routine variables for the CER. It should not contain customer specific variables related to the customer name and related information. You should not need to change these to run the PDF generation script. These help with the styling of the PDF
+- */configs/render-vars.adoc* --> This file contains variables for customer name, author name, document status and more. These should be updated and customised for each different engagement.
+- */recommendations.yml* --> This is where you can add in specific and targetted recommendations into the report. Each variable corresponds to the respective section in the main `satellite_hc_report.adoc` file.
 
 **Generating the PDF report:**
 ```
@@ -126,7 +124,7 @@ Then to insert the role:
 ````
 You are then free to add a new section to the rhel_hc_report.adoc template to call the result of the check - i.e. `{{ result_custom_check }}` and to write some insights on what the role's results were or any other guidance.
 
-2. **Editing the report to add in your own insights**
+2. **Editing the report to add in your own check's insights**
 
 The satellite_hc_report.adoc template provides a guideline and general range of checks and advice relating to the management and deployment of Satellite systems. The guidance is designed to be general and high-level. 
 
