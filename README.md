@@ -14,13 +14,40 @@ Two similar existing Satellite health check CER templates which have informed th
 
 
 ## Cloning this repository
-To clone this repository and get started on contributing, type the following commands into the CLI:
+First a word about "gitlab.consulting.redhat.com", you probably used your Red Hat Google account to initially get to Red Hat Consulting's GitLab service? Therefore you will need to do any of the following to interact remote with GitLab:
+* HTTPS access:  set/reset a Password under "User Settings", not 2FA and you are probalby going to use a weak password aren't you!
+* HTTPS access:  create an "Access Token".
+* SSH access:    add your SSH Public Key to your account, what REAL Developers do :-p
+
+If you went for SSH access then configuring your ssh client is becoming essential these days as servers are rejecting clients that try every single SSH Key they have access to with the error "too many failed attempts".
+```
+cat >> ~/.ssh/config <EOT
+Host gitlab.consulting.redhat.com
+        user                    git
+        port                    2222
+        IdentityFile            /home/user/.ssh/mygitlabprivatekey
+        IdentitiesOnly          yes
+EOT
+``` 
+
+Let us clone....
 ```
 cd <desired_location>
-$ git clone https://gitlab.consulting.redhat.com/anz-consulting/satellite/automated_satellite_health_check.git
+
+# HTTPS access
+git clone https://gitlab.consulting.redhat.com/anz-consulting/satellite/automated_satellite_health_check.git
+
+# SSH with config file
+git clone ssh://gitlab.consulting.redhat.com/anz-consulting/satellite/automated_satellite_health_check.git
+
+# SSH without config file
+git clone ssh://git@gitlab.consulting.redhat.com:2222/anz-consulting/satellite/automated_satellite_health_check.git
+
 git branch -M main
 ```
-More information on contributing and GitOps can be found in the CONTRIBUTING.md file.
+
+Information about authenticaiton troubleshooting is available at:  https://gitlab.consulting.redhat.com/help/topics/git/troubleshooting_git#error-on-git-fetch-http-basic-access-denied
+
 
 ## Usage
 
