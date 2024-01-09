@@ -37,8 +37,8 @@ You *may* encounter asciidoc-doctor related errors on the command line that will
 2. Ensure you have changed the customer variables listed in configs/render-vars.adoc prior to commencing the PDF Generation. Likewise, make sure any additional recommendations are placed in the `configs/recommendations.yml` file.
 
 **Config files explained:**
-- */configs/document-vars.adoc* --> The document-vars.adoc file contains mainly static/routine variables for the CER. It should not contain customer specific variables related to the customer name and related information. You should not need to change these to run the PDF generation script. These help with the styling of the PDF
-- */configs/render-vars.adoc* --> This file contains variables for customer name, author name, document status and more. These should be updated and customised for each different engagement.
+- */configs/render-vars.adoc* --> The render-vars file contains mainly static/routine variables for the CER. It should not contain customer specific variables related to the customer name and related information. You should not need to change these to run the PDF generation script. These help with the styling of the PDF
+- */configs/document-vars.adoc* --> This file contains variables for customer name, author name, document status and more. These should be updated and customised for each different engagement.
 - */recommendations.yml* --> This is where you can add in specific and targetted recommendations into the report. Each variable corresponds to the respective section in the main `satellite_hc_report.adoc` file.
 
 **Generating the PDF report:**
