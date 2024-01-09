@@ -14,8 +14,8 @@ Two similar existing Satellite health check CER templates which have informed th
 
 
 ## Cloning this repository
-First a word about "gitlab.consulting.redhat.com", you probably used your Red Hat Google account to initially get to Red Hat Consulting's GitLab service? Therefore you will need to do any of the following to interact remote with GitLab:
-* HTTPS access:  set/reset a Password under "User Settings", not 2FA and you are probalby going to use a weak password aren't you!
+First a word about "gitlab.consulting.redhat.com", you probably used your Red Hat Google account to initially get to Red Hat Consulting's GitLab service? Therefore you will need to do any of the following to interact remotely with that specific GitLab service:
+* HTTPS access:  set/reset a Password under "User Settings", not 2FA and you are probalby going to (re)use a (bad) password aren't you!
 * HTTPS access:  create an "Access Token".
 * SSH access:    add your SSH Public Key to your account, what REAL Developers do :-p
 
@@ -34,13 +34,13 @@ Let us clone....
 ```
 cd <desired_location>
 
-# HTTPS access
-git clone https://gitlab.consulting.redhat.com/anz-consulting/satellite/automated_satellite_health_check.git
+# HTTPS access, and supply your "Access Token" when prompted for your password.
+git clone https://<rh_username>@gitlab.consulting.redhat.com/anz-consulting/satellite/automated_satellite_health_check.git
 
-# SSH with config file
+# SSH with config file.
 git clone ssh://gitlab.consulting.redhat.com/anz-consulting/satellite/automated_satellite_health_check.git
 
-# SSH without config file
+# SSH without config file and hope your private key file will automatically be found.
 git clone ssh://git@gitlab.consulting.redhat.com:2222/anz-consulting/satellite/automated_satellite_health_check.git
 
 git branch -M main
