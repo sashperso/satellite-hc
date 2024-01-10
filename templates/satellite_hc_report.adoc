@@ -1,17 +1,19 @@
 :pdf-theme: ./styles/pdf/redhat-theme.yml
 :pdf-fontsdir: ./fonts
-include::../configs/document-vars.adoc[]
-include::../configs/render-vars.adoc[]
+:doctype: book
 :subject: Automated Satellite Health Check Report
+:author: JANE-DOE 
+:revnumber: {gitdate}
 
-:toc:
+:toc: 
 
-= Red Hat Satellite Health Check Report
+= Red Hat Satellite Health Check Report 
+
+== Introduction
 
 This is a health check report for Satellite server {{ ansible_fqdn }} at {{ ansible_date_time.time }} on {{ ansible_date_time.date }}.
 
-:sectnums:
-== Disclaimer
+=== Disclaimer
 
 _This health check provides a best effort evaluation of the targeted Red Hat Satellite(s). The results from the
 report do not in any way provide a guarantee or warranty for the health and performance of the targeted
@@ -19,6 +21,8 @@ Satellite(s). The health check aims to provide an indication of overall health a
 recommendations on a best effort basis._
 
 This health check has been conducted by {{ authorname }} for {{ customer }}.
+
+:sectnums:
 
 == Health Check Overview:
 ----
@@ -71,7 +75,9 @@ For further information, please refer to the Satellite installation https://acce
 
 It is also important to note that Red Hat Satellite's performance improves when more resources are allocated to the server. Enhanced computational power and increased memory allow for more efficient processing of tasks and data management. Higher-quality resources reduce system latency and increase throughput, making the software more responsive and capable of handling larger workloads effectively. 
 
+{% if BASE_OS_RECOMMENDATION is defined %}
 {{ BASE_OS_RECOMMENDATION }}
+{% endif %}
 
 === Satellite and Capsule Architecture
 |=======
@@ -93,7 +99,9 @@ The Satellite Server also contains a fine-grained authentication system to provi
 
 NOTE: For more information on a given organisation, run `hammer organization info --id <id_number>`
 
+{% if ARCHITECTURES_RECOMMENDATION is defined %}
 {{ ARCHITECTURES_RECOMMENDATION }}
+{% endif %}
 
 === Satellite Version 
 |======
@@ -141,7 +149,9 @@ The ports that are currently open are:
 {{ result_firewall_ports.stdout | to_nice_yaml }}
 ----
 
+{% if FIREWALLS_RECOMMENDATION is defined %}
 {{ FIREWALLS_RECOMMENDATION }}
+{% endif %}
 
 == Infrastructure
 
@@ -165,7 +175,9 @@ Locations divide organizations into logical groups based on geographical locatio
 {{ result_hammer_location.stdout }}
 ----
 
+{% if INFRASTRUCTURE_RECOMMENDATION is defined %}
 {{ INFRASTRUCTURE_RECOMMENDATION }}
+{% endif %}
 
 === Network Requirements
 |=====
@@ -201,7 +213,9 @@ Using the latest RHEL version guarantees compatibility with the latest Satellite
 {{ result_port_listen.stdout_lines | to_nice_yaml }}
 ----
 
+{% if NETWORK_RECOMMENDATION is defined %}
 {{ NETWORK_RECOMMENDATION }}
+{% endif %}
 
 == Storage
 
@@ -230,7 +244,9 @@ Pulp3 is {% if pulp3_present == true %}installed on this Satellite Server.{% els
 {% endif %}
 {% endif %}
 
+{% if QPIDD_RECOMMENDATION is defined %}
 {{ QPIDD_RECOMMENDATION }}
+{% endif %}
 
 === Backup/Restore Procedures
 |=====
@@ -248,7 +264,9 @@ The frequency of backing up your Red Hat Satellite 6 instance should be determin
 |*Rationale:*| Backup and restore procedures help to ensure the continuity of your Red Hat Satellite deployment and associated data in the event of a disaster. If your deployment uses custom configurations you should take these into account when planning your backup and disaster recovery policy.
 |=====
 
+{% if BACKUP_RECOMMENDATION is defined %}
 {{ BACKUP_RECOMMENDATION }}
+{% endif %}
 
 == Host Management
 
@@ -262,7 +280,9 @@ The frequency of backing up your Red Hat Satellite 6 instance should be determin
 {{ result_remote_execution.stdout_lines | to_nice_yaml }}
 ----
 
+{% if REMOTE_EXECUTION_RECOMMENDATION is defined %}
 {{ REMOTE_EXECUTION_RECOMMENDATION }}
+{% endif %}
 
 === Errata
 |=====
@@ -276,7 +296,9 @@ NOTE: The errata variable has been omitted in the report due to size of role. Re
 
 // UNCOMMENT ME AND ADD IN THE RESULT VARIABLE! 
 
+{% if ERRATA_RECOMMENDATION is defined %}
 {{ ERRATA_RECOMMENDATION }}
+{% endif %}
 
 == Satellite Management
 
@@ -317,7 +339,9 @@ The messages log does not contain any errors.
 {% endif %}
 ----
 
+{% if LOGGING_RECOMMENDATION is defined %}
 {{ LOGGING_RECOMMENDATION }}
+{% endif %}
 
 === Sync Plans
 |=====
@@ -333,7 +357,9 @@ By scheduling and controlling these updates, sync plans help maintain system sta
 {{ result_sync_plan.stdout | to_nice_yaml }}
 ----
 
+{% if SYNC_PLANS_RECOMMENDATION is defined %}
 {{ SYNC_PLANS_RECOMMENDATION }}
+{% endif %}
 
 === Activation Keys
 |=====
@@ -358,7 +384,9 @@ They can define the following properties for content hosts:
 {{ result_activation_key.stdout | to_nice_yaml }}
 ----
 
+{% if KEYS_RECOMMENDATION is defined %}
 {{ KEYS_RECOMMENDATION }}
+{% endif %}
 
 === Registered hosts
 
@@ -369,4 +397,6 @@ They can define the following properties for content hosts:
 {{ result_registered_hosts.stdout_lines | to_nice_yaml }}
 ----
 
+{% if HOSTS_RECOMMENDATION is defined %}
 {{ HOSTS_RECOMMENDATION }}
+{% endif %}

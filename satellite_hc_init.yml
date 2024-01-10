@@ -35,4 +35,10 @@
         dest: ./
         flat: yes
 
+    - name: Generate the PDF report.
+      ansible.builtin.shell: sh generate-pdf -f satellite_hc_report_{{ ansible_hostname }}.adoc
+
+    - name: Clean up and remove the .adoc file
+      ansible.builtin.shell: rm -Rf satellite_hc_report_{{ ansible_hostname }}.adoc
+
 # note to self: make sure to use -u root then --ask-pass
