@@ -20,8 +20,6 @@ report do not in any way provide a guarantee or warranty for the health and perf
 Satellite(s). The health check aims to provide an indication of overall health and provide consultant
 recommendations on a best effort basis._
 
-This health check has been conducted by {{ authorname }} for {{ customer }}.
-
 :sectnums:
 
 == Health Check Overview:
