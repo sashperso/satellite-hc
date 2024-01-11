@@ -160,7 +160,7 @@ if [ "${OUTPUT}" ] ; then
   OUTFILE="healthcheck-${OUTPUT}.pdf"
 else
   # get customer short name
-  CUSTOMER_SHORT_NAME=$(sed -En 's/^:cust: (.*)/\1/p' vars/customer-vars.adoc)
+  CUSTOMER_SHORT_NAME=$(sed -n 's/^customername: \(.*\)/\1/p' ./configs/customer-vars.yml)
   CLEAN_CUSTOMER_SHORT_NAME=$(echo "${CUSTOMER_SHORT_NAME}" | sed 's/ /_/g')
 
   OUTFILE="healthcheck-${CLEAN_CUSTOMER_SHORT_NAME}-${GIT_DATE}.pdf"

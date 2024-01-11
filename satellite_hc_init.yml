@@ -35,4 +35,7 @@
         dest: ./
         flat: yes
 
+    - name: Delete the .adoc template on the Satellite
+      ansible.builtin.shell: rm -Rf satellite_hc_report_{{ ansible_hostname }}.adoc
+
 # note to self: make sure to use -u root then --ask-pass
