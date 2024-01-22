@@ -9,8 +9,6 @@
     # --> need to fix item loops. Might be redundant
     # errata checks also hashed out
 
-
-
   tasks:
     - name: Generate the Satellite Health Check Report in .adoc format
       ansible.builtin.template:
