@@ -1,13 +1,13 @@
 ---
 
-include_tasks: high_level_checks.yml
+include: high_level_checks.yml
 
-include_tasks: disk_space.yml
+include: disk_space.yml
 
-include_tasks: firewall.yml
+include: firewall.yml
 
-include_tasks: logging.yml
+include: logging.yml
 
-# include_tasks: log_errors.yml --> add conditionals to stop from breaking
+# include: log_errors.yml --> add conditionals to stop from breaking
 
-include_tasks: qpidd_storage.yml
+include: qpidd_storage.yml
