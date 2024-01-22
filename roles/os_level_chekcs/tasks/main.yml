@@ -1,2 +1,13 @@
 ---
-# tasks file for os_level_chekcs
+
+import_tasks: high_level_checks.yml
+
+import_tasks: disk_space.yml
+
+import_tasks: firewall.yml
+
+import_tasks: logging.yml
+
+import_tasks: log_errors.yml
+
+import_tasks: qpidd_storage.yml
