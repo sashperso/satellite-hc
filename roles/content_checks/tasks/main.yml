@@ -60,3 +60,8 @@
       echo
     done
   register: result_activation_key  
+
+- name: Show any jobs scheduled for remote execution
+  ansible.builtin.command: hammer job-template list
+  register: result_remote_execution
+  ignore_errors: true

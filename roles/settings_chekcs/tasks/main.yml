@@ -1,44 +1,9 @@
 ---
-- name: List all organisations associated with the Satellite Server.
-  ansible.builtin.command: hammer organization list
-  register: result_hammer_org
 
-- name: List all locations associated with the Satellite Server.
-  ansible.builtin.command: hammer location list
-  register: result_hammer_location
+import_tasks: system_reqs.yml
 
-- name: List all capsule names and urls
-  ansible.builtin.shell: hammer capsule list
-  register: result_capsule_list
+import_tasks: versions.yml
 
-- name: List organisations on master server
-  ansible.builtin.command: hammer organization list
-  register: result_organization_list
+import_tasks: org_locations.yml
 
-- name: Find the Red Hat Satellite version installed on the main server.
-  ansible.builtin.shell: rpm -q satellite
-  register: result_satellite_version
-
-- name: Find the Red Hat Satellite version installed on the capsules.
-  ansible.builtin.shell: rpm -q satellite-capsule
-  register: result_capsule_version
-  ignore_errors: true  
-
-- name: Show any ldap sources for Satellite user accounts
-  ansible.builtin.command: hammer auth-sources ldap list
-  register: result_auth_sources
-  ignore_errors: true
-
-- name: Ensure that the existing certificate has a certain domain in its subjectAltName
-  community.crypto.x509_certificate:
-    path: "{{ certificate_path | default('/etc/pki/katello/certs/katello-apache.crt') }}"
-    provider: assertonly
-    issuer:
-      O: "{{ certificate_authority }}"
-    has_expired: False  
-
-- name: Show any jobs scheduled for remote execution
-  ansible.builtin.command: hammer job-template list
-  register: result_remote_execution
-  ignore_errors: true
-  
+import_tasks: auth.yml
