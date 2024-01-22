@@ -4,6 +4,6 @@
 
 - include: versions.yml
 
-- include: org_locations.yml
+- include: orgs_locations.yml
 
 - include: auth.yml
