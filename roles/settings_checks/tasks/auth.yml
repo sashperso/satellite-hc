@@ -10,3 +10,4 @@
     issuer:
       O: "{{ certificate_authority }}"
     has_expired: False  
+  ignore_errors: true
