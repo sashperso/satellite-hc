@@ -1,6 +1,3 @@
----
-# tasks file for ./roles/high_level_check
-
 - name: Conduct a general status health check.
   ansible.builtin.command: satellite-maintain health check --plaintext
   register: result_health_check

@@ -1,4 +1,3 @@
----
 - name: Check Satellite Server Log for errors
   command: tail -n 200 /var/log/foreman/production.log | grep error
   register: satellite_server_rc

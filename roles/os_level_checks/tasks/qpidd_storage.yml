@@ -1,6 +1,3 @@
----
-# tasks file for ./roles/qpidd_storage_check
-
 - name: Check for Pulp3 presence on the server
   ansible.builtin.command: pulp --version
   register: pulp_check
