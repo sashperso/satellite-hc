@@ -1,9 +1,9 @@
 ---
 
-include_tasks: system_reqs.yml
+- include: system_reqs.yml
 
-include_tasks: versions.yml
+- include: versions.yml
 
-include_tasks: org_locations.yml
+- include: org_locations.yml
 
-include_tasks: auth.yml
+- include: auth.yml

@@ -1,13 +1,13 @@
 ---
 
-include: high_level_checks.yml
+- include: high_level_checks.yml
 
-include: disk_space.yml
+- include: disk_space.yml
 
-include: firewall.yml
+- include: firewall.yml
 
-include: logging.yml
+- include: logging.yml
 
-# include: log_errors.yml --> add conditionals to stop from breaking
+# - include: log_errors.yml --> add conditionals to stop from breaking
 
-include: qpidd_storage.yml
+- include: qpidd_storage.yml
