@@ -4,6 +4,8 @@
 
 - include: disk_space.yml
 
+- include: network_connectivity.yml
+
 - include: firewall.yml
 
 - include: logging.yml
