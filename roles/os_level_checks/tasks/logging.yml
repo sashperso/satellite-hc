@@ -1,0 +1,14 @@
+- name: Check if any errors are logged in /var/log/foreman/production.log **Don't worry if this fails**
+  ansible.builtin.shell: cat /var/log/foreman/production.log | grep error | grep failed
+  register: result_production_log
+  ignore_errors: true
+
+- name: Check if any errors are logged in /var/log/foreman-proxy/proxy.log **Don't worry if this fails**
+  ansible.builtin.shell: cat /var/log/foreman-proxy/proxy.log | grep error | grep failed
+  register: result_proxy_log
+  ignore_errors: true
+
+- name: Check if any errors are logged in /var/log/messages **Don't worry if this fails**
+  ansible.builtin.shell: cat /var/log/messages | grep error | grep failed
+  register: result_messages_log
+  ignore_errors: true

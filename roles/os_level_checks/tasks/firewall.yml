@@ -1,0 +1,6 @@
+- name: Find all open firewall ports on the Satellite server.
+  ansible.builtin.shell: firewall-cmd --list-all | grep -E " ports"
+  register: result_firewall_ports
+
+- name: Gather facts on TCP and UDP listening ports
+  community.general.listen_ports_facts:

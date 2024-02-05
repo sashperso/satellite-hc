@@ -2,26 +2,12 @@
 - name: Initialise the Satellite Health Check
   hosts: satellite
   roles:
-    - activation_keys_check
-    - auth_sources_check
-    - compute_resources_check
-#    - content_check --> need to fix item loops. Might be redundant
-    - disk_space_check
-#    - errata_check
-    - firewall_and_proxy_check
-    - high_level_check
-    - infrastructure_design_check
-#    - log_error_check --> add conditionals to stop from breaking
-    - logging_check
-    - network_connectivity_check
-    - network_resources_check
-    - organisations_check
-    - qpidd_storage_check
-    - registered_host_check
-    - remote_execution_check
-    - satellite_version_check
-    - sync_plan_check
-    - system_reqs_check
+    - os_level_checks
+    - settings_checks
+    - infrastructure_checks
+    - content_checks 
+    # --> need to fix item loops. Might be redundant
+    # errata checks also hashed out
 
   tasks:
     - name: Generate the Satellite Health Check Report in .adoc format

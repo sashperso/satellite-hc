@@ -1,0 +1,9 @@
+---
+
+- include: system_reqs.yml
+
+- include: versions.yml
+
+- include: orgs_locations.yml
+
+- include: auth.yml

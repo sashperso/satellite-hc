@@ -1,0 +1,67 @@
+---
+# tasks file for content_check
+- name: Show manifests on Satellite
+  ansible.builtin.command: "hammer subscription list --organization {{ item }} " 
+  register: result_manifests
+  ignore_errors: true
+ 
+- name: Check if Simple Content Access is enabled
+  ansible.builtin.command: "hammer simple-content-access status --organization {{ item }} "
+  register: result_sca_enabled
+  ignore_errors: true
+
+- name: Show enabled repositories
+  ansible.builtin.command: "hammer repository list --organization {{ item }} "
+  register: result_repositories
+  ignore_errors: true  
+
+- name: Show sync plans
+  ansible.builtin.command: "hammer sync-plan list --organization {{ item }} "
+  register: result_sync_plans
+  ignore_errors: true
+
+- name: lifecycle environments
+  ansible.builtin.command: "hammer lifecycle-environment list --organization {{ item }} "
+  register: result_lifecycles
+  ignore_errors: true
+
+- name: Show existing content views
+  ansible.builtin.command: "hammer content-view list list --organization {{ item }} "
+  register: result_content_views
+  ignore_errors: true
+
+- name: Show existing activation keys
+  ansible.builtin.command: "hammer activation-key list --organization {{ item }} "
+  register: result_activation_keys
+  ignore_errors: true
+
+#- name: List all updatable or installable errata across registered hosts on the Satellite.
+#  ansible.builtin.shell: for i in `hammer host list| sed -e '1,3d'|sed -e '$d'|cut -d' ' -f 1`; do echo -e "Errata details for:\n" `hammer host info --id $i|sed '2!d'`;hammer host errata list --host-id $i; done
+#  register: result_errata
+
+- name: Find and list the sync plans on the Satellite *NOTE - THIS MIGHT TAKE SOME TIME!*
+  ansible.builtin.shell: |
+    orgs=$(hammer --csv organization list | tail -n +2)
+    echo "$orgs" | while IFS=, read -r id name
+    do
+      echo "Sync Plans for Organization: $name (ID: $id)"
+      hammer sync-plan list --organization-id "$id"
+      echo
+    done
+  register: result_sync_plan    
+
+- name: Find and list the activation keys registered on the Satellite (NOTE - THIS MIGHT TAKE SOME TIME)
+  ansible.builtin.shell: |
+    orgs=$(hammer --csv organization list | tail -n +2)
+    echo "$orgs" | while IFS=, read -r id name
+    do
+      echo "Activation keys for Organization: $name (ID: $id)"
+      hammer activation-key list --organization-id "$id"
+      echo
+    done
+  register: result_activation_key  
+
+- name: Show any jobs scheduled for remote execution
+  ansible.builtin.command: hammer job-template list
+  register: result_remote_execution
+  ignore_errors: true
