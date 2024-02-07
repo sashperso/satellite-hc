@@ -1,8 +1,8 @@
 - name: Find the Red Hat Satellite version installed on the main server.
-  ansible.builtin.shell: rpm -q satellite
+  ansible.builtin.shell: rpm -q --qf '%{version}' satellite
   register: result_satellite_version
 
 - name: Find the Red Hat Satellite version installed on the capsules.
-  ansible.builtin.shell: rpm -q satellite-capsule
+  ansible.builtin.command: rpm -q --qf '%{version}' satellite-capsule
   register: result_capsule_version
   ignore_errors: true  
