@@ -24,8 +24,10 @@ As you will see you may perform the health check many times to add customer spec
 ## Running the Playbook
 
 ```
-$ ansible-playbook satellite_hc_init.yml -u <user> --ask-pass
->Enter user password
+$ git clone <url>
+$ cd ~/automated_satellite_health_check
+$ ansible-playbook --user <user> --ask-pass --ask-become-pass satellite_hc_init.yml
+>Enter <user> password
 
 # List and review reports
 $ ls -l ./satellite_hc_report_*.adoc

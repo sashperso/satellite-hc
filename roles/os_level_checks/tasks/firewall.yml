@@ -1,0 +1,9 @@
+- name: Find all open firewall ports on the Satellite server.
+  ansible.builtin.shell: firewall-cmd --list-all | grep -E " ports"
+  register: result_firewall_ports
+
+# GitLab Issue #57
+# Disconnected Satellite is a first class environment.  Commenting out
+# community modules until their installation is documented or replaced.
+#- name: Gather facts on TCP and UDP listening ports
+#  community.general.listen_ports_facts:

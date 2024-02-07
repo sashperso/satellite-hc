@@ -1,0 +1,10 @@
+---
+
+- include_tasks: system_reqs.yml
+
+- include_tasks: versions.yml
+
+- include_tasks: orgs_locations.yml
+
+- include_tasks: auth.yml
+

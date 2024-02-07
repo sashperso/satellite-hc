@@ -1,0 +1,16 @@
+- name: Show any ldap sources for Satellite user accounts
+  ansible.builtin.command: hammer auth-sources ldap list
+  register: result_auth_sources
+  ignore_errors: true
+
+# GitLab Issue #57
+# Disconnected Satellite is a first class environment.  Commenting out
+# community modules until their installation is documented or replaced.
+#- name: Ensure that the existing certificate has a certain domain in its subjectAltName
+#  community.crypto.x509_certificate:
+#    path: "{{ certificate_path | default('/etc/pki/katello/certs/katello-apache.crt') }}"
+#    provider: assertonly
+#    issuer:
+#      O: "{{ certificate_authority }}"
+#    has_expired: False  
+#  ignore_errors: true

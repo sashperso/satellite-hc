@@ -1,0 +1,15 @@
+- name: List all organisations associated with the Satellite Server.
+  ansible.builtin.command: hammer organization list
+  register: result_hammer_org
+
+- name: List all locations associated with the Satellite Server.
+  ansible.builtin.command: hammer location list
+  register: result_hammer_location
+
+- name: List all capsule names and urls
+  ansible.builtin.shell: hammer capsule list
+  register: result_capsule_list
+
+- name: List organisations on master server
+  ansible.builtin.command: hammer organization list
+  register: result_organization_list  

@@ -1,0 +1,25 @@
+---
+- name: Show any compute resources
+  ansible.builtin.command: hammer compute-resource list
+  register: result_compute_resource
+  ignore_errors: true
+
+- name: List the Satellite's registered hosts. **Disable this role if too many hosts are registered**
+  ansible.builtin.shell: hammer --csv --no-headers host list | grep -v `hostname` | cut -d',' -f2,5 | column -s',' -t
+  register: result_registered_hosts
+  ignore_errors: true
+
+- name: Show any subnets for Satellite user accounts
+  ansible.builtin.command: hammer subnet list
+  register: result_subnets
+  ignore_errors: true
+
+- name: Show any domains added to Satellite as a resource
+  ansible.builtin.command: hammer domain list
+  register: result_domains
+  ignore_errors: true
+
+- name: Show any reams added to Satellite as a resource
+  ansible.builtin.command: hammer realm list
+  register: result_realms
+  ignore_errors: true  
