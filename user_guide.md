@@ -11,8 +11,8 @@ Download the repository locally by completing the following steps:
 ```
 $ git clone <url>
 $ cd ~/automated_satellite_health_check
-$ ansible-playbook satellite_hc_init.yml -u <root_user> --ask-pass
->Enter root password
+$ ansible-playbook --user <user> --ask-pass --ask-become-pass satellite_hc_init.yml
+>Enter <user> password
 $ cat ./satellite_hc_report_<satellite_hostname>
 ```
 
