@@ -29,7 +29,16 @@ recommendations on a best effort basis._
 
 == Satellite Service Status:
 ----
-{{ result_running_services.stdout }}
+Foreman: {{ ansible_facts.services['foreman.service'].status }}
+Foreman Proxy: {{ ansible_facts.services['foreman-proxy.service'].status }}
+Redis: {{ ansible_facts.services['redis.service'].status }}
+Apache HTTPD: {{ ansible_facts.services['httpd.service'].status }}
+Apache Tomcat: {{ ansible_facts.services['tomcat.service'].status }}
+PostgreSQL: {{ ansible_facts.services['postgresql.service'].status }}
+Pulpcore API: {{ ansible_facts.services['pulpcore-api.service'].status }}
+Pulpcore Content: {{ ansible_facts.services['pulpcore-content.service'].status }}
+Puppet: {{ ansible_facts.services['puppetserver.service'].status }}
+
 ----
 
 == Satellite Configuration
@@ -40,13 +49,13 @@ recommendations on a best effort basis._
 
 *Observation:*
 ----
-- Hostname: {{ result_hostname.stdout | to_nice_yaml }}
-- Operating System: {{ result_system.stdout | to_nice_yaml }}
-- IP Address: {{ result_ip_addr.stdout | to_nice_yaml }}
-- Kernel Version: {{ result_kernel_version.stdout | to_nice_yaml }}
+- Hostname: {{ ansible_fqdn }}
+- Operating System: {{ ansible_distribution }}
+- IP Address: {{ ansible_default_ipv4['address'] }}
+- Kernel Version: {{ ansible_kernel }}
 - Uptime: {{ result_uptime.stdout | to_nice_yaml }}
 - Last Reboot Time: {{ result_reboot.stdout | to_nice_yaml }}
-- Red Hat Release: {{ result_redhat_release.stdout | to_nice_yaml }}
+- Red Hat Release: {{ ansible_distribution_version }}
 ----
 
 The CPU details are as follows:

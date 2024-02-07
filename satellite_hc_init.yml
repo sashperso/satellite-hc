@@ -1,6 +1,11 @@
   #---
 - name: Initialise the Satellite Health Check
   hosts: satellite
+  gather_facts: true
+  pre_tasks:  
+  - name: Populate service facts
+    ansible.builtin.service_facts:
+
   roles:
     - os_level_checks
     - settings_checks
@@ -8,8 +13,8 @@
     - content_checks 
     # --> need to fix item loops. Might be redundant
     # errata checks also hashed out
-
   tasks:
+
     - name: Generate the Satellite Health Check Report in .adoc format
       ansible.builtin.template:
         src: ./templates/satellite_hc_report.adoc

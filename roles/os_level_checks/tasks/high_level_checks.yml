@@ -3,6 +3,3 @@
   register: result_health_check
   #  become:  true
 
-- name: Verify which services are running and enabled.
-  ansible.builtin.command: satellite-maintain service list
-  register: result_running_services
