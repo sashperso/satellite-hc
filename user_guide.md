@@ -1,26 +1,44 @@
 # User Guide
 
-The following instructions allow the user to conduct a Satellite health check. 
+Perform a health check on Satellites and Capsules and create an adoc report for each host.
+Optionally convert the adoc reports into PDFs.
+As you will see you may perform the health check many times to add customer specific recommendations into the next iteration of the reports, or directly edit the adoc reports prior to converting them to PDFs.
 
-**Please note that to use this playbook, you will have to insert the IP address(es) of the Satellite(s) being checked in both the inventory file and the ansible_hc_init.yml file prior to running the playbook.**
+## Quick Start
+**Generate health check reports:**  
+- add the Satellites and Capsules to _inventory_
+- add customer details to _configs/document-vars.adoc_
+- add custom recommendations to _configs/recommendations.yml_
+- run health check playbook
+`ansible-playbook satellite_hc_init.yml -u <user> --ask-pass`
 
-## Cloning the repository
+**Convert adoc report to PDF:**
+- install the _podman_ package locally
+- ensure the image _quay.io/redhat-cop/ubi8-asciidoctor:v2.0_ is accessible or cloned to a local registery
+- update the _IMAGE_ variable in the script _generate-pdf_ to the above image
+- add/update recommendations in the adoc reports
+- convert *each* adoc to PDF
+`sh generate-pdf -f satellite_hc_report_<hostname>.adoc`
 
-Download the repository locally by completing the following steps:
+
+## Running the Playbook
 
 ```
 $ git clone <url>
 $ cd ~/automated_satellite_health_check
 $ ansible-playbook --user <user> --ask-pass --ask-become-pass satellite_hc_init.yml
 >Enter <user> password
-$ cat ./satellite_hc_report_<satellite_hostname>
+
+# List and review reports
+$ ls -l ./satellite_hc_report_*.adoc
+$ less ./satellite_hc_report_<hostname>.adoc
 ```
 
-Note: If you'd like to run the health check on a disconnected machine (or a machine which doesn't have access to the git repository i.e. for a customer) you can easily transform the repository into a .zip, .gzip or .tar file and place it on the target machine. Then unzip the file and follow the rest of these instructions. All dependencies are included in the project.
+Note: If you'd like to run the health check on a disconnected machine (or a machine which doesn't have access to the git repository i.e. for a customer) you can easily transform the repository into a .zip, .gzip or .tar file and place it on the target machine. Then unzip the file and follow the rest of these instructions.
 
 ## Generating the report
 
-To generate the PDF report, certain elements should be tweaked by the consultant prior to running the script. Instructions for this step are explained below.
+To generate the PDF report, elements should be tweaked by the consultant prior to running the script. Instructions for this step are explained below.
 
 ### PDF Report Generation Procedure
 
@@ -34,18 +52,18 @@ $ sudo yum -y install podman
 
 You *may* encounter asciidoc-doctor related errors on the command line that will require you to install newer versions of the asciidoctor utilities. In this case, please refer to the [asciidoctor-pdf](https://github.com/asciidoctor/asciidoctor-pdf) and [asciidoctor-diagram](https://docs.asciidoctor.org/diagram-extension/latest/) documentation for further instructions.
 
-2. Ensure you have changed the customer variables listed in configs/render-vars.adoc prior to commencing the PDF Generation. Likewise, make sure any additional recommendations are placed in the `configs/recommendations.yml` file.
+2. Ensure you have changed the customer variables listed in configs/document-vars.adoc prior to commencing the PDF Generation. Likewise, make sure any additional recommendations are placed in the `configs/recommendations.yml` file.
 
 **Config files explained:**
-- */comments.yml* --> This file contains the definition of two kinds of pass/fail conditions you may want to include in your report.
-- */customer-vars.yml* --> Contains the customer's name. Please edit this!
-- */recommendations.yml* --> This is where you can add in specific and targetted recommendations into the report. Each variable corresponds to the respective section in the main `rhel_hc_report.adoc` file.
-- *rhel_hc_report.adoc* --> Edit the `:author:` variable to reflect the author(s) names.
+- _configs/comments.yml_ --> This file contains the definition of two kinds of pass/fail conditions you may want to include in your report.
+- _configs/customer-vars.yml_ --> Contains the customer's name. Please edit this!
+- _configs/recommendations.yml_ --> Customer specific and targetted recommendations for the report. Each variable corresponds to the respective section in the template _satellite_hc_report.adoc._
+- _templates/satellite_hc_report.adoc_ --> Edit the `:author:` variable to reflect the author's/authors' name(s).
 
 **Generating the PDF report:**
 ```
 $ cd ~/automated_satellite_health_check
-$ sh generate-pdf -f 'satellite_hc_report"<satellite_hostname>".doc'
+$ sh generate-pdf -f 'satellite_hc_report"<satellite_hostname>".adoc'
 ```
 This will produce a ready-to-use report. If you wish to add any additional sections, topics, or discussion (such as filling out the tables within the document), you will have to edit the .adoc file that is autopopulated by the ansible playbooks. Otherwise, if you think there is an important section missing, feel free to reach out and we can add the feature in.
 

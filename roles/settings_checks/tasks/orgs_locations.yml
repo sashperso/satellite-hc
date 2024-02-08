@@ -1,15 +1,24 @@
 - name: List all organisations associated with the Satellite Server.
-  ansible.builtin.command: hammer organization list
-  register: result_hammer_org
+  ansible.builtin.command: hammer --no-headers --output yaml organization list --full-result yes --fields id,name
+  register: result_orgs
+
+- name: Set Organisations dictionary.
+  ansible.builtin.set_fact:
+    shc_orgs: "{{ result_orgs.stdout | ansible.builtin.from_yaml }}"
 
 - name: List all locations associated with the Satellite Server.
-  ansible.builtin.command: hammer location list
-  register: result_hammer_location
+  ansible.builtin.command: hammer --no-headers --output yaml location list --per-page all --fields id,name
+  register: result_locations
+
+- name: Set Locations dictionary.
+  ansible.builtin.set_fact:
+    shc_locations: "{{ result_locations.stdout | ansible.builtin.from_yaml }}"
 
 - name: List all capsule names and urls
-  ansible.builtin.shell: hammer capsule list
-  register: result_capsule_list
+  ansible.builtin.shell: hammer --no-headers --output yaml capsule list --per-page all --include-status true
+  register: result_capsules
 
-- name: List organisations on master server
-  ansible.builtin.command: hammer organization list
-  register: result_organization_list  
+- name: Set Capsules dictionary.
+  ansible.builtin.set_fact:
+    shc_capsules: "{{ result_capsules.stdout | ansible.builtin.from_yaml }}"
+

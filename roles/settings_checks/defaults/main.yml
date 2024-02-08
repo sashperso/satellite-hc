@@ -1,2 +1,31 @@
 ---
 # defaults file for settings_chekcs
+
+
+
+# Facts set by this role
+# ======================
+
+# Satellite Health Check Organizations - organisations defined in the current Satellite.
+# Dictionary of results returned:
+#     Id:    ""
+#     Name:  ""
+shc_orgs:  {}
+
+
+# Satellite Health Check Locations - locations defined in the current Satellite.
+# Dictionary of results returned:
+#     Id:    ""
+#     Name:  ""
+shc_locations:  {}
+
+
+# Satellite Health Check Capsules - capsules defined in the current Satellite.
+# Dictionary of results returned:
+#     Features:  []
+#     Id:        ""
+#     Name:      ""
+#     Status:    ""
+#     URL:       ""
+shc_capsules:  {}
+

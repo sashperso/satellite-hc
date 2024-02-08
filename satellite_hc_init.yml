@@ -1,4 +1,4 @@
-  #---
+---
 - name: Initialise the Satellite Health Check
   hosts: satellite
   gather_facts: true
@@ -16,17 +16,21 @@
   tasks:
 
     - name: Generate the Satellite Health Check Report in .adoc format
+      become:       False
+      delegate_to:  localhost
+#      local_action:
+#        module: ansible.builtin.template
       ansible.builtin.template:
-        src: ./templates/satellite_hc_report.adoc
-        dest: satellite_hc_report_{{ ansible_hostname }}.adoc
+          src:    templates/satellite_hc_report.adoc
+          dest:   satellite_hc_report_{{ ansible_hostname }}.adoc
 
-    - name: Fetch the .adoc Satellite report and copy it to the local machine
-      ansible.builtin.fetch:
-        src: satellite_hc_report_{{ ansible_hostname }}.adoc
-        dest: ./
-        flat: yes
+#    - name: Fetch the .adoc Satellite report and copy it to the local machine
+#      ansible.builtin.fetch:
+#        src: satellite_hc_report_{{ ansible_hostname }}.adoc
+#        dest: ./
+#        flat: yes
 
-    - name: Delete the .adoc template on the Satellite
-      ansible.builtin.shell: rm -Rf satellite_hc_report_{{ ansible_hostname }}.adoc
+#    - name: Delete the .adoc template on the Satellite
+#      ansible.builtin.shell: rm -Rf satellite_hc_report_{{ ansible_hostname }}.adoc
 
 # note to self: make sure to use -u root then --ask-pass
