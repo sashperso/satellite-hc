@@ -86,29 +86,52 @@ It is also important to note that Red Hat Satellite's performance improves when 
 {{ BASE_OS_RECOMMENDATION }}
 {% endif %}
 
-=== Satellite and Capsule Architecture
+=== Satellite and Capsule Physical Architecture
 |=======
-|*Investigation:*| List the names and urls of the Satellite and Capsule servers. List the organisations linked to the Satellite and Capsule servers.
-|*Rationale:*| The Red Hat Satellite Server enables you to plan and manage the content life cycle and the configuration of Capsule Servers and hosts through GUI, CLI, or API. 
+|*Investigation:*| List the names and urls of the Satellite and Capsule servers.
+|*Rationale:*| Red Hat Satellite and Red Hat Satellite Capsules servers facilitate provisioning and software lifecycle management of RHEL hosts through GUI, CLI and API. 
 
-The Satellite Server also contains a fine-grained authentication system to provide Satellite operators with permissions to access precisely the parts of the infrastructure that lie in their area of responsibility. Capsule Servers mirror content from the Satellite Sevrer to establish content sources in various geographical locations. This enables host systems to pull content and configuration from the Capsule Servers in their location and not from the central Satellite Server. The recommended minimum number of Capsule Servers is therefore given by the number of geographic regions where the organization that uses Satellite operates.
+Red Hat Satellite has fine-grained privilege separation to precisely control who can do what to which resources being managed. Red Hat Satellite Capsules mirror software content and facilitate access to Satellite services such as provisioning in segmented networks that have restricted network access.
 |=======
 *Observation:*
 
 .Satellites/Capsules:
 ----
-{{ result_capsule_list.stdout }}
+{{ shc_capsules | ansible.builtin.to_nice_yaml }}
 ----
+
+{% if shc_PHYSICAL_ARCHITECTURE_RECOMMENDATION is defined %}
+{{ shc_PHYSICAL_ARCHITECTURE_RECOMMENDATION }}
+{% endif %}
+
+
+
+=== Satellite and Capsule Logical Architecture
+|=======
+|*Investigation:*| List the organisations and locations associated with the Satellite server.
+|*Guidance:*| Satellite should be configured with the minimum number of organisations and locations to support the required operations and configurations, without adding unhelpful and time consuming complexity.
+|*Rationale:*| Red Hat Satellite uses Organizations to partition users, subscriptions and contain host provisioning and software life cycle configuration. Multiple Organizations are typically used by cloud hosting providers or teams that purchase subscriptions financially independently.
+
+Locations divide Organizations into logical groups, not necessarialy based on geographical location. Provisioning based resources are most affected by location such as Capsules, software lifecycle environments, subnets, domains, realms and hosts. A complex capability might be thought of as a location or a small set of locations if it has its own subnets for example.  A location could also be a single rack, whatever makes sense.  However, more locations make a more complex environment.  A host that is not provisioned by Red Hat Satellite can technically register to any Capsule but the content it requires will be assigned to specific Locations.
+ 
+|=====
+*Observation:*
+
 .Organisations:
 ----
-{{ result_organization_list.stdout }} 
+{{ shc_orgs | ansible.builtin.to_nice_yaml }}
 ----
 
-NOTE: For more information on a given organisation, run `hammer organization info --id <id_number>`
+.Locations:
+----
+{{ shc_locations | ansible.builtin.to_nice_yaml }}
+----
 
-{% if ARCHITECTURES_RECOMMENDATION is defined %}
-{{ ARCHITECTURES_RECOMMENDATION }}
+{% if shc_LOGICAL_ARCHITECTURE_RECOMMENDATION is defined %}
+{{ shc_LOGICAL_ARCHITECTURE_RECOMMENDATION }}
 {% endif %}
+
+
 
 === Satellite Version 
 |======
@@ -161,30 +184,6 @@ The ports that are currently open are:
 {% endif %}
 
 == Infrastructure
-
-=== Infrastructure Architecture
-|=====
-|*Investigation:*| List the organisations and locations associated with the Satellite server.
-|*Guidance:*| Satellite should be configured with the minimum number of organisations and locations to support the required operations and configurations, without adding unhelpful and time consuming complexity.
-|*Rationale:*| The Satellite Server organizes the life cycle management by using organizations as principal division units. Organizations isolate content for groups of hosts with specific requirements and administration tasks. For example, the OS build team can use a different organization than the web development team. 
-
-Locations divide organizations into logical groups based on geographical location. Each location is created and used by a single Red Hat customer account, although each account can manage multiple locations and organizations.
- 
-|=====
-*Observation:*
-
-.Organisations:
-----
-{{ result_hammer_org.stdout }}
-----
-.Locations:
-----
-{{ result_hammer_location.stdout }}
-----
-
-{% if INFRASTRUCTURE_RECOMMENDATION is defined %}
-{{ INFRASTRUCTURE_RECOMMENDATION }}
-{% endif %}
 
 === Network Requirements
 |=====
