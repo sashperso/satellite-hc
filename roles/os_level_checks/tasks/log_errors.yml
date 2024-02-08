@@ -1,25 +1,11 @@
-- name: Check Satellite Server Log for errors
-  command: tail -n 200 /var/log/foreman/production.log | grep error
-  register: satellite_server_rc
-  changed_when: false
+- name:  Search Red Hat Satellite Services logs for error and higher precedence.
+  ansible.builtin.shell:  journalctl --priority=err --unit foreman* --unit httpd --unit postgresql --unit pulp* --unit redis --unit tomcat | tail -n 100
+  register:                 shc_log_sat_services
+  changed_when:             False
 
-- name: Check Pulp Logs for errors
-  command: tail -n 200 /var/log/pulp/pulp.log | grep error
-  register: pulp_log
-  changed_when: false
 
-- name: Check Candlepin Logs
-  command: tail -n 200 /var/log/candlepin/candlepin.log | grep error
-  register: candlepin_log
-  changed_when: false
+- name:  Check Satellite Production log for errors.
+  ansible.builtin.shell:  zgrep -P -e '\[[EF]\|' /var/log/foreman/production.log* | sort | head -n 100
+  register:               shc_log_foreman_production
+  changed_when:           False
 
-- name: Check Katello Logs for Errors
-  command: tail -n 200 /var/log/katello/katello.log | grep error
-  register: katello_log
-  changed_when: false
-
-- name: Notify Admin for errors
-  debug:
-    var: ansible_failed_task
-  when: satellite_server_log.rc > 0 or pulp_log.rc > 0 or candlepin_log > 0 or katello_log.rc > 0
-  register: log_error_identified

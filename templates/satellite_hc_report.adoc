@@ -319,36 +319,21 @@ By analyzing these logs, administrators can proactively address potential proble
 |=====
 *Observation:*
 
-+ /var/log/foreman/production.log returns:
++ journalctl --priority=err --unit foreman* --unit httpd --unit postgresql --unit pulp* --unit redis --unit tomcat
 ----
-{% if result_production_log.failed == false %}
-{{ result_production_log.stdout_lines | to_nice_yaml }}
-{% else %}
-The production.log does not contain any errors.
-{% endif %}
+{{ shc_log_sat_services.stdout_lines }}
 ----
 
-+ /var/log/foreman-proxy/proxy.log returns:
++ zgrep -P -e '\[[EF]\|' /var/log/foreman/production.log*
 ----
-{% if result_proxy_log.failed == false %}
-{{ result_proxy_log.stdout_lines | to_nice_yaml }}
-{% else %}
-The proxy.log does not contain any errors.
-{% endif %}
-----
-
-+ /var/log/messages returns:
-----
-{% if result_messages_log.failed == false %}
-{{ result_messages_log.stdout_lines | to_nice_yaml }}
-{% else %}
-The messages log does not contain any errors.
-{% endif %}
+{{ shc_log_foreman_production.stdout_lines }}
 ----
 
 {% if LOGGING_RECOMMENDATION is defined %}
 {{ LOGGING_RECOMMENDATION }}
 {% endif %}
+
+
 
 === Sync Plans
 |=====
