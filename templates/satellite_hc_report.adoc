@@ -37,7 +37,12 @@ Apache Tomcat: {{ ansible_facts.services['tomcat.service'].status }}
 PostgreSQL: {{ ansible_facts.services['postgresql.service'].status }}
 Pulpcore API: {{ ansible_facts.services['pulpcore-api.service'].status }}
 Pulpcore Content: {{ ansible_facts.services['pulpcore-content.service'].status }}
+{% if 'puppetserver.service' in ansible_facts.services %}
 Puppet: {{ ansible_facts.services['puppetserver.service'].status }}
+{% else %}
+Puppet:  (( is not installed ))
+{% endif %}
+
 
 ----
 
@@ -320,12 +325,12 @@ By analyzing these logs, administrators can proactively address potential proble
 
 + journalctl --priority=err --unit foreman* --unit httpd --unit postgresql --unit pulp* --unit redis --unit tomcat
 ----
-{{ shc_log_sat_services.stdout_lines }}
+{{ shc_log_sat_services }}
 ----
 
 + zgrep -P -e '\[[EF]\|' /var/log/foreman/production.log*
 ----
-{{ shc_log_foreman_production.stdout_lines }}
+{{ shc_log_foreman_production }}
 ----
 
 {% if LOGGING_RECOMMENDATION is defined %}

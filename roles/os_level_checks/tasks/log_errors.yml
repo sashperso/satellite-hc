@@ -1,11 +1,19 @@
 - name:  Search Red Hat Satellite Services logs for error and higher precedence.
   ansible.builtin.shell:  journalctl --priority=err --unit foreman* --unit httpd --unit postgresql --unit pulp* --unit redis --unit tomcat | tail -n 100
-  register:                 shc_log_sat_services
+  register:                 result_log_sat_services
   changed_when:             False
 
+- name: Set Red Hat Satellite Services logs.
+  ansible.builtin.set_fact:
+    shc_log_sat_services: "{{ result_log_sat_services.stdout_lines }}"
+  
 
 - name:  Check Satellite Production log for errors.
   ansible.builtin.shell:  zgrep -P -e '\[[EF]\|' /var/log/foreman/production.log* | sort | head -n 100
-  register:               shc_log_foreman_production
+  register:               result_log_foreman_production
   changed_when:           False
 
+- name: Set Red Hat Satellite Production log.
+  ansible.builtin.set_fact:
+    shc_log_foreman_production: "{{ result_log_foreman_production.stdout_lines }}"
+  
