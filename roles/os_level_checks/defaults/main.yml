@@ -1,2 +1,17 @@
 ---
 # defaults file for os_level_chekcs
+
+
+
+# Facts set by this role
+# ======================
+
+# Satellite Services Error and above log entries.
+# List from shell stdout.
+shc_log_sat_services:  []
+
+
+# Satellite Production log FATAL and ERROR lines.
+# List from shell stdout.
+shc_log_foreman_production:  []
+

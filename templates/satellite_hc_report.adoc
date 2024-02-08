@@ -37,7 +37,12 @@ Apache Tomcat: {{ ansible_facts.services['tomcat.service'].status }}
 PostgreSQL: {{ ansible_facts.services['postgresql.service'].status }}
 Pulpcore API: {{ ansible_facts.services['pulpcore-api.service'].status }}
 Pulpcore Content: {{ ansible_facts.services['pulpcore-content.service'].status }}
+{% if 'puppetserver.service' in ansible_facts.services %}
 Puppet: {{ ansible_facts.services['puppetserver.service'].status }}
+{% else %}
+Puppet:  (( is not installed ))
+{% endif %}
+
 
 ----
 
@@ -318,36 +323,21 @@ By analyzing these logs, administrators can proactively address potential proble
 |=====
 *Observation:*
 
-+ /var/log/foreman/production.log returns:
++ journalctl --priority=err --unit foreman* --unit httpd --unit postgresql --unit pulp* --unit redis --unit tomcat
 ----
-{% if result_production_log.failed == false %}
-{{ result_production_log.stdout_lines | to_nice_yaml }}
-{% else %}
-The production.log does not contain any errors.
-{% endif %}
+{{ shc_log_sat_services }}
 ----
 
-+ /var/log/foreman-proxy/proxy.log returns:
++ zgrep -P -e '\[[EF]\|' /var/log/foreman/production.log*
 ----
-{% if result_proxy_log.failed == false %}
-{{ result_proxy_log.stdout_lines | to_nice_yaml }}
-{% else %}
-The proxy.log does not contain any errors.
-{% endif %}
-----
-
-+ /var/log/messages returns:
-----
-{% if result_messages_log.failed == false %}
-{{ result_messages_log.stdout_lines | to_nice_yaml }}
-{% else %}
-The messages log does not contain any errors.
-{% endif %}
+{{ shc_log_foreman_production }}
 ----
 
 {% if LOGGING_RECOMMENDATION is defined %}
 {{ LOGGING_RECOMMENDATION }}
 {% endif %}
+
+
 
 === Sync Plans
 |=====
