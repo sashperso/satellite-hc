@@ -230,35 +230,6 @@ Using the latest RHEL version guarantees compatibility with the latest Satellite
 
 == Storage
 
-=== Qpidd Storage
-|=====
-|*Investigation:*| Is the qpidd service available? How much space is available in the qpidd partition? is the qpidd parititon too large?
-|*Rationale:*| It's recommended to ensure QPIDD is properly configured with sufficient resources and tuned for the network and system environment. Regular monitoring and maintenance of the QPIDD service are essential to promptly identify and resolve any performance or connectivity issues, and to ensure it's securely configured to prevent unauthorized access.
-|=====
-*Observation:*
-
-NOTE: qpidd was removed from Satellite systems with the introduction of Pulp3. No analysis will be conducted for this check if Pulp3 is present on the Satellite server.
- 
-Pulp3 is {% if pulp3_present == true %}installed on this Satellite Server.{% else %}absent from this Satellite Server.{% endif %}
-
-{% if pulp3_present == false %}
-{% if result_qpidd_status.failed == false %}
-{{ result_qpidd_status.stdout | to_nice_yaml }}
-{% else %}
-{{ result_qpidd_status.stderr_lines | to_nice_yaml }}
-{% endif %}
-
-{% if result_qpidd_status.failed == false %}
-{{ result_qpidd_storage.stdout | to_nice_yaml }}
-{% else %}
-{{ result_qpidd_storage.stderr_lines | to_nice_yaml }}
-{% endif %}
-{% endif %}
-
-{% if QPIDD_RECOMMENDATION is defined %}
-{{ QPIDD_RECOMMENDATION }}
-{% endif %}
-
 === Backup/Restore Procedures
 |=====
 |*Investigation:*| If the client is using snapshots, what are the backups listed in foreman-maintain backups? What kinds of backup procedures are in place for the Satellite? 
