@@ -9,5 +9,3 @@
 - include_tasks: firewall.yml
 
 - include_tasks: log_errors.yml
-
-- include_tasks: qpidd_storage.yml

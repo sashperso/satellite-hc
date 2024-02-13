@@ -95,7 +95,6 @@ If a role doesn't seem necessary for your health check - for example, the `errat
     - network_connectivity_check
     - network_resources_check
     - organisations_check
-    - qpidd_storage_check
     - registered_host_check
     - remote_execution_check
     - satellite_version_check
@@ -134,7 +133,6 @@ Then to insert the role:
     - network_connectivity_check
     - network_resources_check
     - organisations_check
-    - qpidd_storage_check
     - registered_host_check
     - remote_execution_check
     - satellite_version_check
