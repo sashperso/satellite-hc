@@ -68,10 +68,6 @@ The CPU details are as follows:
 {{ result_system_cpu.stdout_lines | to_nice_yaml}}
 ----
 
-Is there at least 20gb of disk space available in /var?
-
-{{ result_disk_space.stdout_lines | to_nice_yaml }}
-
 *Guidance:* The minimum requirements for a Satellite server are as follows:
 
 - x86_64 architecture
@@ -83,9 +79,7 @@ In addition, a minimum of 4GB RAM of swap space is also recommended. Satellite r
 
 For further information, please refer to the Satellite installation https://access.redhat.com/documentation/en-us/red_hat_satellite/6.13[documentation].
 
-*Rationale:* There should be at least 20GB of space available in /var directory to perform future synchronizations. Please note that if you are to download a major release (e.g. RHEL 7 Server), you will require a minimum of 20GB per release.
-
-It is also important to note that Red Hat Satellite's performance improves when more resources are allocated to the server. Enhanced computational power and increased memory allow for more efficient processing of tasks and data management. Higher-quality resources reduce system latency and increase throughput, making the software more responsive and capable of handling larger workloads effectively. 
+*Rationale:* It is also important to note that Red Hat Satellite's performance improves when more resources are allocated to the server. Enhanced computational power and increased memory allow for more efficient processing of tasks and data management. Higher-quality resources reduce system latency and increase throughput, making the software more responsive and capable of handling larger workloads effectively. 
 
 {% if BASE_OS_RECOMMENDATION is defined %}
 {{ BASE_OS_RECOMMENDATION }}
@@ -112,14 +106,13 @@ Red Hat Satellite has fine-grained privilege separation to precisely control who
 
 
 === Satellite and Capsule Logical Architecture
-|=======
+|===
 |*Investigation:*| List the organisations and locations associated with the Satellite server.
 |*Guidance:*| Satellite should be configured with the minimum number of organisations and locations to support the required operations and configurations, without adding unhelpful and time consuming complexity.
 |*Rationale:*| Red Hat Satellite uses Organizations to partition users, subscriptions and contain host provisioning and software life cycle configuration. Multiple Organizations are typically used by cloud hosting providers or teams that purchase subscriptions financially independently.
 
 Locations divide Organizations into logical groups, not necessarialy based on geographical location. Provisioning based resources are most affected by location such as Capsules, software lifecycle environments, subnets, domains, realms and hosts. A complex capability might be thought of as a location or a small set of locations if it has its own subnets for example.  A location could also be a single rack, whatever makes sense.  However, more locations make a more complex environment.  A host that is not provisioned by Red Hat Satellite can technically register to any Capsule but the content it requires will be assigned to specific Locations.
- 
-|=====
+|===
 *Observation:*
 
 .Organisations:
@@ -228,7 +221,45 @@ Using the latest RHEL version guarantees compatibility with the latest Satellite
 {{ NETWORK_RECOMMENDATION }}
 {% endif %}
 
+
 == Storage
+=== Filesystems Near Capacity
+|===
+|*Investigation:*| Idenify any filesystems that are near capacity.
+|*Observation:*| 
+|===
+---- 
+{{ shc_storage_warn }}
+----
+|===
+|*Guidance:*| Free up space or grow the filesystems.
+|*Rationale:*| Depending on what the filesystem is used for, if it fills Satellite is likely to incur an outage.
+|===
+{% if LOGGING_RECOMMENDATION is defined %}
+{{ SHC_STORAGE_WARN_RECOMMENDATION }}
+{% endif %}
+
+
+=== All Filesystems
+|===
+|*Investigation:*| Review the mounted filesystems are appropriate.
+|*Observation:*| 
+|===
+----
+{{ shc_storage_obs }}
+----
+|===
+|*Guidance:*
+a|
+Review the "Storage Requirements section of "Installing Satellite Server in a Connected Network Environment" https://access.redhat.com/documentation/en-us/red_hat_satellite/6.14/html-single/installing_satellite_server_in_a_connected_network_environment/index#storage-requirements_satellite
+Review the "Storage Guidelines section of "Installing Satellite Server in a Connected Network Environment" https://access.redhat.com/documentation/en-us/red_hat_satellite/6.14/html-single/installing_satellite_server_in_a_connected_network_environment/index#storage-guidelines_satellite
+Review the "Benchmarking Disk Performance of Tuning Performance of Red Hat Satellite https://access.redhat.com/documentation/en-us/red_hat_satellite/6.14/html-single/tuning_performance_of_red_hat_satellite/index#Benchmarking_Disk_Performance_performance-tuning
+|*Rationale:*| Some components of Satellite require low latency disk for good performance.  As Satellite mirrors content the storage requirements will increase over time.
+|===
+{% if LOGGING_RECOMMENDATION is defined %}
+{{ SHC_STORAGE_RECOMMENDATION }}
+{% endif %}
+
 
 === Backup/Restore Procedures
 |=====
@@ -294,12 +325,12 @@ By analyzing these logs, administrators can proactively address potential proble
 |=====
 *Observation:*
 
-+ journalctl --priority=err --unit foreman* --unit httpd --unit postgresql --unit pulp* --unit redis --unit tomcat
+*Error and greater log lines from each of the Satellite services*
 ----
 {{ shc_log_sat_services }}
 ----
 
-+ zgrep -P -e '\[[EF]\|' /var/log/foreman/production.log*
+*Error and Fatal log lines from the Production logs including rolled over logs*
 ----
 {{ shc_log_foreman_production }}
 ----

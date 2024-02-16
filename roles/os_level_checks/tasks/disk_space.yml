@@ -1,3 +1,16 @@
-- name: Identify free disk space on all mounted filesystems
-  ansible.builtin.shell: df -x tmpfs -x devtmpfs -h
-  register: result_disk_space
+- name: Review inodes and space for all mounted filesystems.
+  ansible.builtin.command: df --block-size=1G --output=itotal,iused,iavail,ipcent,size,used,avail,pcent,target --exclude-type=tmpfs --exclude-type=devtmpfs
+  register: result_storage_obs
+
+- name: Set Storage Observation
+  ansible.builtin.set_fact:
+    shc_storage_obs: "{{ result_storage_obs.stdout_lines }}"
+
+- name: Detect nearly full filesystems.
+  ansible.builtin.set_fact:
+    shc_storage_warn:  |
+      {% for item in (shc_storage_obs) %}
+        {% if item is ansible.builtin.match(".+ (100|9\d)% .+") %}
+        {{ item }}
+        {% endif %}
+      {% endfor %}

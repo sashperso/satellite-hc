@@ -15,3 +15,12 @@ shc_log_sat_services:  []
 # List from shell stdout.
 shc_log_foreman_production:  []
 
+
+# Filesystems details.
+# List from shell stdout.
+shc_storage_obs:  []
+
+
+# Filesystems that are at 90% used or greater for inodes or space.
+# List from shell stdout.
+shc_storage_warn:  []
