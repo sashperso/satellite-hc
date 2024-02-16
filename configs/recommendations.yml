@@ -22,10 +22,9 @@ INFRASTRUCTURE_RECOMMENDATION: ""
 ### 5.2 Network Requirements ###
 NETWORK_RECOMMENDATION: ""
 
-### 6.1 Qpidd Storage ###
-QPIDD_RECOMMENDATION: ""
-
-### 6.2 Backup/Restore Procedures ###
+### Storage ###
+SHC_STORAGE_WARN_RECOMMENDATION: ""
+SHC_STORAGE_RECOMMENDATION: ""
 BACKUP_RECOMMENDATION: ""
 
 ### 7.1 Remote Execution ###
