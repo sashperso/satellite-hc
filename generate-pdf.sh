@@ -162,7 +162,7 @@ else
   OUTFILE="${REPORTNAME/%adoc/pdf}"
 fi
 
-if [ "${REPORTNAME}" == "${OUTFILE}"]; then
+if [ "${REPORTNAME}" == "${OUTFILE}" ]; then
   echo "Output filename is the same as input filename.  Aborting!"
   exit 9
 fi
