@@ -1,5 +1,6 @@
 - name: Conduct a general status health check.
-  ansible.builtin.command: satellite-maintain health check --plaintext
-  register: result_health_check
-  #  become:  true
+  ansible.builtin.shell:  yes no | satellite-maintain health check --plaintext
+  register:               result_health_check
+  changed_when:           False
+  ignore_errors:          True
 

@@ -15,10 +15,10 @@ As you will see you may perform the health check many times to add customer spec
 **Convert adoc report to PDF:**
 - install the _podman_ package locally
 - ensure the image _quay.io/redhat-cop/ubi8-asciidoctor:v2.0_ is accessible or cloned to a local registery
-- update the _IMAGE_ variable in the script _generate-pdf_ to the above image
+- update the _IMAGE_ variable in the script _generate-pdf.sh_ to the above image
 - add/update recommendations in the adoc reports
 - convert *each* adoc to PDF
-`sh generate-pdf -f satellite_hc_report_<hostname>.adoc`
+`generate-pdf.sh -f satellite_hc_report_<hostname>.adoc`
 
 
 ## Running the Playbook
@@ -63,11 +63,12 @@ You *may* encounter asciidoc-doctor related errors on the command line that will
 **Generating the PDF report:**
 ```
 $ cd ~/automated_satellite_health_check
-$ sh generate-pdf -f 'satellite_hc_report"<satellite_hostname>".adoc'
+$ chmod a+x generate-pdf.sh
+$ ./generate-pdf.sh -f 'satellite_hc_report"<satellite_hostname>".adoc'
 ```
 This will produce a ready-to-use report. If you wish to add any additional sections, topics, or discussion (such as filling out the tables within the document), you will have to edit the .adoc file that is autopopulated by the ansible playbooks. Otherwise, if you think there is an important section missing, feel free to reach out and we can add the feature in.
 
-[NOTE] Use sh generate-pdf -h to learn more about the PDF generation options available to you.
+[NOTE] Use `generate-pdf.sh -h` to learn more about the PDF generation options available to you.
 
 ## Customising the Report
 
@@ -145,7 +146,7 @@ You are then free to add a new section to the rhel_hc_report.adoc template to ca
 
 The satellite_hc_report.adoc template provides a guideline and general range of checks and advice relating to the management and deployment of Satellite systems. The guidance is designed to be general and high-level. 
 
-That said, if you wish to provide additional comments or insight, you can change the text by using markdown language in the .adoc file in your preferred IDE and save the output. Once the template has been edited to your liking, save the file and then run the ./generate-pdf command.
+That said, if you wish to provide additional comments or insight, you can change the text by using markdown language in the .adoc file in your preferred IDE and save the output. Once the template has been edited to your liking, save the file and then run the ./generate-pdf.sh command.
 
 A helpful guide to using markdown language can be found [here for basic syntax](https://www.markdownguide.org/basic-syntax/) and [here for extended syntax](https://www.markdownguide.org/extended-syntax/).
 
