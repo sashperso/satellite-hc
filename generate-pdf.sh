@@ -157,13 +157,14 @@ else
 fi
 
 if [ "${OUTPUT}" ] ; then
-  OUTFILE="healthcheck-${OUTPUT}.pdf"
+  OUTFILE="${OUTPUT}"
 else
-  # get customer short name
-  CUSTOMER_SHORT_NAME=$(sed -n 's/^customername: \(.*\)/\1/p' ./configs/customer-vars.yml)
-  CLEAN_CUSTOMER_SHORT_NAME=$(echo "${CUSTOMER_SHORT_NAME}" | sed 's/ /_/g')
+  OUTFILE="${REPORTNAME/%adoc/pdf}"
+fi
 
-  OUTFILE="healthcheck-${CLEAN_CUSTOMER_SHORT_NAME}-${GIT_DATE}.pdf"
+if [ "${REPORTNAME}" == "${OUTFILE}"]; then
+  echo "Output filename is the same as input filename.  Aborting!"
+  exit 9
 fi
 
 LANG_OPT=`if [ -z "$LANGUAGE" ]; then echo ""; else echo "-a lang=$LANGUAGE"; fi`
