@@ -112,7 +112,8 @@ Red Hat Satellite has fine-grained privilege separation to precisely control who
 |*Rationale:*| Red Hat Satellite uses Organizations to partition users, subscriptions and contain host provisioning and software life cycle configuration. Multiple Organizations are typically used by cloud hosting providers or teams that purchase subscriptions financially independently.
 
 Locations divide Organizations into logical groups, not necessarialy based on geographical location. Provisioning based resources are most affected by location such as Capsules, software lifecycle environments, subnets, domains, realms and hosts. A complex capability might be thought of as a location or a small set of locations if it has its own subnets for example.  A location could also be a single rack, whatever makes sense.  However, more locations make a more complex environment.  A host that is not provisioned by Red Hat Satellite can technically register to any Capsule but the content it requires will be assigned to specific Locations.
-|===
+ 
+|=======
 *Observation:*
 
 .Organisations:
@@ -283,15 +284,6 @@ The frequency of backing up your Red Hat Satellite 6 instance should be determin
 
 == Host Management
 
-=== Remote Execution
-|=====
-|*Investigation:*| Is remote execution set up on Satellite? Is cron used to execute these remote jobs?
-|*Rationale:*| Remote execution allows administrators to remotely run an arbitrary command on Satellite clients quickly and easily. This can help organisations easily standardise machine configurations, improve system-to-administrator ratios by automating patch and configuration management and provisioning, and reduce errors and inconsistencies.
-|=====
-*Observation:*
-----
-{{ result_remote_execution.stdout_lines | to_nice_yaml }}
-----
 
 {% if REMOTE_EXECUTION_RECOMMENDATION is defined %}
 {{ REMOTE_EXECUTION_RECOMMENDATION }}
@@ -340,7 +332,6 @@ By analyzing these logs, administrators can proactively address potential proble
 {% endif %}
 
 
-
 === Sync Plans
 |=====
 |*Investigation:*| Are synchronization plans being used by the organisation? How often are these sync plans run? Which repositories are being queried at each sync run?
@@ -352,16 +343,17 @@ By scheduling and controlling these updates, sync plans help maintain system sta
 
 *Observation:*
 ----
-{{ result_sync_plan.stdout | to_nice_yaml }}
+There are {{ result_sync_plans }} sync plans present in this environment.
 ----
 
 {% if SYNC_PLANS_RECOMMENDATION is defined %}
 {{ SYNC_PLANS_RECOMMENDATION }}
 {% endif %}
 
-=== Activation Keys
+=== Content figures
 |=====
-|*Investigation:*| Are activation keys used in the Satellite server? How are the activation keys used?
+|*Investigation:*| Get a good layout of the content configuration on this Satellite. Some may be a list, others the numbers will do.
+
 |*Guidance:*| For effective activation key management, ensure that the keys are organised logically and aligned with the correct lifecycle environments and content views to ensure that systems are registered correctly for streamlined updates and maintenance. It is also recommended that you use a naming convention that clearly indicates their purpose, associated lifecycle stage, or organizational unit.
 
 Likewise, limit the number of activation keys to avoid complexity and confusion.Revoke or update keys that are no longer in use to maintain security and efficiency in your system management.
@@ -379,7 +371,12 @@ They can define the following properties for content hosts:
 *Observation:*
 
 ----
-{{ result_activation_key.stdout | to_nice_yaml }}
+Simple Content Accces is {{ result_sca_enabled.results }}
+There are currently {{ result_repositories.results }} enabled.
+There are {{ result_sync_plans.results }} sync plans. 
+There are {{ result_lifecycles.results }} lifecycle environments
+There are {{ result_content_views.results }} existing content views. 
+There are {{ result_activation_keys.results }} activation keys.
 ----
 
 {% if KEYS_RECOMMENDATION is defined %}
@@ -391,10 +388,10 @@ They can define the following properties for content hosts:
 *Investigation:* How many registered hosts are connected to the Satellite? 
 
 *Observation:*
-----
-{{ result_registered_hosts.stdout_lines | to_nice_yaml }}
-----
+NOTE: The number of registered hosts variable has been omitted in the report due to size concerns.
 
+---
 {% if HOSTS_RECOMMENDATION is defined %}
 {{ HOSTS_RECOMMENDATION }}
 {% endif %}
+---
