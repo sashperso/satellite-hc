@@ -1,2 +1,9 @@
 ---
 # defaults file for content_checks
+result_manifests: {}
+result_sca_enabled: {}
+result_repositories: {}
+result_sync_plans: {}
+result_lifecycles: {}
+result_content_views: {}
+result_activation_keys: {}
